@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document>
+ <Model version="4.1" build="4.1.0.5">
+    <Sidops>
+<![CDATA[model 0 0 description '<Description>
+   <LibraryPath>Z:\Users\Tadele\Dropbox\20-sim\ESL\RTSD_ex3 1\20sim model JIWY\Jiwy.emx</LibraryPath>
+  <TimeStamp>2011-5-31 19:43:40</TimeStamp>
+  <Version>4.1</Version>
+</Description>'; type 'Mainmodel- Position 2 (simulatie)' end; implementation bg  submodels   ioPan 575.5 145.6    type Submodel     ports      signal in digital_in;      signal out power_out;      rotation in velocity;      signal out count;    end;    icon bg     figures      rectangle 536 122.1 614.9 169.1 fill 12895428;      text 'name' 575.5 145.6 16;    end;    implementation bg     submodels      DA 280 88       type DA        ports         signal in input;         signal out output;        parameters         real minimum = -2048.0;         real maximum = 2048.0;         real bits = 11.0;       end;       icon bg top        figures         rectangle 264 72 296 104 fill 15132390;         spline 270.4 97.3 288 79.7 color 16711680;         text 'A' 286.2 93.5 color 16711680 14;         text 'D' 273.2 82.8 color 16711680 14;       end;       implementation eqvariables	real windowed_signal, quantisized_signal, rounded_signal;	real lsb, half_lsb;equations	lsb = (maximum - minimum) / (exp2 (bits) -1);	half_lsb = lsb / 2;	windowed_signal = if input <= minimum then		minimum+ half_lsb	else		if input >= maximum then 			maximum - half_lsb		else 			input		end	end;	quantisized_signal = if windowed_signal < 0.0 then		windowed_signal - half_lsb	else		 windowed_signal + half_lsb	end;	rounded_signal =  quantisized_signal - (quantisized_signal mod lsb);	output = hold (rounded_signal);      implementation_end;      Encoder 252.5 160       type Encoder        ports         rotation in p;         signal out output;        restrictions         causality fixed out p;        parameters         real counts = 2000.0; "resolution in amount of pulses per revolution"         real bits = 12.0; "resolution in amount of bits"       end;       icon bg bottom        figures         group          rectangle 247.4 148.3 263.9 171.7 fill 13421772;          rectangle 241 156.8 247.4 163.2 fill 9211020;         end;        terminals         p 263.9 160 fixed;         output 239.9 160 fixed;       end;       implementation eqvariables	real hidden hold_signal, quantisized_signal,holdinput,rounded_signal;	real turns {rev};	real hidden exp2bits;equations	p.T = 0;	turns = int (p.omega);	holdinput = turns * counts / 2 / pi;	hold_signal = sample ( holdinput );	if hold_signal < 0.0 then		quantisized_signal = hold_signal - 0.5;	else		 quantisized_signal = hold_signal + 0.5;	end;	rounded_signal =  quantisized_signal - (quantisized_signal mod 1); 	exp2bits = exp2 (bits);	output = ( ( rounded_signal + 2.5 * exp2bits ) mod exp2bits ) - 0.5 * exp2bits;implementation_end;      K2 184 160       type Attenuate        ports         signal in input;         signal out output {rad} ;        parameters         real K = 318.30988618379;       end;       icon bg bottom        figures         rectangle 168 144 200 176 fill 15132390;         text 'K' 191.5 166.4 color 16711680 16 bold;         text '1' 177.6 154.7 color 16711680 16 bold;         line 177.6 170.7 191.5 151.5 color 16711680 width 2;       end;       implementation eqequations	output = input / K;       implementation_end;      plug digital_in 120 88;      plug power_out 368 88;      plug velocity 360 160;      plug count 112 160;      power_amp_phi 200 88       type Gain        ports         signal in input;         signal out output {A} ;        parameters         real K = 20.0;       end;       icon bg top        figures         rectangle 184.1 72 215.9 104 fill 15132390;         text 'K' 200 88 color 16711680 16 bold;       end;       implementation eqequations	output = K * input;    implementation_end;     end;     connections      velocity => Encoder\p;      count <- K2\output;      K2\input <- Encoder\output;      digital_in -> power_amp_phi\input;      power_amp_phi\output -> DA\input;      DA\output -> power_out;     end;    implementation_end;   ioTilt 576 296    type Submodel     ports      signal in digital_in;      signal out power_out;      signal out count;      rotation in velocity;    end;    icon bg     figures      rectangle 536.5 272.5 615.5 319.5 fill 12895428;      text 'name' 576 296 16;    end;    implementation bg     submodels      DA 288 88       description '<Description> <Version>No Version Info</Version> <IsMainModel>0</IsMainModel> <KeepParameterValues>False</KeepParameterValues> <AllowLibraryUpdate>True</AllowLibraryUpdate></Description>';       type DA        ports         signal in input;         signal out output;        parameters         real minimum = -2048.0;         real maximum = 2048.0;         real bits = 11.0;       end;       icon bg top        figures         rectangle 272 72 304 104 fill 15132390;         spline 278.4 97.3 296 79.7 color 16711680;         text 'A' 294.2 93.5 color 16711680 14;         text 'D' 281.2 82.8 color 16711680 14;       end;       implementation eqvariables	real windowed_signal, quantisized_signal, rounded_signal;	real lsb, half_lsb;equations	lsb = (maximum - minimum) / (exp2 (bits) -1);	half_lsb = lsb / 2;	windowed_signal = if input <= minimum then		minimum+ half_lsb	else		if input >= maximum then 			maximum - half_lsb		else 			input		end	end;	quantisized_signal = if windowed_signal < 0.0 then		windowed_signal - half_lsb	else		 windowed_signal + half_lsb	end;	rounded_signal =  quantisized_signal - (quantisized_signal mod lsb);	output = hold (rounded_signal);      implementation_end;      Encoder 276.5 160       type Encoder        ports         rotation in p;         signal out output;        restrictions         causality fixed out p;        parameters         real counts = 2000.0; "resolution in amount of pulses per revolution"         real bits = 12.0; "resolution in amount of bits"       end;       icon bg bottom        figures         group          rectangle 271.4 148.3 287.9 171.7 fill 13421772;          rectangle 265 156.8 271.4 163.2 fill 9211020;         end;        terminals         p 287.9 160 fixed;         output 263.9 160 fixed;       end;       implementation eqvariables	real hidden hold_signal, quantisized_signal,holdinput,rounded_signal;	real turns {rev};	real hidden exp2bits;equations	p.T = 0;	turns = int (p.omega);	holdinput = turns * counts / 2 / pi;	hold_signal = sample ( holdinput );	if hold_signal < 0.0 then		quantisized_signal = hold_signal - 0.5;	else		 quantisized_signal = hold_signal + 0.5;	end;	rounded_signal =  quantisized_signal - (quantisized_signal mod 1); 	exp2bits = exp2 (bits);	output = ( ( rounded_signal + 2.5 * exp2bits ) mod exp2bits ) - 0.5 * exp2bits;implementation_end;      K2 192 160       type Attenuate        ports         signal in input;         signal out output {rad} ;        parameters         real K = 318.30988618379;       end;       icon bg bottom        figures         rectangle 176 144 208 176 fill 15132390;         text 'K' 199.5 166.4 color 16711680 16 bold;         text '1' 185.6 154.7 color 16711680 16 bold;         line 185.6 170.7 199.5 151.5 color 16711680 width 2;       end;       implementation eqequations	output = input / K; // K = 2000/(2*pi) count/rad        implementation_end;      plug digital_in 120 88;      plug power_out 368 88;      plug count 112 160;      plug velocity 360 160;      power_amp_theta 200 88       type Gain        ports         signal in input;         signal out output {A} ;        parameters         real K = 20.0;       end;       icon bg top        figures         rectangle 184.1 72 215.9 104 fill 15132390;         text 'K' 200 88 color 16711680 16 bold;       end;       implementation eqequations	output = K * input;    implementation_end;     end;     connections      velocity => Encoder\p;      digital_in -> power_amp_theta\input;      power_amp_theta\output -> DA\input;      DA\output -> power_out;      Encoder\output -> K2\input;      K2\output -> count;     end;    implementation_end;   Motion_Profile_Pan 152.2 143.3    description '<Description> <Version>No Version Info</Version> <IsMainModel>0</IsMainModel> <KeepParameterValues>False</KeepParameterValues> <AllowLibraryUpdate>True</AllowLibraryUpdate></Description>';    type Submodel     ports      signal out x;    end;    icon bg bottom     figures      rectangle 81.4 123.6 223 163 fill 12895428;      text 'name' 157 142 16;     terminals      x 224 144 fixed;    end;    implementation bg     submodels      MotionProfile 288 144       description '<Description> <Version>4.0</Version> <IsMainModel>1</IsMainModel> <KeepParameterValues>False</KeepParameterValues>   <LibraryPath>Signal\Sources\MotionProfile.emx</LibraryPath>  <TimeStamp>2007-12-19 13:45:54</TimeStamp>  <AllowLibraryUpdate>False</AllowLibraryUpdate></Description>';       type 'MotionProfile-Wizard'        ports         signal out x;         signal out v;         signal out a;        parameters         real stroke = 3;         real start_time = 1;         real stop_time = 2;         real return_time = 4;         real end_time = 5;         real CV = 0.2;       end;       icon bg bottom        figures         rectangle 273 129 303 159 fill 15132390;         line 275.7 151.5 300.3 151.5;         line 277.8 136.5 277.8 153.6;         line 278.2 151.2 281.5 151.2 286.5 138.2 291 138.2 296.2 151.2 300.2 151 color 16711680;         rectangle 273 129 303 159 color -1;         line 293.6 133.3 295.6 133.1 color 16711680;         line 294.8 131.3 296.8 131 color 16711680;         line 297.1 133.2 299.1 133 color 16711680;         line 296.7 134.3 299.5 145 color 5855577 width 2;       end;       implementation eq// 20-sim User Editor// MotionProfile.dll/*MotionType	PulseStroke	3StartTime	1StopTime	2ReturnTime	4EndTime	5Period	5CV	0.2CA	0.2n	3alpha	0.1BB	0BM	0ProfileType	PartialTrapezoidalDoOutputPosition	1DoOutputVelocity	1DoOutputAcceleration	1InputChoice	0GenerateEvents	1DescriptionEnd*/ variables  real hidden u;  real hidden fu;  real hidden dfu;  real hidden d2fu;  real hidden rise_time;  real hidden fall_time;  boolean hidden evt1, evt2;  boolean hidden evt3, evt4;  real hidden a_max;  real hidden CV_2; equations	rise_time = (stop_time - start_time);	fall_time = (end_time - return_time);	if time < return_time then		x = stroke * fu;		v = dfu *  stroke / rise_time;		a = d2fu *  stroke / rise_time^2;	else		x = stroke * (1 - fu);		v = -dfu *  stroke / fall_time;		a = -d2fu *  stroke / fall_time^2;	end;	if time < start_time then		u = 0;	else		if time < stop_time then			u = ( time - start_time ) / rise_time;		else			if time < return_time then				u = 1;			else				if time < end_time then					u = ( time - return_time ) / fall_time;				else					u = 1;				end;			end;		end;	end;	evt1 = timeevent(start_time);	evt2 = timeevent(stop_time);	evt3 = timeevent(return_time);	evt4 = timeevent(end_time);	CV_2 = CV/2;	a_max = 4/(1-CV^2);	// position part	if u == 0 then		fu = 0;	else		if u <= 0.5 - CV/2 then			fu = a_max*u*u/2;		else			if u < 0.5 + CV/2 then				fu = a_max*(1 - 2*CV + CV^2)/8  + a_max*(0.5 - CV_2)*(u - 0.5 + CV_2);			else				if u < 1 then					fu = a_max * ( u - u^2/2 - CV_2^2 - 0.25);				else					fu = 1;				end;			end;		end;	end;	// velocity part	if u == 0 then		dfu = 0;	else		if u <= 0.5 - CV/2 then			dfu = a_max * u;		else			if u < 0.5 + CV/2 then				dfu = a_max*(0.5 - CV_2);			else				if u < 1 then					dfu = a_max*(1 - u);				else					dfu = 0;				end;			end;		end;	end;	// acceleration part	if u == 0 then		d2fu = 0;	else		if u <= 0.5 - CV/2 then			d2fu = a_max;		else			if u < 0.5 + CV/2 then				d2fu = 0;			else				if u < 1 then					d2fu = -a_max;				else					d2fu = 0;				end;			end;		end;	end;implementation_end;      plug x 568 144;     end;     connections      MotionProfile\x -> x;     end;    implementation_end;   Motion_Profile_Tilt 149 296    description '<Description> <Version>No Version Info</Version> <IsMainModel>0</IsMainModel> <KeepParameterValues>False</KeepParameterValues> <AllowLibraryUpdate>True</AllowLibraryUpdate></Description>';    type Submodel     ports      signal out y;    end;    icon bg bottom     figures      rectangle 83.5 272 214.5 319.9 fill 12895428;      text 'name' 150.5 295.9 16;     terminals      y 214.5 295.9 fixed;    end;    implementation bg     submodels      MotionProfile 280 200       description '<Description> <Version>4.0</Version> <IsMainModel>1</IsMainModel> <KeepParameterValues>False</KeepParameterValues>   <LibraryPath>Signal\Sources\MotionProfile.emx</LibraryPath>  <TimeStamp>2007-12-19 13:45:54</TimeStamp>  <AllowLibraryUpdate>False</AllowLibraryUpdate></Description>';       type 'MotionProfile-Wizard'        ports         signal out x;         signal out v;         signal out a;        parameters         real stroke = 2;         real start_time = 6;         real stop_time = 7;         real return_time = 13.0;         real end_time = 14.0;       end;       icon bg bottom        figures         rectangle 265 185 295 215 fill 15132390;         line 267.7 207.5 292.3 207.5;         line 269.8 192.5 269.8 209.6;         line 270.2 207.2 273.5 207.2 278.5 194.2 283 194.2 288.2 207.2 292.2 207 color 16711680;         rectangle 265 185 295 215 color -1;         line 285.6 189.3 287.6 189.1 color 16711680;         line 286.8 187.3 288.8 187 color 16711680;         line 289.1 189.2 291.1 189 color 16711680;         line 288.7 190.3 291.5 201 color 5855577 width 2;       end;       implementation eq// 20-sim User Editor// MotionProfile.dll/*MotionType	PulseStroke	2StartTime	6StopTime	7ReturnTime	9EndTime	10Period	5CV	0.2CA	0.2n	3alpha	0.1BB	0BM	0ProfileType	CycloidalDoOutputPosition	1DoOutputVelocity	1DoOutputAcceleration	1InputChoice	0GenerateEvents	1DescriptionEnd*/ variables  real hidden u;  real hidden fu;  real hidden dfu;  real hidden d2fu;  real hidden rise_time;  real hidden fall_time;  boolean hidden evt1, evt2;  boolean hidden evt3, evt4;  real hidden two_pi; equations	rise_time = (stop_time - start_time);	fall_time = (end_time - return_time);	if time < return_time then		x = stroke * fu;		v = dfu *  stroke / rise_time;		a = d2fu *  stroke / rise_time^2;	else		x = stroke * (1 - fu);		v = -dfu *  stroke / fall_time;		a = -d2fu *  stroke / fall_time^2;	end;	if time < start_time then		u = 0;	else		if time < stop_time then			u = ( time - start_time ) / rise_time;		else			if time < return_time then				u = 1;			else				if time < end_time then					u = ( time - return_time ) / fall_time;				else					u = 1;				end;			end;		end;	end;	evt1 = timeevent(start_time);	evt2 = timeevent(stop_time);	evt3 = timeevent(return_time);	evt4 = timeevent(end_time);	two_pi = 6.283185307179586;	if u == 0 then		fu = 0;		dfu = 0;		d2fu = 0;	else		if u == 1 then			fu = 1;			dfu = 0;			d2fu = 0;		else			fu = (u - ( sin ( two_pi * u ) ) / two_pi );			dfu = ( 1 - cos ( two_pi * u ) );			d2fu = two_pi * sin ( two_pi * u );		end;	end;implementation_end;      plug y 496 200;     end;     connections      MotionProfile\x -> y;     end;    implementation_end;   MotorPan 744 144    type Twin_Axis_Device     ports      signal in Current_Control;      rotation out velocity;    end;    icon bg     figures      rectangle 679.7 120.5 808.3 167.5 fill 12895428;      text 'name' 744.3 144.5 15;    end;    implementation bg     submodels      Belt 520 216       type TF        ports         power in p1;         rotation out p2;        restrictions         causality constraint not_equal p1 p2;        parameters         real r = 5.0;       end;       icon bg bottom        figures         text 'TF' 520 216 18 bold;       end;       implementation eqequations						p1.e = r * p2.e;	p2.f = r * p1.f;       implementation_end;      Dcam 600 272       type R        ports         power in p;        parameters         real r = 0.00985;       end;       icon bg bottom        figures         text 'R' 600 272 18 bold;       end;       implementation eqequations						p.e = r * p.f;    implementation_end;      Dmot 376 272       type R        ports         power in p;        parameters         real r = 1.7e-4;       end;       icon bg bottom        figures         text 'R' 376 272 18 bold;       end;       implementation eqequations						p.e = r * p.f;    implementation_end;      Gear 456 216       type TF        ports         power in p1;         power out p2;        restrictions         causality constraint not_equal p1 p2;        parameters         real r = 4.0;       end;       icon bg bottom        figures         text 'TF' 456 216 18 bold;       end;       implementation eqequations						p1.e = r * p2.e;	p2.f = r * p1.f;       implementation_end;      Jcam 600 160       type I        ports         rotation in p;         signal out state;        restrictions         causality preferred in p;        parameters         real i = 0.00108;       end;       icon bg top        figures         text 'I' 600 160 18 bold;       end;       implementation eqequations    state = int(p.e);    p.f = state / i;     implementation_end;      Jmot 376 160       type I        ports         power in p;         signal out state;        restrictions         causality preferred in p;        parameters         real i = 2.63e-6;       end;       icon bg top        figures         text 'I' 376 160 18 bold;       end;       implementation eqequations    state = int(p.e);    p.f = state / i;     implementation_end;      Motor 312 216       type GY        ports         power in p1;         power out p2;        restrictions         causality constraint equal p1 p2;        parameters         real r = 0.0394;       end;       icon bg bottom        figures         text 'GY' 312 216 18 bold;       end;       implementation eqequations	p1.e = r * p2.f;	p2.e = r * p1.f;     implementation_end;      MSf 240 216       type MSf        ports         power out p;         signal in flow {A} ;        restrictions         causality fixed in p;       end;       icon bg bottom        figures         text 'MSf' 240 216 18 bold;       end;       implementation eqvariables	real effort;equations	p.f = flow; 	effort = p.e;    implementation_end;      plug velocity 680 216;      plug Current_Control 128 216;      OneJunction1 376 216       knot OneJunction        ports         rotation knot duplicatable none p [1];         signal knot out flow [1];        restrictions         causality constraint one_out p;       end;       icon bg        figures         text '1' 376 216 18 bold;       end;       implementation eqequations	sum (direct (p.e)) = 0;	equal (collect (p.f));	flow = first (p.f);    implementation_end;      OneJunction3 600 216       knot OneJunction        ports         rotation knot duplicatable none p [1];         signal knot out flow [1];        restrictions         causality constraint one_out p;       end;       icon bg        figures         text '1' 600 216 18 bold;       end;       implementation eqequations	sum (direct (p.e)) = 0;	equal (collect (p.f));	flow = first (p.f);    implementation_end;      phi 560 216.1       knot QSensor        ports         rotation knot in p1 [1];         rotation knot out p2 [1];         signal knot out q [1];        restrictions         causality constraint not_equal p1 p2;       end;       icon bg ellipse bottom        figures         ellipse 553.1 210.4 566.9 224.5 fill 16777215;         text 'q' 559.5 214.7;       end;       implementation eqequations	p2.f = p1.f;	p1.e = p2.e;	q = int (p1.f);     implementation_end;     end;     connections      Gear\p2 => Belt\p1;      OneJunction3\p => Dcam\p;      MSf\p => Motor\p1;      Motor\p2 => OneJunction1\p;      OneJunction3\p => velocity;      Belt\p2 => phi\p1;      phi\p2 => OneJunction3\p;      OneJunction1\p => Gear\p1;      OneJunction1\p => Dmot\p;      OneJunction1\p => Jmot\p;      OneJunction3\p => Jcam\p;      Current_Control -> MSf\flow;     end;    implementation_end;   MotorTilt 744 296    type Twin_Axis_Device     ports      signal in Current_Control;      rotation out velocity;    end;    icon bg     figures      rectangle 680 272.5 808 319.5 fill 12895428;      text 'name' 744 296 16;    end;    implementation bg     submodels      Belt 512 216       type TF        ports         power in p1;         rotation out p2;        restrictions         causality constraint not_equal p1 p2;        parameters         real r = 5.0;       end;       icon bg bottom        figures         text 'TF' 512 216 18 bold;       end;       implementation eqequations						p1.e = r * p2.e;	p2.f = r * p1.f;       implementation_end;      Dcam 640 272       type R        ports         power in p;        parameters         real r = 1.35e-5;       end;       icon bg bottom        figures         text 'R' 640 272 18 bold;       end;       implementation eqequations						p.e = r * p.f;    implementation_end;      Dmot 376 272       type R        ports         power in p;        parameters         real r = 1.77e-6;       end;       icon bg bottom        figures         text 'R' 376 272 18 bold;       end;       implementation eqequations						p.e = r * p.f;    implementation_end;      Gear 440 216       type TF        ports         power in p1;         power out p2;        restrictions         causality constraint not_equal p1 p2;        parameters         real r = 4.0;       end;       icon bg bottom        figures         text 'TF' 440 216 18 bold;       end;       implementation eqequations						p1.e = r * p2.e;	p2.f = r * p1.f;       implementation_end;      Jcam 640 160       type I        ports         rotation in p;         signal out state;        restrictions         causality preferred in p;        parameters         real i = 1.0e-4;       end;       icon bg top        figures         text 'I' 640 160 18 bold;       end;       implementation eqequations    state = int(p.e);    p.f = state / i;     implementation_end;      Jmot 376 160       type I        ports         power in p;         signal out state;        restrictions         causality preferred in p;        parameters         real i = 2.63e-6;       end;       icon bg top        figures         text 'I' 376 160 18 bold;       end;       implementation eqequations    state = int(p.e);    p.f = state / i;     implementation_end;      Motor 312 216       type GY        ports         power in p1;         power out p2;        restrictions         causality constraint equal p1 p2;        parameters         real r = 0.0394;       end;       icon bg bottom        figures         text 'GY' 312 216 18 bold;       end;       implementation eqequations	p1.e = r * p2.f;	p2.e = r * p1.f;     implementation_end;      MSf 240 216       type MSf        ports         power out p;         signal in flow {A} ;        restrictions         causality fixed in p;       end;       icon bg bottom        figures         text 'MSf' 240 216 18 bold;       end;       implementation eqvariables	real effort;equations	p.f = flow; 	effort = p.e;    implementation_end;      plug velocity 744 216;      plug Current_Control 128 216;      OneJunction1 376 216       knot OneJunction        ports         rotation knot duplicatable none p [1];         signal knot out flow [1];        restrictions         causality constraint one_out p;       end;       icon bg        figures         text '1' 376 216 18 bold;       end;       implementation eqequations	sum (direct (p.e)) = 0;	equal (collect (p.f));	flow = first (p.f);    implementation_end;      OneJunction3 640 216       knot OneJunction        ports         rotation knot duplicatable none p [1];         signal knot out flow [1];        restrictions         causality constraint one_out p;       end;       icon bg        figures         text '1' 640 216 18 bold;       end;       implementation eqequations	sum (direct (p.e)) = 0;	equal (collect (p.f));	flow = first (p.f);    implementation_end;      Theta 584 216       knot QSensor        ports         rotation knot in p1 [1];         rotation knot out p2 [1];         signal knot out q [1];        restrictions         causality constraint not_equal p1 p2;       end;       icon bg ellipse bottom        figures         ellipse 577.1 210.3 590.9 224.4 fill 16777215;         text 'q' 583.5 214.6;       end;       implementation eqequations	p2.f = p1.f;	p1.e = p2.e;	q = int (p1.f);     implementation_end;     end;     connections      Gear\p2 => Belt\p1;      OneJunction3\p => Dcam\p;      MSf\p => Motor\p1;      Motor\p2 => OneJunction1\p;      OneJunction3\p => velocity;      Belt\p2 => Theta\p1;      Theta\p2 => OneJunction3\p;      OneJunction1\p => Gear\p1;      OneJunction1\p => Dmot\p;      OneJunction1\p => Jmot\p;      OneJunction3\p => Jcam\p;      Current_Control -> MSf\flow;     end;    implementation_end;   PositionControllerPan 376 144    type Submodel     ports      signal in in;      signal out out;      signal in position;      signal out corr;    end;    icon bg top     figures      rectangle 280 120 472 168 fill 12895428;      text 'Servo mode' 376 144 16;    end;    implementation bg     submodels      corrGain 296 240       type Gain        ports         signal in input;         signal out corr;        parameters         real K = 0.0;       end;       icon bg right        figures         rectangle 280.1 224 311.9 256 fill 15132390;         text 'K' 296 240 color 16711680 16 bold;       end;       implementation eqequations	corr = K * input;    implementation_end;      plug in 216 112;      plug out 648 112;      plug position 200 144;      plug corr 296 312;      PID1 496 112       type PID        ports         signal in error;         signal out output;        parameters         real kp = 2.6;         real tauD = 0.05;         real beta = 0.17;         real tauI = 9.0;       end;       icon bg bottom        figures         rectangle 480 96 512 128 fill 15132390;         text 'PID' 496 111.5 color 1336868 18 bold;       end;       implementation eqvariables	real hidden factor,uD,uI;equations	factor = 1 / ( sampletime + tauD * beta );	uD = factor * ( tauD * previous ( uD ) * beta + tauD * kp * ( error - previous ( error )) + sampletime * kp * error );	uI = previous( uI ) +  sampletime * uD / tauI;	output = uI + uD;implementation_end;      PlusMinus1 296 112       knot PlusMinus        ports         signal knot duplicatable in plus [1];         signal knot duplicatable in minus [1];         signal knot out output [1];       end;       icon bg ellipse        figures         ellipse 288 104 304 120 fill 16777215;       end;       implementation eqequations    output = sum (collect (plus)) - sum (collect (minus));    implementation_end;      SignalLimiter2 592 112       type SignalLimiter        ports         signal in input;         signal out output;        parameters         real minimum = -0.99;         real maximum = 0.99;       end;       icon bg bottom        figures         group          rectangle 576 96 608 128 fill 15132390;          line 591.9 100.5 591.9 125 fill 15132390;          line 579 112.2 604.7 112.2 fill 15132390;          spline 585.9 119.1 597.9 105.4 color 16711680 fill 15132390 width 2;          spline 597.3 106.2 605.9 105.8 color 16711680 fill 15132390 width 2;          spline 579 119.6 585.9 119.1 color 16711680 fill 15132390 width 2;         end;       end;       implementation eqequations	output = limit (input, minimum, maximum);  implementation_end;      Splitter1 296 144       knot Splitter        ports         signal knot duplicatable out output [1];         signal knot in input [1];       end;       icon bg ellipse        figures         ellipse 292.8 140.8 299.2 147.2 color -1 fill 0;         ellipse 291.7 139.7 300.3 148.3 color -1;        terminals         input 296 144 fixed;         output 296 144 fixed;       end;       implementation eqequations    collect (output) = input;         implementation_end;     end;     connections      position -> Splitter1\input;      SignalLimiter2\output -> out;      Splitter1\output -> corrGain\input;      corrGain\corr -> corr;      PID1\output -> SignalLimiter2\input;      in -> PlusMinus1\plus;      PlusMinus1\output -> PID1\error;      Splitter1\output -> PlusMinus1\minus;     end;     figures      text 'controller' 544 64 'Comic Sans MS' 20 bold;      rectangle 112 40 664 184;    implementation_end;   PositionControllerTilt 376 296    type Submodel     ports      signal in in;      signal out out;      signal in position;      signal in corr;    end;    icon bg bottom     figures      rectangle 280 272 472 320 fill 12895428;      text 'Servo mode' 376 296 16;    end;    implementation bg     submodels      corrGain 544 120       type Gain        ports         signal in input;         signal out output;        parameters         real K = 0.0;       end;       icon bg right        figures         rectangle 528.1 104 559.9 136 fill 15132390;         text 'K' 544 120 color 16711680 16 bold;       end;       implementation eqequations	output = K * input;    implementation_end;      plug in 224 264;      plug out 656 264;      plug position 224 296;      plug corr 544 48;      PID1 464 264       type PID        ports         signal in error;         signal out output;        parameters         real kp = 1.6;         real tauD = 0.05;         real beta = 0.001;         real tauI = 10.5;       end;       icon bg bottom        figures         rectangle 448 248 480 280 fill 15132390;         text 'PID' 464 263.5 color 1336868 18 bold;       end;       implementation eqvariables	real hidden factor,uD,uI;equations	factor = 1 / ( sampletime + tauD * beta );	uD = factor * ( tauD * previous ( uD ) * beta + tauD * kp * ( error - previous ( error )) + sampletime * kp * error );	uI = previous( uI ) +  sampletime * uD / tauI;	output = uI + uD;implementation_end;      PlusMinus1 544 264       knot PlusMinus        ports         signal knot duplicatable in plus [1];         signal knot duplicatable in minus [1];         signal knot out output [1];       end;       icon bg ellipse        figures         ellipse 536 256 552 272 fill 16777215;       end;       implementation eqequations    output = sum (collect (plus)) - sum (collect (minus));    implementation_end;      PlusMinus2 328 264       knot PlusMinus        ports         signal knot duplicatable in plus [1];         signal knot duplicatable in minus [1];         signal knot out output [1];       end;       icon bg ellipse        figures         ellipse 320 256 336 272 fill 16777215;       end;       implementation eqequations    output = sum (collect (plus)) - sum (collect (minus));    implementation_end;      SignalLimiter2 600 264       type SignalLimiter        ports         signal in input;         signal out output;        parameters         real minimum = -0.99;         real maximum = 0.99;       end;       icon bg bottom        figures         group          rectangle 584 248 616 280 fill 15132390;          line 599.9 252.5 599.9 277 fill 15132390;          line 587 264.2 612.7 264.2 fill 15132390;          spline 593.9 271.1 605.9 257.4 color 16711680 fill 15132390 width 2;          spline 605.3 258.2 613.9 257.8 color 16711680 fill 15132390 width 2;          spline 587 271.6 593.9 271.1 color 16711680 fill 15132390 width 2;         end;       end;       implementation eqequations	output = limit (input, minimum, maximum);  implementation_end;     end;     connections      SignalLimiter2\output -> out;      PlusMinus1\output -> SignalLimiter2\input;      corrGain\output -> PlusMinus1\plus;      corr -> corrGain\input;      in -> PlusMinus2\plus;      PlusMinus2\output -> PID1\error;      position -> PlusMinus2\minus 328 296;      PID1\output -> PlusMinus1\plus;     end;     figures      text 'controller' 488 200 'Comic Sans MS' 20 bold;      rectangle 112 176 664 320;    implementation_end;  end;  connections   MotorTilt\velocity => ioTilt\velocity 648 320;   MotorPan\velocity => ioPan\velocity 648 168;   ioPan\power_out -> MotorPan\Current_Control 648 128;   Motion_Profile_Pan\x -> PositionControllerPan\in;   PositionControllerPan\out -> ioPan\digital_in 504 160;   ioPan\count -> PositionControllerPan\position 504 128;   MotorTilt\Current_Control <- ioTilt\power_out 648 280;   Motion_Profile_Tilt\y -> PositionControllerTilt\in;   PositionControllerTilt\out -> ioTilt\digital_in 504 312;   ioTilt\count -> PositionControllerTilt\position 504 280;   PositionControllerPan\corr -> PositionControllerTilt\corr;  end;  figures   group    rectangle 664 72 824 344 fill 16745779;   end;   group    rectangle 520 72 632 344 fill 2673737;   end;   group    rectangle 264 48 488 376 fill 3387135;   end;   group    rectangle 72 72 232 344 fill 8421631;   end;   text 'JIWY_robot' 744 96 16;   text 'IO' 576 96 16;   text 'Servo Controllers' 376 360 16;   text 'Motion Profile' 152 96 16; implementation_end;]]>
+  </Sidops>
+</Model>
+ <Experiments>
+  <DefaultExperiment><![CDATA[Converted Experiment]]>
+</DefaultExperiment>
+  <Experiment>
+   <Name>Converted Experiment</Name>
+   <CreatedBy></CreatedBy>
+   <Info></Info>
+   <ExpData>
+    <VersionNumber>4.1</VersionNumber>
+    <ModelProperties></ModelProperties>
+    <Variables>
+     <Constants></Constants>
+     <Parameters></Parameters>
+     <Initials>
+      <Variable>
+       <Name>ioPan\Encoder\turns_initial</Name>
+       <Unit>rev</Unit>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>ioTilt\Encoder\turns_initial</Name>
+       <Unit>rev</Unit>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>MotorPan\Jmot\state_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>MotorPan\phi\q_initial</Name>
+       <Unit>rad</Unit>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>MotorTilt\Jmot\state_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>MotorTilt\Theta\q_initial</Name>
+       <Unit>rad</Unit>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>PositionControllerPan\PID1\error_previous_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>PositionControllerPan\PID1\uD_previous_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>PositionControllerPan\PID1\uI_previous_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>PositionControllerTilt\PID1\error_previous_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>PositionControllerTilt\PID1\uD_previous_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>PositionControllerTilt\PID1\uI_previous_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>u_1_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>u_2_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>u_3_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>u_4_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>u_5_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>u_6_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>u_7_initial</Name>
+       <Value>0</Value>
+      </Variable>
+      <Variable>
+       <Name>u_8_initial</Name>
+       <Value>0</Value>
+      </Variable>
+     </Initials>
+    </Variables>
+    <PlotSpecs>
+     <VarNames>
+      <VarName>time</VarName>
+      <VarName>MotorPan\Current_Control</VarName>
+      <VarName>PositionControllerPan\position</VarName>
+      <VarName>PositionControllerPan\in</VarName>
+      <VarName>PositionControllerPan\PID1\error</VarName>
+      <VarName>PositionControllerTilt\PID1\error</VarName>
+      <VarName>MotorTilt\Current_Control</VarName>
+      <VarName>PositionControllerTilt\in</VarName>
+      <VarName>PositionControllerTilt\position</VarName>
+     </VarNames>
+     <Plots>
+      <Plot>
+       <PlotType>GraphPlot</PlotType>
+       <BasePlot>
+        <UseWindowsBGColor>true</UseWindowsBGColor>
+        <BGColor>12632256</BGColor>
+       </BasePlot>
+       <Grid>
+        <DrawGrid>true</DrawGrid>
+        <GridColor>15780518</GridColor>
+        <XTicks>10</XTicks>
+        <YTicks>10</YTicks>
+        <ZTicks>10</ZTicks>
+        <Use3DLook>false</Use3DLook>
+       </Grid>
+       <PlotBGColor>16777215</PlotBGColor>
+       <ShowPlotTitle>true</ShowPlotTitle>
+       <TitlePosition>1</TitlePosition>
+       <PlotTitle>Dual Axes &amp; Joystick - Position 2 (simulatie)</PlotTitle>
+       <ShowXValues>true</ShowXValues>
+       <Fonts>
+        <TitleFont>
+         <Name>Arial</Name>
+         <Height>12</Height>
+         <PitchFamily>34</PitchFamily>
+         <Weight>400</Weight>
+         <Italic>0</Italic>
+         <UnderLine>0</UnderLine>
+         <StrikeOut>0</StrikeOut>
+         <Color>0</Color>
+        </TitleFont>
+        <LabelFont>
+         <Name>Arial</Name>
+         <Height>12</Height>
+         <PitchFamily>34</PitchFamily>
+         <Weight>400</Weight>
+         <Italic>0</Italic>
+         <UnderLine>0</UnderLine>
+         <StrikeOut>0</StrikeOut>
+         <Color>0</Color>
+        </LabelFont>
+        <ValuesFont>
+         <Name>Arial</Name>
+         <Height>12</Height>
+         <PitchFamily>34</PitchFamily>
+         <Weight>400</Weight>
+         <Italic>0</Italic>
+         <UnderLine>0</UnderLine>
+         <StrikeOut>0</StrikeOut>
+         <Color>0</Color>
+        </ValuesFont>
+       </Fonts>
+       <SharedXAxis>true</SharedXAxis>
+       <SharedYAxis>false</SharedYAxis>
+       <SharedZAxis>false</SharedZAxis>
+       <XAxes>
+        <Axis>
+         <Minimum>0</Minimum>
+         <Maximum>10</Maximum>
+         <Linear>true</Linear>
+         <Scaling>3</Scaling>
+         <Label>time</Label>
+        </Axis>
+       </XAxes>
+       <YAxes>
+        <Axis>
+         <Minimum>-0.5</Minimum>
+         <Maximum>0.5</Maximum>
+         <Linear>true</Linear>
+         <Scaling>1</Scaling>
+         <Label>PositionControllerTilt\in</Label>
+        </Axis>
+        <Axis>
+         <Minimum>-0.5</Minimum>
+         <Maximum>0.5</Maximum>
+         <Linear>true</Linear>
+         <Scaling>1</Scaling>
+         <Label>PositionControllerTilt\position</Label>
+        </Axis>
+        <Axis>
+         <Minimum>-0.5</Minimum>
+         <Maximum>0.5</Maximum>
+         <Linear>true</Linear>
+         <Scaling>1</Scaling>
+         <Label>PositionControllerTilt\PID1\error</Label>
+        </Axis>
+        <Axis>
+         <Minimum>-0.5</Minimum>
+         <Maximum>0.5</Maximum>
+         <Linear>true</Linear>
+         <Scaling>1</Scaling>
+         <Label>Current_Control</Label>
+        </Axis>
+       </YAxes>
+       <ZAxes></ZAxes>
+       <Curves>
+        <Curve>
+         <LineColor>65280</LineColor>
+         <LineStyle>1</LineStyle>
+         <TickColor>65280</TickColor>
+         <TickStyle>0</TickStyle>
+         <PixelThresshold>10</PixelThresshold>
+         <LineThickness>1</LineThickness>
+         <LineOrder>1</LineOrder>
+         <ShowYValues>true</ShowYValues>
+         <XCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>time</VarName>
+         </XCurveData>
+         <YCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>PositionControllerTilt\in</VarName>
+         </YCurveData>
+        </Curve>
+        <Curve>
+         <LineColor>3368448</LineColor>
+         <LineStyle>1</LineStyle>
+         <TickColor>3368448</TickColor>
+         <TickStyle>0</TickStyle>
+         <PixelThresshold>10</PixelThresshold>
+         <LineThickness>1</LineThickness>
+         <LineOrder>1</LineOrder>
+         <ShowYValues>true</ShowYValues>
+         <XCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>time</VarName>
+         </XCurveData>
+         <YCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>PositionControllerTilt\position</VarName>
+         </YCurveData>
+        </Curve>
+        <Curve>
+         <LineColor>255</LineColor>
+         <LineStyle>1</LineStyle>
+         <TickColor>255</TickColor>
+         <TickStyle>0</TickStyle>
+         <PixelThresshold>1</PixelThresshold>
+         <LineThickness>1</LineThickness>
+         <LineOrder>1</LineOrder>
+         <ShowYValues>true</ShowYValues>
+         <XCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>time</VarName>
+         </XCurveData>
+         <YCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>PositionControllerTilt\PID1\error</VarName>
+         </YCurveData>
+        </Curve>
+        <Curve>
+         <LineColor>0</LineColor>
+         <LineStyle>1</LineStyle>
+         <TickColor>0</TickColor>
+         <TickStyle>0</TickStyle>
+         <PixelThresshold>1</PixelThresshold>
+         <LineThickness>1</LineThickness>
+         <LineOrder>1</LineOrder>
+         <ShowYValues>true</ShowYValues>
+         <XCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>time</VarName>
+         </XCurveData>
+         <YCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>MotorTilt\Current_Control</VarName>
+         </YCurveData>
+        </Curve>
+       </Curves>
+       <Legenda>
+        <ShowLegenda>true</ShowLegenda>
+       </Legenda>
+       <StripChartPlots>
+        <DistributState>2</DistributState>
+        <StripChartPlot>
+         <Legenda>
+     <ShowLegenda>true</ShowLegenda>
+         </Legenda>
+        </StripChartPlot>
+        <StripChartPlot>
+         <Legenda>
+     <ShowLegenda>true</ShowLegenda>
+         </Legenda>
+        </StripChartPlot>
+        <StripChartPlot>
+         <Legenda>
+     <ShowLegenda>true</ShowLegenda>
+         </Legenda>
+        </StripChartPlot>
+        <StripChartPlot>
+         <Legenda>
+     <ShowLegenda>true</ShowLegenda>
+         </Legenda>
+        </StripChartPlot>
+       </StripChartPlots>
+      </Plot>
+      <Plot>
+       <PlotType>GraphPlot</PlotType>
+       <BasePlot>
+        <UseWindowsBGColor>true</UseWindowsBGColor>
+        <BGColor>13160660</BGColor>
+       </BasePlot>
+       <Grid>
+        <DrawGrid>true</DrawGrid>
+        <GridColor>15780518</GridColor>
+        <XTicks>10</XTicks>
+        <YTicks>10</YTicks>
+        <ZTicks>10</ZTicks>
+        <Use3DLook>false</Use3DLook>
+       </Grid>
+       <PlotBGColor>16777215</PlotBGColor>
+       <ShowPlotTitle>true</ShowPlotTitle>
+       <TitlePosition>1</TitlePosition>
+       <PlotTitle>model</PlotTitle>
+       <ShowXValues>true</ShowXValues>
+       <Fonts>
+        <TitleFont>
+         <Name>Arial</Name>
+         <Height>12</Height>
+         <PitchFamily>34</PitchFamily>
+         <Weight>400</Weight>
+         <Italic>0</Italic>
+         <UnderLine>0</UnderLine>
+         <StrikeOut>0</StrikeOut>
+         <Color>0</Color>
+        </TitleFont>
+        <LabelFont>
+         <Name>Arial</Name>
+         <Height>12</Height>
+         <PitchFamily>34</PitchFamily>
+         <Weight>400</Weight>
+         <Italic>0</Italic>
+         <UnderLine>0</UnderLine>
+         <StrikeOut>0</StrikeOut>
+         <Color>0</Color>
+        </LabelFont>
+        <ValuesFont>
+         <Name>Arial</Name>
+         <Height>10</Height>
+         <PitchFamily>34</PitchFamily>
+         <Weight>400</Weight>
+         <Italic>0</Italic>
+         <UnderLine>0</UnderLine>
+         <StrikeOut>0</StrikeOut>
+         <Color>0</Color>
+        </ValuesFont>
+       </Fonts>
+       <SharedXAxis>true</SharedXAxis>
+       <SharedYAxis>true</SharedYAxis>
+       <SharedZAxis>false</SharedZAxis>
+       <XAxes>
+        <Axis>
+         <Minimum>0</Minimum>
+         <Maximum>10</Maximum>
+         <Linear>true</Linear>
+         <Scaling>3</Scaling>
+         <Label>time</Label>
+        </Axis>
+       </XAxes>
+       <YAxes>
+        <Axis>
+         <Minimum>-4</Minimum>
+         <Maximum>6</Maximum>
+         <Linear>true</Linear>
+         <Scaling>1</Scaling>
+         <Label>PositionControllerPan\in</Label>
+        </Axis>
+        <Axis>
+         <Minimum>-0.781250000059216</Minimum>
+         <Maximum>0</Maximum>
+         <Linear>true</Linear>
+         <Scaling>1</Scaling>
+         <Label>PositionControllerPan\position</Label>
+        </Axis>
+        <Axis>
+         <Minimum>-2.12585165580546</Minimum>
+         <Maximum>0</Maximum>
+         <Linear>true</Linear>
+         <Scaling>1</Scaling>
+         <Label>PositionControllerPan\PID1\error</Label>
+        </Axis>
+        <Axis>
+         <Minimum>0</Minimum>
+         <Maximum>10</Maximum>
+         <Linear>true</Linear>
+         <Scaling>1</Scaling>
+         <Label>Current_Control</Label>
+        </Axis>
+       </YAxes>
+       <ZAxes></ZAxes>
+       <Curves>
+        <Curve>
+         <LineColor>16711935</LineColor>
+         <LineStyle>1</LineStyle>
+         <TickColor>16711935</TickColor>
+         <TickStyle>0</TickStyle>
+         <PixelThresshold>1</PixelThresshold>
+         <LineThickness>1</LineThickness>
+         <LineOrder>1</LineOrder>
+         <ShowYValues>true</ShowYValues>
+         <XCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>time</VarName>
+         </XCurveData>
+         <YCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>PositionControllerPan\in</VarName>
+         </YCurveData>
+        </Curve>
+        <Curve>
+         <LineColor>255</LineColor>
+         <LineStyle>1</LineStyle>
+         <TickColor>255</TickColor>
+         <TickStyle>0</TickStyle>
+         <PixelThresshold>1</PixelThresshold>
+         <LineThickness>1</LineThickness>
+         <LineOrder>1</LineOrder>
+         <ShowYValues>true</ShowYValues>
+         <XCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>time</VarName>
+         </XCurveData>
+         <YCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>PositionControllerPan\position</VarName>
+         </YCurveData>
+        </Curve>
+        <Curve>
+         <LineColor>65280</LineColor>
+         <LineStyle>1</LineStyle>
+         <TickColor>65280</TickColor>
+         <TickStyle>0</TickStyle>
+         <PixelThresshold>1</PixelThresshold>
+         <LineThickness>1</LineThickness>
+         <LineOrder>1</LineOrder>
+         <ShowYValues>true</ShowYValues>
+         <XCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>time</VarName>
+         </XCurveData>
+         <YCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>PositionControllerPan\PID1\error</VarName>
+         </YCurveData>
+        </Curve>
+        <Curve>
+         <LineColor>0</LineColor>
+         <LineStyle>1</LineStyle>
+         <TickColor>0</TickColor>
+         <TickStyle>0</TickStyle>
+         <PixelThresshold>1</PixelThresshold>
+         <LineThickness>1</LineThickness>
+         <LineOrder>1</LineOrder>
+         <ShowYValues>true</ShowYValues>
+         <XCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>time</VarName>
+         </XCurveData>
+         <YCurveData>
+     <ShowUnit>true</ShowUnit>
+     <VarName>MotorPan\Current_Control</VarName>
+         </YCurveData>
+        </Curve>
+       </Curves>
+       <Legenda>
+        <ShowLegenda>true</ShowLegenda>
+       </Legenda>
+       <StripChartPlots>
+        <DistributState>2</DistributState>
+        <StripChartPlot>
+         <Legenda>
+     <ShowLegenda>true</ShowLegenda>
+         </Legenda>
+        </StripChartPlot>
+        <StripChartPlot>
+         <Legenda>
+     <ShowLegenda>true</ShowLegenda>
+         </Legenda>
+        </StripChartPlot>
+        <StripChartPlot>
+         <Legenda>
+     <ShowLegenda>true</ShowLegenda>
+         </Legenda>
+        </StripChartPlot>
+        <StripChartPlot>
+         <Legenda>
+     <ShowLegenda>true</ShowLegenda>
+         </Legenda>
+        </StripChartPlot>
+       </StripChartPlots>
+      </Plot>
+     </Plots>
+     <WindowRectangles virtualDesktopWidth="1280" virtualDesktopHeight="778">
+      <WindowRectangle monitor="0" left="0" top="0" right="1280" bottom="778">0.503125 0.0372751 0.996094 0.817481</WindowRectangle>
+      <WindowRectangle monitor="0" left="0" top="0" right="1280" bottom="778">0.00390625 0.0321337 0.496094 0.825193</WindowRectangle>
+     </WindowRectangles>
+    </PlotSpecs>
+    <RunSpecs>
+     <SimulatorSettings>
+      <StartTime>0</StartTime>
+      <FinishTime>20</FinishTime>
+      <Warp>true</Warp>
+      <UseOutputAfterEach>true</UseOutputAfterEach>
+      <OutputAfterEach>0.01</OutputAfterEach>
+      <EventEpsilon>1e-006</EventEpsilon>
+      <AlgebraicTolerance>1e-007</AlgebraicTolerance>
+      <SteadyStateAnalysis>false</SteadyStateAnalysis>
+      <DiscreteSystems>
+       <DiscreteSystem>
+        <DiscreteID>ioPan\Encoder\hold_signal</DiscreteID>
+        <TimeInterval>0.01</TimeInterval>
+        <InitialSampleTimeDelay>0</InitialSampleTimeDelay>
+        <FixedSampleTimeDelay>0</FixedSampleTimeDelay>
+        <VariableTimeDelayMin>0</VariableTimeDelayMin>
+        <VariableTimeDelayMax>0</VariableTimeDelayMax>
+        <VariableTimeDelayMean>0</VariableTimeDelayMean>
+        <VariableTimeDelayDeviation>0</VariableTimeDelayDeviation>
+        <UseVariableTimeDelay>false</UseVariableTimeDelay>
+        <UniformVariableTimeDelay>false</UniformVariableTimeDelay>
+        <UseGlobalTime>true</UseGlobalTime>
+        <HoldTimeDelay>0</HoldTimeDelay>
+        <ActionOnSampleMissed>0</ActionOnSampleMissed>
+       </DiscreteSystem>
+      </DiscreteSystems>
+     </SimulatorSettings>
+     <IntegrationMethods>
+      <IntegrationMethod>
+       <Name>Euler</Name>
+       <StepSize>0.001</StepSize>
+      </IntegrationMethod>
+      <IntegrationMethod>
+       <Name>BackwardEuler</Name>
+       <AbsoluteTolerance>1e-005</AbsoluteTolerance>
+       <RelativeTolerance>1e-005</RelativeTolerance>
+       <AlgebraicAbsoluteTolerance>1e-005</AlgebraicAbsoluteTolerance>
+       <AlgebraicRelativeTolerance>1e-005</AlgebraicRelativeTolerance>
+       <StepSize>0.01</StepSize>
+       <Alpha>1</Alpha>
+      </IntegrationMethod>
+      <IntegrationMethod>
+       <Name>AdamsBashforth</Name>
+       <StepSize>0.01</StepSize>
+      </IntegrationMethod>
+      <IntegrationMethod>
+       <Name>RungeKutta2</Name>
+       <StepSize>0.01</StepSize>
+      </IntegrationMethod>
+      <IntegrationMethod>
+       <Name>RungeKutta4</Name>
+       <StepSize>0.01</StepSize>
+      </IntegrationMethod>
+      <IntegrationMethod>
+       <Name>RungeKutta8</Name>
+       <UseInitialStepSize>false</UseInitialStepSize>
+       <InitialStepSize>0</InitialStepSize>
+       <UseMaximumStepSize>false</UseMaximumStepSize>
+       <MaximumStepSize>0</MaximumStepSize>
+       <AbsoluteTolerance>1e-006</AbsoluteTolerance>
+       <RelativeTolerance>1e-006</RelativeTolerance>
+       <SafetyFactor>0.9</SafetyFactor>
+       <Factor1>0.33</Factor1>
+       <Factor2>6</Factor2>
+       <Beta>0</Beta>
+       <UseMaxNrSteps>false</UseMaxNrSteps>
+       <MaxNrSteps>100000</MaxNrSteps>
+       <UseStiffDetection>false</UseStiffDetection>
+       <MaxNrStiffnessSteps>1000</MaxNrStiffnessSteps>
+      </IntegrationMethod>
+      <IntegrationMethod>
+       <Name>RungeKuttaFehlberg</Name>
+       <UseInitialStepSize>false</UseInitialStepSize>
+       <InitialStepSize>0</InitialStepSize>
+       <UseMaximumStepSize>false</UseMaximumStepSize>
+       <MaximumStepSize>0</MaximumStepSize>
+       <AbsoluteTolerance>1e-006</AbsoluteTolerance>
+       <RelativeTolerance>1e-006</RelativeTolerance>
+      </IntegrationMethod>
+      <IntegrationMethod>
+       <Name>VodeAdams</Name>
+       <UseInitialStepSize>false</UseInitialStepSize>
+       <InitialStepSize>0</InitialStepSize>
+       <UseMaximumStepSize>false</UseMaximumStepSize>
+       <MaximumStepSize>0</MaximumStepSize>
+       <AbsoluteTolerance>1e-006</AbsoluteTolerance>
+       <RelativeTolerance>1e-006</RelativeTolerance>
+      </IntegrationMethod>
+      <IntegrationMethod>
+       <Name>BDFMethod</Name>
+       <AbsoluteTolerance>1e-005</AbsoluteTolerance>
+       <RelativeTolerance>1e-005</RelativeTolerance>
+       <AlgebraicAbsoluteTolerance>1e-005</AlgebraicAbsoluteTolerance>
+       <AlgebraicRelativeTolerance>1e-005</AlgebraicRelativeTolerance>
+       <UseInitialStepSize>false</UseInitialStepSize>
+       <InitialStepSize>0</InitialStepSize>
+       <UseMaximumStepSize>false</UseMaximumStepSize>
+       <MaximumStepSize>0</MaximumStepSize>
+       <UseFixedStepSize>false</UseFixedStepSize>
+       <FixedStepSize>0</FixedStepSize>
+      </IntegrationMethod>
+      <IntegrationMethod>
+       <Name>MeBDFiMethod</Name>
+       <AbsoluteTolerance>1e-005</AbsoluteTolerance>
+       <RelativeTolerance>1e-005</RelativeTolerance>
+       <AlgebraicAbsoluteTolerance>1e-005</AlgebraicAbsoluteTolerance>
+       <AlgebraicRelativeTolerance>1e-005</AlgebraicRelativeTolerance>
+       <UseInitialStepSize>false</UseInitialStepSize>
+       <InitialStepSize>0</InitialStepSize>
+       <UseMaximumStepSize>false</UseMaximumStepSize>
+       <MaximumStepSize>0</MaximumStepSize>
+       <UseFixedStepSize>false</UseFixedStepSize>
+       <FixedStepSize>0</FixedStepSize>
+      </IntegrationMethod>
+      <SelectedIntegrationMethod>0</SelectedIntegrationMethod>
+     </IntegrationMethods>
+    </RunSpecs>
+    <MultipleRun>
+     <NrSteps>1</NrSteps>
+     <CopyFromStates>false</CopyFromStates>
+     <JoinParameterVariation>true</JoinParameterVariation>
+     <ClearAfterRun>true</ClearAfterRun>
+     <RedrawAfterRun>false</RedrawAfterRun>
+     <DrawDuringSimulation>true</DrawDuringSimulation>
+     <ActionBeforeOptimization>0</ActionBeforeOptimization>
+     <CompareValue>0</CompareValue>
+     <UseCompareValue>true</UseCompareValue>
+     <MultipleRunType>MultipleRun</MultipleRunType>
+     <Minimize>true</Minimize>
+     <OptimizationVariable>PositionControllerPan\Controller\error</OptimizationVariable>
+     <ResulVarUsage>UseEndValue</ResulVarUsage>
+     <Tolerance>0.01</Tolerance>
+     <OptimizationMethod>BroydonFletcherGoldfarbShanno</OptimizationMethod>
+     <MultipleRunVariables></MultipleRunVariables>
+    </MultipleRun>
+    <ExportData>
+     <WriteAsText>true</WriteAsText>
+     <ReadAsText>true</ReadAsText>
+     <WriteHeader>true</WriteHeader>
+     <ReadHeader>true</ReadHeader>
+     <ReadFilename></ReadFilename>
+     <WriteFilename></WriteFilename>
+     <DoWrite>false</DoWrite>
+     <ExportVariables></ExportVariables>
+     <ImportVariables></ImportVariables>
+    </ExportData>
+    <BreakPoints></BreakPoints>
+   </ExpData>
+  </Experiment>
+ </Experiments>
+</Document>
