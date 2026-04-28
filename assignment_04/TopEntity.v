@@ -16,45 +16,49 @@ module top (
 );
 
     // =========================================================
-    // 1. THE ENCODER LOGIC
+    // 1. QUADRATURE ENCODERS
     // =========================================================
-    wire [31:0] pitch_position;
-    wire [31:0] yaw_position;
+    wire signed [31:0] pitch_count;
+    wire signed [31:0] yaw_count;
+    wire reset_n = 1'b0; // Hardwired reset to 0 (active high in module)
 
     // Instance 1: Pitch Encoder
-    quadrature_encoder pitch_encoder_inst (
+    Quad_compact pitch_inst (
         .clk(clk),
-        .enc_a(PITCH_ENC_A),
-        .enc_b(PITCH_ENC_B),
-        .position(pitch_position)
+        .A(PITCH_ENC_A),
+        .B(PITCH_ENC_B),
+        .reset(reset_n),
+        .count(pitch_count)
     );
 
     // Instance 2: Yaw Encoder
-    quadrature_encoder yaw_encoder_inst (
+    Quad_compact yaw_inst (
         .clk(clk),
-        .enc_a(YAW_ENC_A),
-        .enc_b(YAW_ENC_B),
-        .position(yaw_position)
+        .A(YAW_ENC_A),
+        .B(YAW_ENC_B),
+        .reset(reset_n),
+        .count(yaw_count)
     );
 
-    // Tie led2 and led3 to the lowest bit of the counters so 
-    // they flicker when you physically rotate the motors.
-    assign led2 = pitch_position[0];
-    assign led3 = yaw_position[0];
+    // Tie LEDs to the LSB for instant physical feedback
+    assign led2 = pitch_count[0];
+    assign led3 = yaw_count[0];
 
     // =========================================================
-    // 2. THE HEARTBEAT BLINKER LOGIC
+    // 2. HEARTBEAT BLINKER
     // =========================================================
-    reg [31:0] count = 0;
+    localparam CLK_FREQ = 100_000_000; // 100MHz
+    localparam BLINK_RATE = 1;         // 1Hz
+    localparam CNT_MAX = CLK_FREQ / (2 * BLINK_RATE);
+
+    reg [31:0] blink_cnt = 0;
 
     always @(posedge clk) begin
-        // Note: The operand below is set to ~1 second assuming a ~100MHz clock.
-        // Change it back to 5 if you run this in a simulator like DigitalJS!
-        if (count >= 99999999) begin   
-            count <= 0;         // Reset count register
-            led1 <= ~led1;      // Toggle heartbeat LED
+        if (blink_cnt >= CNT_MAX - 1) begin
+            blink_cnt <= 0;
+            led1 <= ~led1;
         end else begin
-            count <= count + 1; // Counts clock cycles
+            blink_cnt <= blink_cnt + 1;
         end
     end
 
