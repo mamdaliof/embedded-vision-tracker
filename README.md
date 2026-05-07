@@ -85,3 +85,12 @@ steps:
 1. to compile: `gcc -Wall webcam_module.c -o webcam_module $(pkg-config --cflags --libs gstreamer-1.0)`
 2. `./webcam_module /dev/video0` or whatever port the webcam is on
 3. `mplayer -demuxer rawvideo -rawvideo w=640:h=480:format=yuy2 file.yuv`
+
+---
+
+# Assignment 6 - GStreamer Appsink Module for calculating mean brightness of the stream
+
+1. `sudo apt install libgstreamer-plugins-base1.0-dev`
+2. `gcc webcam_brightness_module.c -o webcam_module $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-app-1.0)`
+3. `./webcam_module /dev/video0` or whatever port the camera is on.
+
