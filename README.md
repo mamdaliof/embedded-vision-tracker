@@ -17,6 +17,8 @@ password: root
 
 * To find the DE10 ip address, simply call `screen /dev/tty.usbserial-* 115200` when the DE10 is connected to the local machine via USB.
 
+`!!!!!!! ALWAYS CONNECT THE FUCKING ETHERNET TO THE BOARD !!!!!`
+
 --- 
 
 # Assignment 1 - Blinking LED (icoBoard)
