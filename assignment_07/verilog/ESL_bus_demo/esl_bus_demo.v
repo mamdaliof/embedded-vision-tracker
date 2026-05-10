@@ -1,51 +1,67 @@
 `timescale 1 ps / 1 ps
 module esl_bus_demo #(
-		parameter LED_WIDTH = 8,
         parameter DATA_WIDTH = 32
-	) (
-		input  wire [7:0]  slave_address,     //      avs_s0.address
-		input  wire        slave_read,        //            .read
-		output reg  [DATA_WIDTH-1:0] slave_readdata,    //            .readdata
-		input  wire        slave_write,       //            .write
-		input  wire [DATA_WIDTH-1:0] slave_writedata,   //            .writedata
-		input  wire        clk,          //       clock.clk
-		input  wire        reset,        //       reset.reset
+    ) (
+        input  wire [7:0]  slave_address,     
+        input  wire        slave_read,        
+        output reg  [DATA_WIDTH-1:0] slave_readdata,    
+        input  wire        slave_write,       
+        input  wire [DATA_WIDTH-1:0] slave_writedata,   
+        input  wire        clk,          
+        input  wire        reset,        
         input  wire [(DATA_WIDTH/8)-1:0] slave_byteenable,
-		output wire [LED_WIDTH-1:0]  user_output         // user_output.new_signal
-	);
-
-    // Internal memory for the system and a subset for the IP
-    reg [31:0] mem;
-    wire [LED_WIDTH-1:0] mem_masked;
-    wire enable;
-
-    // Definition of the counter
-    esl_bus_demo_example #(
-        .DATA_WIDTH(LED_WIDTH)
-    ) my_ip (
-        .clk(clk),
-        .rst(reset),
-        .in(mem_masked),
-        .cnt_enable(enable),
-        .out(user_output)
+        
+        // Conduits to physical switches / encoder pins
+        input  wire  yaw_A, 
+        input  wire  yaw_B,
+        input  wire  pitch_A, 
+        input  wire  pitch_B        
     );
 
-    assign mem_masked = mem[LED_WIDTH-1:0];
-    assign enable = mem[31];
+    // 1. Wires to carry the output from the instantiated engines.
+    // They MUST be wires, not regs.
+    wire signed [31:0] yaw_count;
+    wire signed [31:0] pitch_count;
 
+    // 2. Instantiate the Yaw Encoder
+    Quad_compact encoder_yaw (
+        .clk(clk),
+        .A(yaw_A), 
+        .B(yaw_B),
+        .reset(reset),
+        .count(yaw_count) // Correctly mapped to the module's actual port
+    );
+
+    // 3. Instantiate the Pitch Encoder
+    Quad_compact encoder_pitch (
+        .clk(clk),
+        .A(pitch_A), 
+        .B(pitch_B),
+        .reset(reset),
+        .count(pitch_count) // Correctly mapped to the module's actual port
+    );
+
+    // 4. The Avalon-MM Read/Write Protocol
+    // Only variables declared as 'reg' (like slave_readdata) can be modified here.
     always @(posedge clk or posedge reset) begin
         if (reset) begin
-            mem <= 32'b0;
+            slave_readdata <= 32'b0;
         end else begin
+            // Handle ARM Read Requests via Address Decoding
             if (slave_read) begin
-                slave_readdata <= mem;
+                case (slave_address)
+                    8'h00: slave_readdata <= yaw_count;   // Base Address + 0
+                    8'h01: slave_readdata <= pitch_count; // Base Address + 4 bytes
+                    default: slave_readdata <= 32'b0;
+                endcase
             end
+            
+            // Handle ARM Write Requests (e.g., for PWM later)
+            // Left empty for now as you are only reading encoders.
             if (slave_write) begin
-                mem <= slave_writedata;
-            end;
-        end;
+                // Future PWM logic goes here.
+            end
+        end
     end
-
-
 
 endmodule
