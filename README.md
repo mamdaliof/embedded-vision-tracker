@@ -17,6 +17,8 @@ password: root
 
 * To find the DE10 ip address, simply call `screen /dev/tty.usbserial-* 115200` when the DE10 is connected to the local machine via USB.
 
+`!!!!!!! ALWAYS CONNECT THE FUCKING ETHERNET TO THE BOARD !!!!!`
+
 --- 
 
 # Assignment 1 - Blinking LED (icoBoard)
@@ -58,6 +60,7 @@ to run the testbench:
 
 1. iverilog -o quad_sim quadrature_encoder_counter.v quad_tb.v
 2. vvp quad sim
+3. to visualize it: gtkwave quad_sim.vcd
 
 to synthesize it on Raspberry:
 
@@ -73,4 +76,12 @@ now flash on the icoboard with `./icoprog -R` and then `./icoprog -p < ice40.bin
 
 # Assignment 5 - GStreamer Pipeline
 
-to compile: gcc -Wall helloworld.c -o helloworld $(pkg-config --cflags --libs gstreamer-1.0)
+it's possible to check what formats c250 supports: `v4l2-ctl -d /dev/video0 --list-formats-ext`.
+
+* because of USB bandwidth limitations (2.0), it could drop to 15 fps instead of 30 fps. In this case, change the capsfilter in `assignment_05/webcam_module.c`
+
+steps:
+
+1. to compile: `gcc -Wall webcam_module.c -o webcam_module $(pkg-config --cflags --libs gstreamer-1.0)`
+2. `./webcam_module /dev/video0` or whatever port the webcam is on
+3. `mplayer -demuxer rawvideo -rawvideo w=640:h=480:format=yuy2 file.yuv`
