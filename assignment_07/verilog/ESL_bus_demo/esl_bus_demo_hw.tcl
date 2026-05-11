@@ -128,7 +128,7 @@ add_interface_port user_interface user_output export Output 1
 ##
 ## - Validation/ elaboration functions
 ##
-proc elaborate_me {}  {
+proc validate_me {}  {
 
 }
 

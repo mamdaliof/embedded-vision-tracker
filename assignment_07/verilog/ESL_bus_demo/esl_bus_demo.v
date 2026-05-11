@@ -11,7 +11,7 @@ module esl_bus_demo #(
         input  wire        clk,          
         input  wire        reset,        
         input  wire [(DATA_WIDTH/8)-1:0] slave_byteenable,
-        output wire [LED_WIDTH-1:0]  user_output
+        output wire [LED_WIDTH-1:0]  user_output,
         // Conduits to physical switches / encoder pins
         input  wire  yaw_A, 
         input  wire  yaw_B,
