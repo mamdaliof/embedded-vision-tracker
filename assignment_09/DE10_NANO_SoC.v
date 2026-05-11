@@ -62,7 +62,7 @@ module DE10_NANO_SoC(
     output   [ 7: 0]    LED,
 
     //////////// SW //////////
-    input    [ 3: 0]    SW
+    input    [ 3: 0]    SW,
 
 
     //////////// Encoder //////////
@@ -70,7 +70,7 @@ module DE10_NANO_SoC(
     input               YAW_ENC_A,
     input               YAW_ENC_B,
     input               PITCH_ENC_A,
-    input               PITCH_ENC_B
+    input               PITCH_ENC_B,
 
     //////////// PWM //////////
     output              PWM_INA,
