@@ -27,12 +27,12 @@ int main(int argc, char** argv) {
 
     // map the Avalon bus into userspace
     volatile uint32_t* base = (uint32_t*) mmap(
-        NULL,
-        HPS_0_ARM_A9_0_ESL_BUS_DEMO_0_SPAN,
-        PROT_READ | PROT_WRITE,
-        MAP_SHARED,
-        fd,
-        HPS_0_ARM_A9_0_ESL_BUS_DEMO_0_BASE
+        NULL,                                    // let OS choose virtual address
+        HPS_0_ARM_A9_0_ESL_BUS_DEMO_0_SPAN,      // size of the region to map
+        PROT_READ | PROT_WRITE,                  // read and write access
+        MAP_SHARED,                              // share with hardware
+        fd,                                      // /dev/mem file descriptor
+        HPS_0_ARM_A9_0_ESL_BUS_DEMO_0_BASE       // physical address of IP
     );
 
     if (base == MAP_FAILED) {

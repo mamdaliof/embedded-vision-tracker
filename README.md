@@ -98,11 +98,51 @@ steps:
 
 # Assignment 9 - PWM Module for DE10
 
+Local Simulation
+
 1. `iverilog -o pwm_sim pwm_generator.v pwm_tb.v`
 2. `vvp pwm_sim`
-3. to visualize it: `gtkwave pwm_tb.vcd`
+3. `gtkwave pwm_tb.vcd` — to visualize the waveform
 
-Compile on the DE10. **GIVE duty_cycle and direction as inputs**:
+Synthesis (on xoc2 via X2Go)
 
-1. `gcc main.c -o pwm_control`
-2. `sudo ./pwm_control 128 1` -- 50% speed, clockwise
+1. Open Platform Designer, load `soc_system.qsys`
+2. Re-add `esl_bus_demo` IP to pick up updated Tcl with PWM ports
+3. Generate HDL -> compile in Quartus -> convert to `.rbf`
+
+Connect to DE10
+
+```bash
+ssh -X root@10.0.15.73
+password: root
+```
+
+To copy any local file (Ubuntu) to DE10 (Run on Ubuntu): `scp /home/costin/ESL/laboratory-files/assignment_09/c/main_pwm.c root@10.0.15.73:~`
+To copy from xoc2 server to DE10 (run on DE10): `scp s<studentnumber>@xoc2.ewi.utwente.nl:/path/to/soc_system.rbf .` (did not test it, should work).
+
+Deploy to DE10
+
+```bash
+mkdir -p fat
+mount /dev/mmcblk0p1 fat
+cp resulting_file.rbf fat/soc_system.rbf
+cp socfpga_cyclone5_de0_nano_soc.dtb fat/
+umount fat
+reboot
+```
+
+Run on DE10
+
+Compile and run — **duty_cycle (0-255) and direction (0=CCW, 1=CW) are required arguments**:
+
+```bash
+gcc main_pwm.c -o pwm_control
+./pwm_control 128 1   # 50% speed, clockwise
+./pwm_control 64 0    # 25% speed, counter-clockwise
+./pwm_control 0 0     # stop
+```
+
+Verify
+
+- Probe `YAW_PWM_VAL` pin with oscilloscope — verify 20kHz frequency
+- Probe `YAW_DIRA` and `YAW_DIRB` — verify they match Table 12 from VNH2SP30-E datasheet

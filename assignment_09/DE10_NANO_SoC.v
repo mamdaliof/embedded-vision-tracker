@@ -73,9 +73,9 @@ module DE10_NANO_SoC(
     input               PITCH_ENC_B,
 
     //////////// PWM //////////
-    output              PWM_INA,
-    output              PWM_INB,
-    output              PWM_OUT
+    output              YAW_DIRA,
+    output              YAW_DIRB,
+    output              YAW_PWM_VAL
 );
 
 
@@ -163,26 +163,9 @@ soc_system u0(
                 .encoder_inputs_pitch_a (PITCH_ENC_A),
                 .encoder_inputs_pitch_b (PITCH_ENC_B),
                 // PWM outputs -- Assignment 9
-                .pwm_outputs_ina        (PWM_INA),
-                .pwm_outputs_inb        (PWM_INB),
-                .pwm_outputs_pwm_out    (PWM_OUT)
+                .pwm_outputs_ina        (YAW_DIRA),
+                .pwm_outputs_inb        (YAW_DIRB),
+                .pwm_outputs_pwm_out    (YAW_PWM_VAL)
            );
-
-
-reg [25: 0] counter;
-reg led_level;
-always @(posedge fpga_clk_50 or negedge hps_fpga_reset_n) begin
-    if (~hps_fpga_reset_n) begin
-        counter <= 0;
-        led_level <= 0;
-    end
-
-    else if (counter == 24999999) begin
-        counter <= 0;
-        led_level <= ~led_level;
-    end
-    else
-        counter <= counter + 1'b1;
-end
 
 endmodule
