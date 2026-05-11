@@ -22,16 +22,28 @@ int main(int argc, char** argv) {
     }
 
     // Cast to 32-bit pointer. Incrementing this pointer advances by 4 bytes (1 word)
-    volatile uint32_t* encoder_base = (uint32_t *)esl_demo_map;
+    volatile uint32_t* peripheral_base = (uint32_t *)esl_demo_map;
 
-    printf("Starting Encoder Read Loop. Press Ctrl+C to exit.\n");
+    uint32_t led_pattern = 0x01; // Start with first LED on
+
+    printf("Starting Control Loop...\n");
     while(1) {
-        int32_t yaw_val   = encoder_base[0]; // Reads slave_address 0x00
-        int32_t pitch_val = encoder_base[1]; // Reads slave_address 0x01
+        // 1. Read Sensors
+        int32_t yaw_val   = peripheral_base[0]; // Offset 0
+        int32_t pitch_val = peripheral_base[1]; // Offset 1
         
-        printf("Yaw Count: %d \t Pitch Count: %d\n", yaw_val, pitch_val);
+        // 2. Write Actuators (LEDs)
+        peripheral_base[2] = led_pattern;       // Offset 2
         
-        usleep(100000); // 100ms delay 
+        printf("Yaw: %d \t Pitch: %d \t LEDs: 0x%02X\n", yaw_val, pitch_val, led_pattern);
+        
+        // Shift LED pattern left, reset if it exceeds 8 bits
+        led_pattern = led_pattern << 1;
+        if (led_pattern > 0x80) {
+            led_pattern = 0x01;
+        }
+
+        usleep(100000); 
     }
 
     close(fd);

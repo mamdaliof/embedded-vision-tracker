@@ -1,6 +1,7 @@
 `timescale 1 ps / 1 ps
 module esl_bus_demo #(
-        parameter DATA_WIDTH = 32
+        parameter DATA_WIDTH = 32,
+        parameter LED_WIDTH = 8
     ) (
         input  wire [7:0]  slave_address,     
         input  wire        slave_read,        
@@ -10,7 +11,7 @@ module esl_bus_demo #(
         input  wire        clk,          
         input  wire        reset,        
         input  wire [(DATA_WIDTH/8)-1:0] slave_byteenable,
-        
+        output wire [LED_WIDTH-1:0]  user_output
         // Conduits to physical switches / encoder pins
         input  wire  yaw_A, 
         input  wire  yaw_B,
@@ -22,6 +23,11 @@ module esl_bus_demo #(
     // They MUST be wires, not regs.
     wire signed [31:0] yaw_count;
     wire signed [31:0] pitch_count;
+
+    // Memory-mapped register to hold the LED state
+    reg [31:0] led_register;
+    // Hardwire the bottom 8 bits of the register to the physical LEDs
+    assign user_output = led_register[LED_WIDTH-1:0];
 
     // 2. Instantiate the Yaw Encoder
     Quad_compact encoder_yaw (

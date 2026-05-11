@@ -121,18 +121,15 @@ add_interface_port encoder_inputs yaw_A yaw_a Input 1
 add_interface_port encoder_inputs yaw_B yaw_b Input 1
 add_interface_port encoder_inputs pitch_A pitch_a Input 1
 add_interface_port encoder_inputs pitch_B pitch_b Input 1
+
+add_interface user_interface conduit end
+add_interface_port user_interface user_output export Output 1
+
 ##
 ## - Validation/ elaboration functions
 ##
 proc elaborate_me {}  {
-  set the_data_width [get_parameter_value DATA_WIDTH]
-  
-  set_port_property slave_readdata  WIDTH $the_data_width
-  set_port_property slave_writedata WIDTH $the_data_width
 
-  if { $the_data_width != 8 } {
-    add_interface_port s0 slave_byteenable byteenable Input [expr {$the_data_width / 8} ]
-  }
 }
 
 proc elaborate_me {}  {
@@ -144,7 +141,7 @@ proc elaborate_me {}  {
   set_port_property slave_readdata  WIDTH $the_data_width
   set_port_property slave_writedata WIDTH $the_data_width
 
-  ## Set data with for the custom logic
+  ## Set data width for the custom logic (LEDs)
   set_port_property user_output WIDTH $the_led_width
   
   ## DO NOT REMOVE:
