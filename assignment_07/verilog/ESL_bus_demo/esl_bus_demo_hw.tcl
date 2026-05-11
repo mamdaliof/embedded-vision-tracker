@@ -49,6 +49,7 @@ set_module_property VALIDATION_CALLBACK validate_me
 ##  
 add_file esl_bus_demo.v {SYNTHESIS SIMULATION}
 add_file esl_bus_demo_example.v {SYNTHESIS SIMULATION}
+add_file quadrature_encoder_counter.v {SYNTHESIS SIMULATION}
 
 ## 
 ## IP parameters
