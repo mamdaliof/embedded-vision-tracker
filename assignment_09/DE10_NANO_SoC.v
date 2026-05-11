@@ -155,7 +155,11 @@ soc_system u0(
                .memory_oct_rzqin(HPS_DDR3_RZQ),                             //                               .oct_rzqin
                //FPGA IO
                //NOTE: This probalby will have a different name
-               .esl_demo_export(LED),                                       //    led_pio_external_connection.export
+<<<<<<< HEAD
+               //.esl_demo_export(/LED),                                       //    led_pio_external_connection.export
+=======
+               // .esl_demo_export(LED),                                       //    led_pio_external_connection.export
+>>>>>>> 08cf692a831730431c12a42fd01a6918d2c4b441
                .hps_0_h2f_reset_reset_n(hps_fpga_reset_n),                   //                hps_0_h2f_reset.reset_n
                 // Encoder inputs -- Assignment 7
                 .encoder_inputs_yaw_a   (YAW_ENC_A),

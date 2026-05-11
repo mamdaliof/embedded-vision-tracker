@@ -69,7 +69,7 @@ module soc_system (
 	wire         hps_0_h2f_lw_axi_master_awvalid;                // hps_0:h2f_lw_AWVALID -> mm_interconnect_0:hps_0_h2f_lw_axi_master_awvalid
 	wire         hps_0_h2f_lw_axi_master_rvalid;                 // mm_interconnect_0:hps_0_h2f_lw_axi_master_rvalid -> hps_0:h2f_lw_RVALID
 	wire  [31:0] mm_interconnect_0_esl_bus_demo_0_s0_readdata;   // esl_bus_demo_0:slave_readdata -> mm_interconnect_0:esl_bus_demo_0_s0_readdata
-	wire   [8:0] mm_interconnect_0_esl_bus_demo_0_s0_address;    // mm_interconnect_0:esl_bus_demo_0_s0_address -> esl_bus_demo_0:slave_address
+	wire   [7:0] mm_interconnect_0_esl_bus_demo_0_s0_address;    // mm_interconnect_0:esl_bus_demo_0_s0_address -> esl_bus_demo_0:slave_address
 	wire         mm_interconnect_0_esl_bus_demo_0_s0_read;       // mm_interconnect_0:esl_bus_demo_0_s0_read -> esl_bus_demo_0:slave_read
 	wire   [3:0] mm_interconnect_0_esl_bus_demo_0_s0_byteenable; // mm_interconnect_0:esl_bus_demo_0_s0_byteenable -> esl_bus_demo_0:slave_byteenable
 	wire         mm_interconnect_0_esl_bus_demo_0_s0_write;      // mm_interconnect_0:esl_bus_demo_0_s0_write -> esl_bus_demo_0:slave_write
@@ -77,7 +77,9 @@ module soc_system (
 	wire         rst_controller_reset_out_reset;                 // rst_controller:reset_out -> [esl_bus_demo_0:reset, mm_interconnect_0:esl_bus_demo_0_clock_reset_reset_reset_bridge_in_reset_reset]
 	wire         rst_controller_001_reset_out_reset;             // rst_controller_001:reset_out -> mm_interconnect_0:hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset
 
-	esl_bus_demo esl_bus_demo_0 (
+	esl_bus_demo #(
+		.DATA_WIDTH (32)
+	) esl_bus_demo_0 (
 		.clk              (clk_clk),                                        //       clock_reset.clk
 		.reset            (rst_controller_reset_out_reset),                 // clock_reset_reset.reset
 		.slave_address    (mm_interconnect_0_esl_bus_demo_0_s0_address),    //                s0.address
