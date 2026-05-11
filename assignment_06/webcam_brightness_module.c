@@ -5,7 +5,7 @@
 #include <glib.h>
 
 /* Callback function for appsink */
-static GstFlowReturn brightness_callback (GstAppSink *appsink, gpointer user_data) {
+static GstFlowReturn brightness_callback (GstAppSink *sink, gpointer user_data) {
   GstSample *sample;
   GstBuffer *buffer;
   GstMapInfo map;
