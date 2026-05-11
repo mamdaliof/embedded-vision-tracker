@@ -52,6 +52,9 @@ module esl_bus_demo #(
     always @(posedge clk or posedge reset) begin
         if (reset) begin
             slave_readdata <= 32'b0;
+            yaw_count <= 32'b0; // Reset the yaw count
+            pitch_count <= 32'b0; // Reset the pitch count
+            led_register <= 32'b0; // Clear the LED register on reset
         end else begin
             // Handle ARM Read Requests via Address Decoding
             if (slave_read) begin

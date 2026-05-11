@@ -67,10 +67,10 @@ module DE10_NANO_SoC(
 
     //////////// Encoder //////////
 
-    // input               YAW_ENC_A,
-    // input               YAW_ENC_B,
-    // input               PITCH_ENC_A,
-    // input               PITCH_ENC_B
+    input               YAW_ENC_A,
+    input               YAW_ENC_B,
+    input               PITCH_ENC_A,
+    input               PITCH_ENC_B
 );
 
 
@@ -92,45 +92,10 @@ assign fpga_clk_50 = FPGA_CLK1_50;
 
 
 
-//=======================================================
-//  Structural coding
-//=======================================================
-
-//Actual Encoder
-// soc_system u0(
-//                //Clock&Reset
-//                .clk_clk(FPGA_CLK1_50),                                      //                            clk.clk
-//                .reset_reset_n(hps_fpga_reset_n),                            //                          reset.reset_n
-//                //HPS ddr3
-//                .memory_mem_a(HPS_DDR3_ADDR),                                //                         memory.mem_a
-//                .memory_mem_ba(HPS_DDR3_BA),                                 //                               .mem_ba
-//                .memory_mem_ck(HPS_DDR3_CK_P),                               //                               .mem_ck
-//                .memory_mem_ck_n(HPS_DDR3_CK_N),                             //                               .mem_ck_n
-//                .memory_mem_cke(HPS_DDR3_CKE),                               //                               .mem_cke
-//                .memory_mem_cs_n(HPS_DDR3_CS_N),                             //                               .mem_cs_n
-//                .memory_mem_ras_n(HPS_DDR3_RAS_N),                           //                               .mem_ras_n
-//                .memory_mem_cas_n(HPS_DDR3_CAS_N),                           //                               .mem_cas_n
-//                .memory_mem_we_n(HPS_DDR3_WE_N),                             //                               .mem_we_n
-//                .memory_mem_reset_n(HPS_DDR3_RESET_N),                       //                               .mem_reset_n
-//                .memory_mem_dq(HPS_DDR3_DQ),                                 //                               .mem_dq
-//                .memory_mem_dqs(HPS_DDR3_DQS_P),                             //                               .mem_dqs
-//                .memory_mem_dqs_n(HPS_DDR3_DQS_N),                           //                               .mem_dqs_n
-//                .memory_mem_odt(HPS_DDR3_ODT),                               //                               .mem_odt
-//                .memory_mem_dm(HPS_DDR3_DM),                                 //                               .mem_dm
-//                .memory_oct_rzqin(HPS_DDR3_RZQ),                             //                               .oct_rzqin
-//                //FPGA IO
-//                //NOTE: This probalby will have a different name
-//                .esl_demo_export(LED),                                       //    led_pio_external_connection.export
-//                .hps_0_h2f_reset_reset_n(hps_fpga_reset_n)                   //                hps_0_h2f_reset.reset_n
-                    
-//            );
-
-
-//SWitches
 soc_system u0(
                //Clock&Reset
                .clk_clk(FPGA_CLK1_50),                                      //                            clk.clk
-               .reset_reset_n(hps_fpga_reset_n),                            //                          reset.reset_n
+               .reset_reset_n(KEY[0]),                            //                          reset.reset_n
                //HPS ddr3
                .memory_mem_a(HPS_DDR3_ADDR),                                //                         memory.mem_a
                .memory_mem_ba(HPS_DDR3_BA),                                 //                               .mem_ba
@@ -152,10 +117,10 @@ soc_system u0(
                //NOTE: This probalby will have a different name
                .user_interface_export(LED),                                       //    led_pio_external_connection.export
                .hps_0_h2f_reset_reset_n(hps_fpga_reset_n),                   //                hps_0_h2f_reset.reset_n
-                .encoder_inputs_yaw_a   (SW[0]),
-                .encoder_inputs_yaw_b   (SW[1]),
-                .encoder_inputs_pitch_a (SW[2]),
-                .encoder_inputs_pitch_b (SW[3])
+                .encoder_inputs_yaw_a   (YAW_ENC_A),
+                .encoder_inputs_yaw_b   (YAW_ENC_B),
+                .encoder_inputs_pitch_a (PITCH_ENC_A),
+                .encoder_inputs_pitch_b (PITCH_ENC_B)
            );
 
 
