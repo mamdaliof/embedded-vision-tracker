@@ -27,17 +27,23 @@ module pwm_generator #(
                            (PERIOD - MIN_OFF_CYCLES) : raw_threshold; // if the calculated threshold exceeds the maximum allowed by the minimum off time, cap it at that maximum.
 
     always @(posedge clk or posedge rst) begin 
-        if (rst || !cnt_enable) begin // reset everything if reset is high or counting is disabled
+        if (rst) begin // Strictly check only the asynchronous reset
             counter <= 0;
             INA <= 0;
             INB <= 0;
             PWM_OUT <= 0;
         
+        end else if (!cnt_enable) begin // Synchronous check for enable
+            counter <= 0;
+            INA <= 0;
+            INB <= 0;
+            PWM_OUT <= 0;
+            
         end else begin // normal operation
 
             // Increment counter and reset at the end of the period
-            if (counter < PERIOD - 1) begin
-                counter <= counter + 1;
+            if (counter < (PERIOD - 1)) begin
+                counter <= counter + 13'd1; // Explicitly size the adder to prevent truncation warnings
             end else begin
                 counter <= 0;
             end
@@ -56,7 +62,7 @@ module pwm_generator #(
             end else begin // CCW
                 INA <= 0;
                 INB <= 1;
-        end
+            end
         end
     end
 

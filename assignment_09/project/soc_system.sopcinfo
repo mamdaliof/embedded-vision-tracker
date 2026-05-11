@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="soc_system" version="1.0" fabric="QSYS">
  <!-- Format version 23.1 993 (Future versions may contain additional information.) -->
- <!-- 2026.05.11.16:18:39 -->
+ <!-- 2026.05.11.16:55:03 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1778509118</value>
+  <value>1778511302</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -596,7 +596,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="addressSpan">
     <type>java.math.BigInteger</type>
-    <value>2048</value>
+    <value>1024</value>
     <derived>true</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -895,7 +895,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>slave_address</name>
     <direction>Input</direction>
-    <width>9</width>
+    <width>8</width>
     <role>address</role>
    </port>
    <port>
@@ -16309,7 +16309,7 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>s0</slaveName>
     <name>esl_bus_demo_0.s0</name>
     <baseAddress>0</baseAddress>
-    <span>2048</span>
+    <span>1024</span>
    </memoryBlock>
   </interface>
  </module>
@@ -41816,7 +41816,7 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>s0</slaveName>
     <name>esl_bus_demo_0.s0</name>
     <baseAddress>0</baseAddress>
-    <span>2048</span>
+    <span>1024</span>
    </memoryBlock>
   </interface>
  </module>
@@ -42943,7 +42943,7 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>s0</slaveName>
     <name>esl_bus_demo_0.s0</name>
     <baseAddress>4280287232</baseAddress>
-    <span>2048</span>
+    <span>1024</span>
    </memoryBlock>
    <memoryBlock>
     <isBridge>false</isBridge>
@@ -43766,7 +43766,7 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>s0</slaveName>
     <name>esl_bus_demo_0.s0</name>
     <baseAddress>4280287232</baseAddress>
-    <span>2048</span>
+    <span>1024</span>
    </memoryBlock>
    <memoryBlock>
     <isBridge>false</isBridge>

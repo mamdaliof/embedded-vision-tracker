@@ -1,0 +1,45 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "PWM_INA",
+					"strict" : false
+				},
+				{
+					"name" : "PWM_INB",
+					"strict" : false
+				},
+				{
+					"name" : "PWM_OUT",
+					"strict" : false
+				},
+				{
+					"name" : "FPGA_CLK1_50",
+					"strict" : false
+				},
+				{
+					"name" : "KEY[0]",
+					"strict" : false
+				},
+				{
+					"name" : "PITCH_ENC_B",
+					"strict" : false
+				},
+				{
+					"name" : "PITCH_ENC_A",
+					"strict" : false
+				},
+				{
+					"name" : "YAW_ENC_B",
+					"strict" : false
+				},
+				{
+					"name" : "YAW_ENC_A",
+					"strict" : false
+				}
+			]
+		}
+	]
+}
