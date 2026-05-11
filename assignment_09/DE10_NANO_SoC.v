@@ -135,7 +135,7 @@ assign fpga_clk_50 = FPGA_CLK1_50;
 soc_system u0(
                //Clock&Reset
                .clk_clk(FPGA_CLK1_50),                                      //                            clk.clk
-               .reset_reset_n(hps_fpga_reset_n),                            //                          reset.reset_n
+               .reset_reset_n(KEY[0]),                            //                          reset.reset_n
                //HPS ddr3
                .memory_mem_a(HPS_DDR3_ADDR),                                //                         memory.mem_a
                .memory_mem_ba(HPS_DDR3_BA),                                 //                               .mem_ba
@@ -158,14 +158,14 @@ soc_system u0(
                .esl_demo_export(LED),                                       //    led_pio_external_connection.export
                .hps_0_h2f_reset_reset_n(hps_fpga_reset_n),                   //                hps_0_h2f_reset.reset_n
                 // Encoder inputs -- Assignment 7
-                .encoder_inputs_yaw_a   (SW[0]),
-                .encoder_inputs_yaw_b   (SW[1]),
-                .encoder_inputs_pitch_a (SW[2]),
-                .encoder_inputs_pitch_b (SW[3])
+                .encoder_inputs_yaw_a   (YAW_ENC_A),
+                .encoder_inputs_yaw_b   (YAW_ENC_B),
+                .encoder_inputs_pitch_a (PITCH_ENC_A),
+                .encoder_inputs_pitch_b (PITCH_ENC_B),
                 // PWM outputs -- Assignment 9
-                .pwm_outputs_ina                (PWM_INA),
-                .pwm_outputs_inb                (PWM_INB),
-                .pwm_outputs_pwm_out            (PWM_OUT)
+                .pwm_outputs_ina        (PWM_INA),
+                .pwm_outputs_inb        (PWM_INB),
+                .pwm_outputs_pwm_out    (PWM_OUT)
            );
 
 

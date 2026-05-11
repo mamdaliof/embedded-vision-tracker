@@ -47,8 +47,8 @@ set_module_property VALIDATION_CALLBACK validate_me
 ## Files
 ## - List all files required by the IP
 ##  
-## add_file esl_bus_demo.v {SYNTHESIS SIMULATION}
-add_file esl_bus_demo_example.v {SYNTHESIS SIMULATION}
+add_file esl_bus_demo.v {SYNTHESIS SIMULATION}
+## add_file esl_bus_demo_example.v {SYNTHESIS SIMULATION}
 add_file quadrature_encoder_counter.v {SYNTHESIS SIMULATION}
 add_file pwm_generator.v {SYNTHESIS SIMULATION}
 
@@ -131,6 +131,9 @@ add_interface_port  pwm_outputs INA     ina     Output 1
 add_interface_port  pwm_outputs INB     inb     Output 1
 add_interface_port  pwm_outputs PWM_OUT pwm_out Output 1
 
+# add_interface user_interface conduit end
+# add_interface_port user_interface user_output export Output 1
+
 ##
 ## - Validation/ elaboration functions
 ##
@@ -140,7 +143,7 @@ proc validate_me {}  {
 proc elaborate_me {}  {
   ## Retrieve the parameters from the wizard
   set the_data_width [get_parameter_value DATA_WIDTH]
-  set the_led_width  [get_parameter_value LED_WIDTH]
+  # set the_led_width  [get_parameter_value LED_WIDTH]
   
   ## Set data width for the avalon interface
   set_port_property slave_readdata  WIDTH $the_data_width
