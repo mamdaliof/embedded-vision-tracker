@@ -1,5 +1,5 @@
 Analysis & Synthesis report for DE10_NANO_SoC
-Mon May 11 13:35:11 2026
+Mon May 11 15:32:05 2026
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Standard Edition
 
 
@@ -183,11 +183,12 @@ Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Standard Edition
 175. Port Connectivity Checks: "soc_system:u0|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_p0:p0|hps_sdram_p0_acv_hard_memphy:umemphy|hps_sdram_p0_acv_ldc:memphy_ldc"
 176. Port Connectivity Checks: "soc_system:u0|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_p0:p0"
 177. Port Connectivity Checks: "soc_system:u0|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst"
-178. Post-Synthesis Netlist Statistics for Top Partition
-179. Post-Synthesis Netlist Statistics for Partition soc_system_hps_0_hps_io_border:border
-180. Elapsed Time Per Partition
-181. Analysis & Synthesis Messages
-182. Analysis & Synthesis Suppressed Messages
+178. Port Connectivity Checks: "soc_system:u0"
+179. Post-Synthesis Netlist Statistics for Top Partition
+180. Post-Synthesis Netlist Statistics for Partition soc_system_hps_0_hps_io_border:border
+181. Elapsed Time Per Partition
+182. Analysis & Synthesis Messages
+183. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -214,14 +215,14 @@ https://fpgasoftware.intel.com/eula.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +---------------------------------+----------------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon May 11 13:35:11 2026              ;
+; Analysis & Synthesis Status     ; Successful - Mon May 11 15:32:05 2026              ;
 ; Quartus Prime Version           ; 23.1std.1 Build 993 05/14/2024 SC Standard Edition ;
 ; Revision Name                   ; DE10_NANO_SoC                                      ;
 ; Top-level Entity Name           ; DE10_NANO_SoC                                      ;
 ; Family                          ; Cyclone V                                          ;
 ; Logic utilization (in ALMs)     ; N/A                                                ;
 ; Total registers                 ; 663                                                ;
-; Total pins                      ; 137                                                ;
+; Total pins                      ; 141                                                ;
 ; Total virtual pins              ; 0                                                  ;
 ; Total block memory bits         ; 0                                                  ;
 ; Total DSP Blocks                ; 0                                                  ;
@@ -330,7 +331,7 @@ https://fpgasoftware.intel.com/eula.
 ; Maximum allowed            ; 16          ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 14          ;
+; Maximum used               ; 13          ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
@@ -346,7 +347,6 @@ https://fpgasoftware.intel.com/eula.
 ;     Processor 11           ;   0.0%      ;
 ;     Processor 12           ;   0.0%      ;
 ;     Processor 13           ;   0.0%      ;
-;     Processor 14           ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -424,7 +424,7 @@ https://fpgasoftware.intel.com/eula.
 ;                                             ;                    ;
 ; Dedicated logic registers                   ; 477                ;
 ;                                             ;                    ;
-; I/O pins                                    ; 137                ;
+; I/O pins                                    ; 141                ;
 ; I/O registers                               ; 186                ;
 ;                                             ;                    ;
 ; Total DSP Blocks                            ; 0                  ;
@@ -432,8 +432,8 @@ https://fpgasoftware.intel.com/eula.
 ; Total DLLs                                  ; 1                  ;
 ; Maximum fan-out node                        ; FPGA_CLK1_50~input ;
 ; Maximum fan-out                             ; 442                ;
-; Total fan-out                               ; 5929               ;
-; Average fan-out                             ; 3.03               ;
+; Total fan-out                               ; 5933               ;
+; Average fan-out                             ; 3.02               ;
 +---------------------------------------------+--------------------+
 
 
@@ -442,7 +442,7 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                                                                    ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                                                                                                                                                                                                               ; Entity Name                                       ; Library Name ;
 +-----------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------+--------------+
-; |DE10_NANO_SoC                                                                                ; 503 (0)             ; 477 (0)                   ; 0                 ; 0          ; 137  ; 0            ; |DE10_NANO_SoC                                                                                                                                                                                                                                                                                                                                                    ; DE10_NANO_SoC                                     ; work         ;
+; |DE10_NANO_SoC                                                                                ; 503 (0)             ; 477 (0)                   ; 0                 ; 0          ; 141  ; 0            ; |DE10_NANO_SoC                                                                                                                                                                                                                                                                                                                                                    ; DE10_NANO_SoC                                     ; work         ;
 ;    |soc_system:u0|                                                                            ; 503 (0)             ; 477 (0)                   ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0                                                                                                                                                                                                                                                                                                                                      ; soc_system                                        ; soc_system   ;
 ;       |altera_reset_controller:rst_controller_001|                                            ; 0 (0)               ; 3 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|altera_reset_controller:rst_controller_001                                                                                                                                                                                                                                                                                           ; altera_reset_controller                           ; soc_system   ;
 ;          |altera_reset_synchronizer:alt_rst_sync_uq1|                                         ; 0 (0)               ; 3 (3)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|altera_reset_controller:rst_controller_001|altera_reset_synchronizer:alt_rst_sync_uq1                                                                                                                                                                                                                                                ; altera_reset_synchronizer                         ; soc_system   ;
@@ -3940,6 +3940,15 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+-------+----------+----------------------------------------------------------------------------------------------------------------------------------------------+
 
 
++-----------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "soc_system:u0"                                                                                         ;
++-------------------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port                    ; Type   ; Severity ; Details                                                                             ;
++-------------------------+--------+----------+-------------------------------------------------------------------------------------+
+; hps_0_h2f_reset_reset_n ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++-------------------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
 +--------------------------------------------------------------+
 ; Post-Synthesis Netlist Statistics for Top Partition          ;
 +------------------------------------------------------+-------+
@@ -3979,7 +3988,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;         6 data inputs                                ; 127   ;
 ; blackbox                                             ; 1     ;
 ;                 oc_system_hps_0_hps_io_border:border ; 1     ;
-; boundary_port                                        ; 137   ;
+; boundary_port                                        ; 141   ;
 ;                                                      ;       ;
 ; Max LUT depth                                        ; 5.00  ;
 ; Average LUT depth                                    ; 2.13  ;
@@ -4042,7 +4051,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Standard Edition
-    Info: Processing started: Mon May 11 13:31:17 2026
+    Info: Processing started: Mon May 11 15:28:00 2026
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off DE10_NANO_SoC -c DE10_NANO_SoC
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 16 of the 24 processors detected
@@ -4175,7 +4184,7 @@ Warning (10034): Output port "HPS_SPIM_CLK" at DE10_NANO_SoC.v(46) has no driver
 Warning (10034): Output port "HPS_SPIM_MOSI" at DE10_NANO_SoC.v(48) has no driver File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 48
 Warning (10034): Output port "HPS_UART_TX" at DE10_NANO_SoC.v(51) has no driver File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 51
 Warning (10034): Output port "HPS_USB_STP" at DE10_NANO_SoC.v(56) has no driver File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 56
-Info (12128): Elaborating entity "soc_system" for hierarchy "soc_system:u0" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 159
+Info (12128): Elaborating entity "soc_system" for hierarchy "soc_system:u0" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 124
 Info (12128): Elaborating entity "esl_bus_demo" for hierarchy "soc_system:u0|esl_bus_demo:esl_bus_demo_0" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/project/soc_system/synthesis/soc_system.v Line: 95
 Warning (10858): Verilog HDL warning at esl_bus_demo.v(28): object led_register used but never assigned File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/project/soc_system/synthesis/submodules/esl_bus_demo.v Line: 28
 Warning (10030): Net "led_register[7..0]" at esl_bus_demo.v(28) has no driver or initial value, using a default initial value '0' File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/project/soc_system/synthesis/submodules/esl_bus_demo.v Line: 28
@@ -4360,7 +4369,7 @@ Info (286031): Timing-Driven Synthesis is running on partition "soc_system_hps_0
 Info (144001): Generated suppressed messages file /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/project/output_files/DE10_NANO_SoC.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 10 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Warning (21074): Design contains 15 input pin(s) that do not drive logic
+Warning (21074): Design contains 18 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "FPGA_CLK2_50" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 5
     Warning (15610): No output dependent on input pin "FPGA_CLK3_50" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 6
     Warning (15610): No output dependent on input pin "HPS_ENET_RX_CLK" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 30
@@ -4374,19 +4383,22 @@ Warning (21074): Design contains 15 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "HPS_USB_CLKOUT" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 52
     Warning (15610): No output dependent on input pin "HPS_USB_DIR" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 54
     Warning (15610): No output dependent on input pin "HPS_USB_NXT" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 55
-    Warning (15610): No output dependent on input pin "KEY[0]" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 59
     Warning (15610): No output dependent on input pin "KEY[1]" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 59
-Info (21057): Implemented 1567 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 21 input pins
+    Warning (15610): No output dependent on input pin "SW[0]" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 65
+    Warning (15610): No output dependent on input pin "SW[1]" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 65
+    Warning (15610): No output dependent on input pin "SW[2]" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 65
+    Warning (15610): No output dependent on input pin "SW[3]" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_07/DE10_NANO_SoC.v Line: 65
+Info (21057): Implemented 1571 device resources after synthesis - the final resource count might be different
+    Info (21058): Implemented 25 input pins
     Info (21059): Implemented 51 output pins
     Info (21060): Implemented 65 bidirectional pins
     Info (21061): Implemented 789 logic cells
     Info (21066): Implemented 1 delay-locked loops
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 137 warnings
-    Info: Peak virtual memory: 758 megabytes
-    Info: Processing ended: Mon May 11 13:35:11 2026
-    Info: Elapsed time: 00:03:54
-    Info: Total CPU time (on all processors): 00:04:05
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 140 warnings
+    Info: Peak virtual memory: 761 megabytes
+    Info: Processing ended: Mon May 11 15:32:05 2026
+    Info: Elapsed time: 00:04:05
+    Info: Total CPU time (on all processors): 00:04:15
 
 
 +------------------------------------------+

@@ -1,4 +1,4 @@
-Fitter Status : Successful - Mon May 11 13:36:50 2026
+Fitter Status : Successful - Mon May 11 15:33:48 2026
 Quartus Prime Version : 23.1std.1 Build 993 05/14/2024 SC Standard Edition
 Revision Name : DE10_NANO_SoC
 Top-level Entity Name : DE10_NANO_SoC
@@ -6,8 +6,8 @@ Family : Cyclone V
 Device : 5CSEBA6U23I7
 Timing Models : Final
 Logic utilization (in ALMs) : 352 / 41,910 ( < 1 % )
-Total registers : 701
-Total pins : 137 / 314 ( 44 % )
+Total registers : 700
+Total pins : 141 / 314 ( 45 % )
 Total virtual pins : 0
 Total block memory bits : 0 / 5,662,720 ( 0 % )
 Total RAM Blocks : 0 / 553 ( 0 % )
