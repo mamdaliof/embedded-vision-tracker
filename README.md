@@ -9,7 +9,7 @@ username: esl35
 password: root
 
 
-DE10 ip address: 10.0.15.73
+DE10 ip address: 10.0.15.73. Always connect via USB serial to laptop.
 
 username: root
 
@@ -26,11 +26,11 @@ password: root
 Steps are for execution on the RPi. Otherwise copy the local .bin to RPi.
 
 1. cd to /assignment_01
-2. yosys -p 'synth_ice40 -top TopEntity -json ice40.json' TopEntity.v
-3. nextpnr-ice40 --hx8k --json ice40.json --pcf ico-jiwy.pcf --asc ice40.asc
-4. icepack ice40.asc ice40.bin & move ice40.bin to ./icoprog
-5. ./icoprog -R
-6. ./icoprog -p < ice40.bin
+2. `yosys -p 'synth_ice40 -top TopEntity -json ice40.json' TopEntity.v`
+3. `nextpnr-ice40 --hx8k --json ice40.json --pcf ico-jiwy.pcf --asc ice40.asc`
+4. `icepack ice40.asc ice40.bin & move ice40.bin to ./icoprog`
+5. `./icoprog -R`
+6. `./icoprog -p < ice40.bin`
 
 ---
 
@@ -40,11 +40,11 @@ Done via Quartus GUI on xoc2, then on the DE10. Copied the generated .rbf file u
 
 On DE10 terminal: `scp s<studentnumber>@xoc2.ewi.utwente.nl:<path>/output.rbf .`
 
-1. mkdir -p fat
-2. mount /dev/mmcblk0p1 fat
-3. cp soc_system.rbf fat/soc_system.rbf
-4. umount fat
-5. sudo reboot and you shall see the blinking LED on the DE10-Nano
+1. `mkdir -p fat`
+2. `mount /dev/mmcblk0p1 fat`
+3. `cp soc_system.rbf fat/soc_system.rbf`
+4. `umount fat`
+5. `sudo reboot` and you shall see the blinking LED on the DE10-Nano
 
 ---
 
@@ -58,15 +58,15 @@ It was more about making the software work than anything else? Farhad maybe you 
 
 to run the testbench:
 
-1. iverilog -o quad_sim quadrature_encoder_counter.v quad_tb.v
-2. vvp quad sim
-3. to visualize it: gtkwave quad_sim.vcd
+1. `iverilog -o quad_sim quadrature_encoder_counter.v quad_tb.v`
+2. `vvp quad sim`
+3. `to visualize it: gtkwave quad_sim.vcd`
 
 to synthesize it on Raspberry:
 
-1. yosys -p 'synth_ice40 -top top -json ice40.json' TopEntity.v quadrature_encoder_counter.v
-2. nextpnr-ice40 --hx8k --json ice40.json --pcf ico-jiwy.pcf --asc ice40.asc
-3. icepack ice40.asc ice40.bin
+1. `yosys -p 'synth_ice40 -top top -json ice40.json' TopEntity.v quadrature_encoder_counter.v`
+2. `nextpnr-ice40 --hx8k --json ice40.json --pcf ico-jiwy.pcf --asc ice40.asc`
+3. `icepack ice40.asc ice40.bin`
 
 if those 3 commands were called locally, just copy->paste ice40.bin to the rpi.
 
@@ -94,3 +94,15 @@ steps:
 2. `gcc webcam_brightness_module.c -o webcam_module $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-app-1.0)`
 3. `./webcam_module /dev/video0` or whatever port the camera is on.
 
+---
+
+# Assignment 9 - PWM Module for DE10
+
+1. `iverilog -o pwm_sim pwm_generator.v pwm_tb.v`
+2. `vvp pwm_sim`
+3. to visualize it: `gtkwave pwm_tb.vcd`
+
+Compile on the DE10. **GIVE duty_cycle and direction as inputs**:
+
+1. `gcc main.c -o pwm_control`
+2. `sudo ./pwm_control 128 1` -- 50% speed, clockwise

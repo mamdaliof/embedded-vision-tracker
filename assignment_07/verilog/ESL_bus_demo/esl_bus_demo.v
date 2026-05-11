@@ -57,7 +57,7 @@ module esl_bus_demo #(
             end
             
             // Handle ARM Write Requests (e.g., for PWM later)
-            // Left empty for now as you are only reading encoders.
+            // Left empty for now as we are only reading encoders.
             if (slave_write) begin
                 // Future PWM logic goes here.
             end
