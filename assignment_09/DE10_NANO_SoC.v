@@ -163,9 +163,9 @@ soc_system u0(
                 .encoder_inputs_pitch_a (PITCH_ENC_A),
                 .encoder_inputs_pitch_b (PITCH_ENC_B),
                 // PWM outputs -- Assignment 9
-                .pwm_outputs_ina        (PWM_INA),
-                .pwm_outputs_inb        (PWM_INB),
-                .pwm_outputs_pwm_out    (PWM_OUT)
+                .pwm_outputs_ina        (PITCH_DIRA),
+                .pwm_outputs_inb        (PITCH_DIRB),
+                .pwm_outputs_pwm_out    (PITCH_PWM_VAL) // PITCH_PWM_VAL
            );
 
 
