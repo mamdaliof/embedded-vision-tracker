@@ -73,9 +73,9 @@ module DE10_NANO_SoC(
     input               PITCH_ENC_B,
 
     //////////// PWM //////////
-    output              PWM_INA,
-    output              PWM_INB,
-    output              PWM_OUT
+    output              YAW_DIRA,
+    output              YAW_DIRB,
+    output              YAW_PWM_VAL
 );
 
 
@@ -155,11 +155,7 @@ soc_system u0(
                .memory_oct_rzqin(HPS_DDR3_RZQ),                             //                               .oct_rzqin
                //FPGA IO
                //NOTE: This probalby will have a different name
-<<<<<<< HEAD
                //.esl_demo_export(/LED),                                       //    led_pio_external_connection.export
-=======
-               // .esl_demo_export(LED),                                       //    led_pio_external_connection.export
->>>>>>> 08cf692a831730431c12a42fd01a6918d2c4b441
                .hps_0_h2f_reset_reset_n(hps_fpga_reset_n),                   //                hps_0_h2f_reset.reset_n
                 // Encoder inputs -- Assignment 7
                 .encoder_inputs_yaw_a   (YAW_ENC_A),
@@ -167,26 +163,9 @@ soc_system u0(
                 .encoder_inputs_pitch_a (PITCH_ENC_A),
                 .encoder_inputs_pitch_b (PITCH_ENC_B),
                 // PWM outputs -- Assignment 9
-                .pwm_outputs_ina        (PITCH_DIRA),
-                .pwm_outputs_inb        (PITCH_DIRB),
-                .pwm_outputs_pwm_out    (PITCH_PWM_VAL) // PITCH_PWM_VAL
+                .pwm_outputs_ina        (YAW_DIRA),
+                .pwm_outputs_inb        (YAW_DIRB),
+                .pwm_outputs_pwm_out    (YAW_PWM_VAL)
            );
-
-
-reg [25: 0] counter;
-reg led_level;
-always @(posedge fpga_clk_50 or negedge hps_fpga_reset_n) begin
-    if (~hps_fpga_reset_n) begin
-        counter <= 0;
-        led_level <= 0;
-    end
-
-    else if (counter == 24999999) begin
-        counter <= 0;
-        led_level <= ~led_level;
-    end
-    else
-        counter <= counter + 1'b1;
-end
 
 endmodule
