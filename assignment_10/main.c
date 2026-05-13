@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
+#include <sys/time.h>
 #include <unistd.h>
 
 #define LOOPS 10000
@@ -71,8 +72,8 @@ int spiRead(int fd, unsigned speed, char *buf, unsigned count) {
 
   memset(&spi, 0, sizeof(spi));
 
-  spi.tx_buf = (unsigned)NULL;
-  spi.rx_buf = (unsigned)buf;
+  spi.tx_buf = (unsigned long)NULL;
+  spi.rx_buf = (unsigned long)buf;
   spi.len = count;
   spi.speed_hz = speed;
   spi.delay_usecs = 0;
@@ -90,8 +91,8 @@ int spiWrite(int fd, unsigned speed, char *buf, unsigned count) {
 
   memset(&spi, 0, sizeof(spi));
 
-  spi.tx_buf = (unsigned)buf;
-  spi.rx_buf = (unsigned)NULL;
+  spi.tx_buf = (unsigned long)buf;
+  spi.rx_buf = (unsigned long)NULL;
   spi.len = count;
   spi.speed_hz = speed;
   spi.delay_usecs = 0;
