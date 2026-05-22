@@ -13,12 +13,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
-#include <sys/time.h>
 #include <unistd.h>
 
 #define LOOPS 10000
-#define SPEED 1000
-#define BYTES 3
+#define SPEED 100000
+#define BYTES 2
 
 double time_time(void) {
   struct timeval tv;
@@ -32,7 +31,7 @@ double time_time(void) {
 }
 
 int spiOpen(unsigned spiChan, unsigned spiBaud, unsigned spiFlags) {
-  int fd;
+  int i, fd;
   char spiMode;
   char spiBits = 8;
   char dev[32];
@@ -72,8 +71,8 @@ int spiRead(int fd, unsigned speed, char *buf, unsigned count) {
 
   memset(&spi, 0, sizeof(spi));
 
-  spi.tx_buf = (unsigned long)NULL;
-  spi.rx_buf = (unsigned long)buf;
+  spi.tx_buf = (unsigned)NULL;
+  spi.rx_buf = (unsigned)buf;
   spi.len = count;
   spi.speed_hz = speed;
   spi.delay_usecs = 0;
@@ -91,8 +90,8 @@ int spiWrite(int fd, unsigned speed, char *buf, unsigned count) {
 
   memset(&spi, 0, sizeof(spi));
 
-  spi.tx_buf = (unsigned long)buf;
-  spi.rx_buf = (unsigned long)NULL;
+  spi.tx_buf = (unsigned)buf;
+  spi.rx_buf = (unsigned)NULL;
   spi.len = count;
   spi.speed_hz = speed;
   spi.delay_usecs = 0;
@@ -131,65 +130,50 @@ char TXBuf[MAX_SPI_BUFSIZ];
 int bytes = BYTES;
 int speed = SPEED;
 int loops = LOOPS;
-int channel = 1;
 
 int main(int argc, char *argv[]) {
-  int i, fd;
-  double start, diff;
+    int fd;
+    int loops = LOOPS;
+    int speed = SPEED;
 
-  if (argc > 1)
-    bytes = atoi(argv[1]);
-  else
-    printf("./spi-driver-speed [bytes [bps [loops [channel]]]]\n\n");
-
-  if ((bytes < 1) || (bytes > MAX_SPI_BUFSIZ))
-    bytes = BYTES;
-
-  if (argc > 2)
-    speed = atoi(argv[2]);
-  if ((speed < 1000) || (speed > 250000000))
-    speed = SPEED;
-
-  if (argc > 3)
-    loops = atoi(argv[3]);
-  if ((loops < 1) || (loops > 10000000))
-    loops = LOOPS;
-
-  if (argc > 4)
-    channel = atoi(argv[4]);
-
-  printf("Opening SPI channel 0.%d at %d bps, %d bytes, %d loops\n", channel, speed, bytes, loops);
-
-  fd = spiOpen(channel, speed, 0);
-
-  if (fd < 0) {
-    fprintf(stderr, "Failed to open SPI device: %d\n", fd);
-    return 1;
-  }
-
-  start = time_time();
-
-  for (i = 0; i < loops; i++) {
-    TXBuf[0] = i & 0xFF;
-    if (spiXfer(fd, speed, TXBuf, RXBuf, bytes) < 0) {
-      perror("SPI transfer failed");
-      break;
+    // Open SPI
+    fd = spiOpen(1, speed, 0);
+    if (fd < 0) {
+        perror("SPI open failed");
+        return 1;
     }
-    if (i % 1000 == 0) {
-      printf("Loop %d: Sent %d, Received %d", i, TXBuf[0], RXBuf[0]);
-      for (int j = 1; j < bytes && j < 16; j++) {
-        printf(" %d", RXBuf[j]);
-      }
-      printf("\n");
+
+    uint8_t duty = 0;
+    uint8_t direction = 1; // 1 = CW
+    
+    // Calculate how many loops per duty cycle step (0-255)
+    int step_size = loops / 256;
+    if (step_size == 0) step_size = 1;
+
+    printf("Starting transmission: %d loops, %d bytes\n", loops, BYTES);
+
+    for (int i = 0; i < loops; i++) {
+        // Ramp duty cycle from 0 to 255
+        duty = (i / step_size) % 256;
+
+        // Build Payload
+        TXBuf[0] = duty;
+        TXBuf[1] = direction; 
+
+        // Transfer
+        if (spiXfer(fd, speed, TXBuf, RXBuf, BYTES) < 0) {
+            perror("SPI Xfer failed");
+            break;
+        }
+
+        // Reconstruct Encoder Value (16-bit)
+        int16_t encoder_val = (int16_t)((RXBuf[0] << 8) | (RXBuf[1] & 0xFF));
+
+        if (i % 500 == 0) {
+            printf("Loop: %d | Duty: %d | Enc: %u\n", i, duty, encoder_val);
+        }
     }
-  }
 
-  diff = time_time() - start;
-
-  close(fd);
-
-  printf("sps=%.1f: %d bytes @ %d bps (loops=%d time=%.1f)\n",
-         (double)i / diff, bytes, speed, i, diff);
-
-  return 0;
+    close(fd);
+    return 0;
 }
