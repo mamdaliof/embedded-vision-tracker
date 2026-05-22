@@ -10,7 +10,7 @@
 #include <sys/time.h>  // FIXED: Added missing header for gettimeofday
 #include <unistd.h>
 
-#define LOOPS 10000
+#define LOOPS 99999999
 #define SPEED 100000 
 #define BYTES 2      
 
