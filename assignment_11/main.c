@@ -1,9 +1,3 @@
-// main.c
-// Contains a simple SPI generator, as it simply just writes increasing numbers to the PICO line
-// each transmit sequence.
-// Heavily inspired by https://forums.raspberrypi.com/viewtopic.php?t=304828#p1856388
-// gcc -o main main.c
-
 #include <fcntl.h>
 #include <getopt.h>
 #include <linux/spi/spidev.h>
@@ -13,17 +7,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
+#include <sys/time.h>  // FIXED: Added missing header for gettimeofday
 #include <unistd.h>
 
 #define LOOPS 10000
-#define SPEED 100000
-#define BYTES 2
+#define SPEED 100000 
+#define BYTES 2      
 
 double time_time(void) {
   struct timeval tv;
   double t;
 
-  gettimeofday(&tv, 0);
+  gettimeofday(&tv, 0); // FIXED: Header resolved
 
   t = (double)tv.tv_sec + ((double)tv.tv_usec / 1E6);
 
@@ -31,7 +26,7 @@ double time_time(void) {
 }
 
 int spiOpen(unsigned spiChan, unsigned spiBaud, unsigned spiFlags) {
-  int i, fd;
+  int fd;
   char spiMode;
   char spiBits = 8;
   char dev[32];
@@ -71,8 +66,9 @@ int spiRead(int fd, unsigned speed, char *buf, unsigned count) {
 
   memset(&spi, 0, sizeof(spi));
 
-  spi.tx_buf = (unsigned)NULL;
-  spi.rx_buf = (unsigned)buf;
+  // FIXED: Cast pointers to (unsigned long) to match 64-bit architecture
+  spi.tx_buf = (unsigned long)NULL;
+  spi.rx_buf = (unsigned long)buf;
   spi.len = count;
   spi.speed_hz = speed;
   spi.delay_usecs = 0;
@@ -90,8 +86,9 @@ int spiWrite(int fd, unsigned speed, char *buf, unsigned count) {
 
   memset(&spi, 0, sizeof(spi));
 
-  spi.tx_buf = (unsigned)buf;
-  spi.rx_buf = (unsigned)NULL;
+  // FIXED: Cast pointers to (unsigned long) to match 64-bit architecture
+  spi.tx_buf = (unsigned long)buf;
+  spi.rx_buf = (unsigned long)NULL;
   spi.len = count;
   spi.speed_hz = speed;
   spi.delay_usecs = 0;
