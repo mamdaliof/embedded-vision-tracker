@@ -127,9 +127,12 @@ add_interface_port encoder_inputs pitch_A pitch_a Input 1
 add_interface_port encoder_inputs pitch_B pitch_b Input 1
 ## Assignment 9
 add_interface       pwm_outputs conduit end
-add_interface_port  pwm_outputs INA     ina     Output 1
-add_interface_port  pwm_outputs INB     inb     Output 1
-add_interface_port  pwm_outputs PWM_OUT pwm_out Output 1
+add_interface_port  pwm_outputs yaw_INA     yaw_ina     Output 1
+add_interface_port  pwm_outputs yaw_INB     yaw_inb     Output 1
+add_interface_port  pwm_outputs yaw_PWM_OUT yaw_pwm_out Output 1
+add_interface_port  pwm_outputs pitch_INA   pitch_ina   Output 1
+add_interface_port  pwm_outputs pitch_INB   pitch_inb   Output 1
+add_interface_port  pwm_outputs pitch_PWM_OUT pitch_pwm_out Output 1
 
 # add_interface user_interface conduit end
 # add_interface_port user_interface user_output export Output 1

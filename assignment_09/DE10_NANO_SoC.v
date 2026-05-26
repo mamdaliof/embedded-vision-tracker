@@ -75,7 +75,10 @@ module DE10_NANO_SoC(
     //////////// PWM //////////
     output              YAW_DIRA,
     output              YAW_DIRB,
-    output              YAW_PWM_VAL
+    output              YAW_PWM_VAL,
+    output              PITCH_DIRA,
+    output              PITCH_DIRB,
+    output              PITCH_PWM_VAL
 );
 
 
@@ -163,9 +166,12 @@ soc_system u0(
                 .encoder_inputs_pitch_a (PITCH_ENC_A),
                 .encoder_inputs_pitch_b (PITCH_ENC_B),
                 // PWM outputs -- Assignment 9
-                .pwm_outputs_ina        (YAW_DIRA),
-                .pwm_outputs_inb        (YAW_DIRB),
-                .pwm_outputs_pwm_out    (YAW_PWM_VAL)
+                .pwm_outputs_yaw_ina     (YAW_DIRA),
+                .pwm_outputs_yaw_inb     (YAW_DIRB),
+                .pwm_outputs_yaw_pwm_out (YAW_PWM_VAL),
+                .pwm_outputs_pitch_ina   (PITCH_DIRA),
+                .pwm_outputs_pitch_inb   (PITCH_DIRB),
+                .pwm_outputs_pitch_pwm_out (PITCH_PWM_VAL)
            );
 
 endmodule
