@@ -38,8 +38,8 @@
 #include <string.h>
 
 /* 20-sim include files */
-#include "xxmodel.h"
-#include "xxfuncs.h"
+#include "pan_model.h"
+#include "pan_funcs.h"
 
 /* the global variables */
 XXDouble xx_start_time = 0.0;

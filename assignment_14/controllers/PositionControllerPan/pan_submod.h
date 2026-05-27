@@ -18,11 +18,11 @@
    The model itself is the xxmodel.c file
 */
 
-#ifndef XX_SUBMOD_H
-#define XX_SUBMOD_H
+#ifndef PAN_SUBMOD_H
+#define PAN_SUBMOD_H
 
 /* Our own include files */
-#include "xxmodel.h"
+#include "pan_model.h"
 
 /* Submodel I/O variables */
 extern XXInteger xx_number_of_inputs;

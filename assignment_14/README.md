@@ -3,11 +3,11 @@
 This assignment focuses on integrating the **20-sim generated controllers** for the Pan (Yaw) and Tilt (Pitch) axes into the C application and comparing performance across different hardware/software configurations.
 
 ## 📂 Project Structure
-- `controllers/PositionControllerPan/`: C code for the Pan-axis PID controller.
-- `controllers/PositionControllerTilt/`: C code for the Tilt-axis PID controller.
-- `xxmodel.c/h`: Contains the mathematical equations of the PID.
-- `xxsubmod.c/h`: Wrapper functions to initialize and step the model.
-- `xxmain.c`: Template main loop (reference only).
+- `controllers/PositionControllerPan/`: C code for the Pan-axis PID controller (`pan_*`).
+- `controllers/PositionControllerTilt/`: C code for the Tilt-axis PID controller (`tilt_*`).
+- `*_model.c/h`: Contains the mathematical equations of the PID.
+- `*_submod.c/h`: Wrapper functions to initialize and step the model.
+- `*_main.c`: Template main loop (reference only).
 
 ## 🚀 Integration Steps
 
@@ -22,7 +22,7 @@ You need to create a single C application that manages both controllers simultan
     - Scale this value to an 8-bit duty cycle (0-255) and determine the direction bit for the FPGA PWM registers.
 
 ### 2. Time-Driven Execution
-The controllers are discrete and expect a fixed time step (defined as `0.01s` or 100Hz in `xxmodel.c`).
+The controllers are discrete and expect a fixed time step (defined as `0.01s` or 100Hz in `*_model.c`).
 - Implement a precise timer loop (e.g., using `clock_gettime` or `usleep` with compensation).
 - In each step:
     1. Read Encoders from FPGA (Address `0x00` and `0x04`).
@@ -39,9 +39,9 @@ Compare the execution on:
 - Analyze the impact of floating-point operations on real-time jitter.
 
 ## 🛠️ Compilation
-Compile all relevant `xx*.c` files along with your main integration code. Link against the math library:
+Compile all relevant `pan_*.c` and `tilt_*.c` files along with your main integration code. Link against the math library:
 ```bash
-gcc main_control.c controllers/PositionControllerPan/*.c controllers/PositionControllerTilt/*.c -lm -o jiwy_controller
+gcc main_control.c controllers/PositionControllerPan/pan_*.c controllers/PositionControllerTilt/tilt_*.c -lm -o jiwy_controller
 ```
 
 ## ⚠️ Safety Notes

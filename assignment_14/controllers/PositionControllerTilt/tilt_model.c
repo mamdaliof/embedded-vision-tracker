@@ -38,8 +38,8 @@
 #include <string.h>
 
 /* 20-sim include files */
-#include "xxmodel.h"
-#include "xxfuncs.h"
+#include "tilt_model.h"
+#include "tilt_funcs.h"
 
 /* the global variables */
 XXDouble xx_start_time = 0.0;

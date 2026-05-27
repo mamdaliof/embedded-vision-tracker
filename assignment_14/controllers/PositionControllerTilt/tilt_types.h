@@ -37,8 +37,8 @@
     XXBoolean is 1 byte (8 bits) with a value of 0 or 1
 */ 
 
-#ifndef XX_TYPES_H
-#define XX_TYPES_H
+#ifndef TILT_TYPES_H
+#define TILT_TYPES_H
 
 /* The mentioned typedefs */
 typedef double XXDouble;

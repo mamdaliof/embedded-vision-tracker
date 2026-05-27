@@ -11,11 +11,11 @@
  *  build: 5.1.6.14106
  **********************************************************/
 
-#ifndef XX_FUNCS_H
-#define XX_FUNCS_H
+#ifndef TILT_FUNCS_H
+#define TILT_FUNCS_H
 
 /* Our own include files */
-#include "xxtypes.h"
+#include "tilt_types.h"
 
 /* Global constants */
 extern XXBoolean xx_initialize;

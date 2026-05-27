@@ -22,7 +22,7 @@
  */
 
 /* 20-sim include files */
-#include "xxsubmod.h"
+#include "tilt_submod.h"
 
 /* The main function */
 int main()
