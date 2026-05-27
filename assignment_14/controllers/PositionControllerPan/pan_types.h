@@ -19,37 +19,37 @@
    The user should be aware of the precision of these types, when
    these types are changed! For instance, when the destination platform 
    is a particular 8051 that does not support any doubles at all,
-   one might change the XXDouble type into some float of 4 bytes.
+   one might change the pan_XXDouble type into some float of 4 bytes.
    The results may then differ from the 20-sim results. It is advised
    to check these differences by running the code with both settings
    on the PC first (as far as this is possible).
    
    In 20-sim the following definitions are used:
    
-    typedef XXDouble double;
-    typedef XXInteger int;
+    typedef pan_XXDouble double;
+    typedef pan_XXInteger int;
    
    so that 
    
-    XXDouble is 8 bytes (64 bits) with a range of [-1.7E+308, 1.7E+308]
-    XXInteger is 4 bytes (32 bits) with a range of [-2147483648, 2147483647]
-    XXCharacter is 1 byte (8 bits) with a value of [0, 255]
-    XXBoolean is 1 byte (8 bits) with a value of 0 or 1
+    pan_XXDouble is 8 bytes (64 bits) with a range of [-1.7E+308, 1.7E+308]
+    pan_XXInteger is 4 bytes (32 bits) with a range of [-2147483648, 2147483647]
+    pan_XXCharacter is 1 byte (8 bits) with a value of [0, 255]
+    pan_XXBoolean is 1 byte (8 bits) with a value of 0 or 1
 */ 
 
 #ifndef PAN_TYPES_H
 #define PAN_TYPES_H
 
 /* The mentioned typedefs */
-typedef double XXDouble;
-typedef int XXInteger;
-typedef char XXCharacter;
-typedef char XXBoolean;
-typedef const char* XXString;
+typedef double pan_XXDouble;
+typedef int pan_XXInteger;
+typedef char pan_XXCharacter;
+typedef char pan_XXBoolean;
+typedef const char* pan_XXString;
 
 /* Defines */
-#define XXTRUE  1
-#define XXFALSE 0
+#define pan_XXTRUE  1
+#define pan_XXFALSE 0
 
 #endif
 

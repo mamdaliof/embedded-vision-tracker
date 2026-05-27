@@ -27,8 +27,8 @@
 /* The main function */
 int main()
 {
-	XXDouble u [2 + 1];
-	XXDouble y [2 + 1];
+	pan_XXDouble u [2 + 1];
+	pan_XXDouble y [2 + 1];
 
 	/* Initialize the inputs and outputs with correct initial values */
 	u[0] = 0.0;		/* in */
@@ -39,17 +39,17 @@ int main()
 
 
 	/* Initialize the submodel itself */
-	XXInitializeSubmodel (u, y, xx_time);
+	pan_XXInitializeSubmodel (u, y, pan_xx_time);
 
 	/* Simple loop, the time is incremented by the integration method */
-	while ( (xx_time < xx_finish_time) && (xx_stop_simulation == XXFALSE) )
+	while ( (pan_xx_time < pan_xx_finish_time) && (pan_xx_stop_simulation == pan_XXFALSE) )
 	{
 		/* Call the submodel to calculate the output */
-		XXCalculateSubmodel (u, y, xx_time);
+		pan_XXCalculateSubmodel (u, y, pan_xx_time);
 	}
 
 	/* Perform the final calculations */
-	XXTerminateSubmodel (u, y, xx_time);
+	pan_XXTerminateSubmodel (u, y, pan_xx_time);
 
 	/* and we are done */
 	return 0;

@@ -19,37 +19,37 @@
    The user should be aware of the precision of these types, when
    these types are changed! For instance, when the destination platform 
    is a particular 8051 that does not support any doubles at all,
-   one might change the XXDouble type into some float of 4 bytes.
+   one might change the tilt_XXDouble type into some float of 4 bytes.
    The results may then differ from the 20-sim results. It is advised
    to check these differences by running the code with both settings
    on the PC first (as far as this is possible).
    
    In 20-sim the following definitions are used:
    
-    typedef XXDouble double;
-    typedef XXInteger int;
+    typedef tilt_XXDouble double;
+    typedef tilt_XXInteger int;
    
    so that 
    
-    XXDouble is 8 bytes (64 bits) with a range of [-1.7E+308, 1.7E+308]
-    XXInteger is 4 bytes (32 bits) with a range of [-2147483648, 2147483647]
-    XXCharacter is 1 byte (8 bits) with a value of [0, 255]
-    XXBoolean is 1 byte (8 bits) with a value of 0 or 1
+    tilt_XXDouble is 8 bytes (64 bits) with a range of [-1.7E+308, 1.7E+308]
+    tilt_XXInteger is 4 bytes (32 bits) with a range of [-2147483648, 2147483647]
+    tilt_XXCharacter is 1 byte (8 bits) with a value of [0, 255]
+    tilt_XXBoolean is 1 byte (8 bits) with a value of 0 or 1
 */ 
 
 #ifndef TILT_TYPES_H
 #define TILT_TYPES_H
 
 /* The mentioned typedefs */
-typedef double XXDouble;
-typedef int XXInteger;
-typedef char XXCharacter;
-typedef char XXBoolean;
-typedef const char* XXString;
+typedef double tilt_XXDouble;
+typedef int tilt_XXInteger;
+typedef char tilt_XXCharacter;
+typedef char tilt_XXBoolean;
+typedef const char* tilt_XXString;
 
 /* Defines */
-#define XXTRUE  1
-#define XXFALSE 0
+#define tilt_XXTRUE  1
+#define tilt_XXFALSE 0
 
 #endif
 

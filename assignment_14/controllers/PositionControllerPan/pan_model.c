@@ -18,14 +18,14 @@
    are used in the model for speed. The user may also include
    the alias variables by adding them to the end of the array:
 
-   XXDouble xx_variables[NUMBER_VARIABLES + NUMBER_ALIAS_VARIABLES + 1];
-   XXString xx_variable_names[] = {
+   pan_XXDouble pan_xx_variables[NUMBER_VARIABLES + NUMBER_ALIAS_VARIABLES + 1];
+   pan_XXString pan_xx_variable_names[] = {
      VARIABLE_NAMES, ALIAS_VARIABLE_NAMES, NULL
    };
 
    and calculate them directly after the output equations:
 
-   void XXCalculateOutput (void)
+   void pan_XXCalculateOutput (void)
    {
      OUTPUT_EQUATIONS
      ALIAS_EQUATIONS
@@ -42,25 +42,25 @@
 #include "pan_funcs.h"
 
 /* the global variables */
-XXDouble xx_start_time = 0.0;
-XXDouble xx_finish_time = 20.0;
-XXDouble xx_step_size = 0.01;
-XXDouble xx_time = 0.0;
-XXInteger xx_steps = 0;
-XXBoolean xx_initialize = XXTRUE;
-XXBoolean xx_major = XXTRUE;
-XXBoolean xx_stop_simulation = XXFALSE;
+pan_XXDouble pan_xx_start_time = 0.0;
+pan_XXDouble pan_xx_finish_time = 20.0;
+pan_XXDouble pan_xx_step_size = 0.01;
+pan_XXDouble pan_xx_time = 0.0;
+pan_XXInteger pan_xx_steps = 0;
+pan_XXBoolean pan_xx_initialize = pan_XXTRUE;
+pan_XXBoolean pan_xx_major = pan_XXTRUE;
+pan_XXBoolean pan_xx_stop_simulation = pan_XXFALSE;
 
 /* the variable arrays */
-XXDouble xx_P[xx_parameters_size];		/* parameters */
-XXDouble xx_I[xx_initialvalues_size];		/* initial values */
-XXDouble xx_V[xx_variables_size];		/* variables */
-XXDouble xx_s[xx_states_size];		/* states */
-XXDouble xx_R[xx_states_size];		/* rates (or new states) */
+pan_XXDouble pan_xx_P[pan_xx_parameters_size];		/* parameters */
+pan_XXDouble pan_xx_I[pan_xx_initialvalues_size];		/* initial values */
+pan_XXDouble pan_xx_V[pan_xx_variables_size];		/* variables */
+pan_XXDouble pan_xx_s[pan_xx_states_size];		/* states */
+pan_XXDouble pan_xx_R[pan_xx_states_size];		/* rates (or new states) */
 
 /* the names of the variables as used in the arrays above
    uncomment this part if these names are needed
-XXString xx_parameter_names[] = {
+pan_XXString pan_xx_parameter_names[] = {
 	"corrGain\\K",
 	"PID1\\kp",
 	"PID1\\tauD",
@@ -70,13 +70,13 @@ XXString xx_parameter_names[] = {
 	"SignalLimiter2\\maximum"
 ,	NULL
 };
-XXString xx_initial_value_names[] = {
+pan_XXString pan_xx_initial_value_names[] = {
 	"PID1\\uD_previous_initial",
 	"PID1\\error_previous_initial",
 	"PID1\\uI_previous_initial"
 ,	NULL
 };
-XXString xx_variable_names[] = {
+pan_XXString pan_xx_variable_names[] = {
 	"corrGain\\corr",
 	"PID1\\output",
 	"",
@@ -89,13 +89,13 @@ XXString xx_variable_names[] = {
 	"out"
 ,	NULL
 };
-XXString xx_state_names[] = {
+pan_XXString pan_xx_state_names[] = {
 	"PID1\\uD_previous",
 	"PID1\\error_previous",
 	"PID1\\uI_previous"
 ,	NULL
 };
-XXString xx_rate_names[] = {
+pan_XXString pan_xx_rate_names[] = {
 	"",
 	"PID1\\error",
 	""
@@ -106,69 +106,69 @@ XXString xx_rate_names[] = {
 #if (7 > 8192) && defined _MSC_VER
 #pragma optimize("", off)
 #endif
-void XXModelInitialize_parameters(void)
+void pan_XXModelInitialize_parameters(void)
 {
 	/* set the parameters */
-	xx_P[0] = 0.0;		/* corrGain\K */
-	xx_P[1] = 2.6;		/* PID1\kp */
-	xx_P[2] = 0.05;		/* PID1\tauD */
-	xx_P[3] = 0.17;		/* PID1\beta */
-	xx_P[4] = 9.0;		/* PID1\tauI */
-	xx_P[5] = -0.99;		/* SignalLimiter2\minimum */
-	xx_P[6] = 0.99;		/* SignalLimiter2\maximum */
+	pan_xx_P[0] = 0.0;		/* corrGain\K */
+	pan_xx_P[1] = 2.6;		/* PID1\kp */
+	pan_xx_P[2] = 0.05;		/* PID1\tauD */
+	pan_xx_P[3] = 0.17;		/* PID1\beta */
+	pan_xx_P[4] = 9.0;		/* PID1\tauI */
+	pan_xx_P[5] = -0.99;		/* SignalLimiter2\minimum */
+	pan_xx_P[6] = 0.99;		/* SignalLimiter2\maximum */
 
 }
 #if (7 > 8192) && defined _MSC_VER
 #pragma optimize("", on)
 #endif
 
-void XXModelInitialize_initialvalues(void)
+void pan_XXModelInitialize_initialvalues(void)
 {
 	/* set the initial values */
-	xx_I[0] = 0.0;		/* PID1\uD_previous_initial */
-	xx_I[1] = 0.0;		/* PID1\error_previous_initial */
-	xx_I[2] = 0.0;		/* PID1\uI_previous_initial */
+	pan_xx_I[0] = 0.0;		/* PID1\uD_previous_initial */
+	pan_xx_I[1] = 0.0;		/* PID1\error_previous_initial */
+	pan_xx_I[2] = 0.0;		/* PID1\uI_previous_initial */
 
 }
 
-void XXModelInitialize_states(void)
+void pan_XXModelInitialize_states(void)
 {
 	/* set the states */
-	xx_s[0] = xx_I[0];		/* PID1\uD_previous */
-	xx_s[1] = xx_I[1];		/* PID1\error_previous */
-	xx_s[2] = xx_I[2];		/* PID1\uI_previous */
+	pan_xx_s[0] = pan_xx_I[0];		/* PID1\uD_previous */
+	pan_xx_s[1] = pan_xx_I[1];		/* PID1\error_previous */
+	pan_xx_s[2] = pan_xx_I[2];		/* PID1\uI_previous */
 
 }
 
-void XXModelInitialize_variables(void)
+void pan_XXModelInitialize_variables(void)
 {
 	/* initialize the variable memory to zero */
-	memset(xx_V, 0, xx_variables_size * sizeof(XXDouble));
+	memset(pan_xx_V, 0, pan_xx_variables_size * sizeof(pan_XXDouble));
 }
 
 /* this method is called before calculation is possible */
-void XXModelInitialize (void)
+void pan_XXModelInitialize (void)
 {
-	XXModelInitialize_parameters();
-	XXModelInitialize_variables();
-	XXModelInitialize_initialvalues();
-	XXModelInitialize_states();
+	pan_XXModelInitialize_parameters();
+	pan_XXModelInitialize_variables();
+	pan_XXModelInitialize_initialvalues();
+	pan_XXModelInitialize_states();
 }
 
 /* This function calculates the initial equations of the model.
  * These equations are calculated before anything else
  */
-void XXCalculateInitial (void)
+void pan_XXCalculateInitial (void)
 {
 
 	/* set the states again, they might have changed in the initial calculation */
-	XXModelInitialize_states ();
+	pan_XXModelInitialize_states ();
 }
 
 /* This function calculates the static equations of the model.
  * These equations are only dependent from parameters and constants
  */
-void XXCalculateStatic (void)
+void pan_XXCalculateStatic (void)
 {
 
 }
@@ -177,7 +177,7 @@ void XXCalculateStatic (void)
  * These equations are dynamic equations that must not change
  * in calls from the integration method (like random and delay).
  */
-void XXCalculateInput (void)
+void pan_XXCalculateInput (void)
 {
 
 }
@@ -186,50 +186,50 @@ void XXCalculateInput (void)
  * These equations are called from the integration method
  * to calculate the new model rates (that are then integrated).
  */
-void XXCalculateDynamic (void)
+void pan_XXCalculateDynamic (void)
 {
 	/* PID1\factor = 1 / (sampletime + PID1\tauD * PID1\beta); */
-	xx_V[2] = 1.0 / (xx_step_size + xx_P[2] * xx_P[3]);
+	pan_xx_V[2] = 1.0 / (pan_xx_step_size + pan_xx_P[2] * pan_xx_P[3]);
 
 	/* PlusMinus1\plus1 = in; */
-	xx_V[3] = xx_V[7];
+	pan_xx_V[3] = pan_xx_V[7];
 
 	/* Splitter1\input = position; */
-	xx_V[5] = xx_V[8];
+	pan_xx_V[5] = pan_xx_V[8];
 
 	/* corrGain\corr = corrGain\K * Splitter1\input; */
-	xx_V[0] = xx_P[0] * xx_V[5];
+	pan_xx_V[0] = pan_xx_P[0] * pan_xx_V[5];
 
 	/* PID1\error = PlusMinus1\plus1 - Splitter1\input; */
-	xx_R[1] = xx_V[3] - xx_V[5];
+	pan_xx_R[1] = pan_xx_V[3] - pan_xx_V[5];
 
 	/* PID1\uD = PID1\factor * (((PID1\tauD * PID1\uD_previous) * PID1\beta + (PID1\tauD * PID1\kp) * (PID1\error - PID1\error_previous)) + (sampletime * PID1\kp) * PID1\error); */
-	xx_R[0] = xx_V[2] * (((xx_P[2] * xx_s[0]) * xx_P[3] + (xx_P[2] * xx_P[1]) * (xx_R[1] - xx_s[1])) + (xx_step_size * xx_P[1]) * xx_R[1]);
+	pan_xx_R[0] = pan_xx_V[2] * (((pan_xx_P[2] * pan_xx_s[0]) * pan_xx_P[3] + (pan_xx_P[2] * pan_xx_P[1]) * (pan_xx_R[1] - pan_xx_s[1])) + (pan_xx_step_size * pan_xx_P[1]) * pan_xx_R[1]);
 
 	/* PID1\uI = PID1\uI_previous + (sampletime * PID1\uD) / PID1\tauI; */
-	xx_R[2] = xx_s[2] + (xx_step_size * xx_R[0]) / xx_P[4];
+	pan_xx_R[2] = pan_xx_s[2] + (pan_xx_step_size * pan_xx_R[0]) / pan_xx_P[4];
 
 	/* PID1\output = PID1\uI + PID1\uD; */
-	xx_V[1] = xx_R[2] + xx_R[0];
+	pan_xx_V[1] = pan_xx_R[2] + pan_xx_R[0];
 
 	/* SignalLimiter2\output = if PID1\output < SignalLimiter2\minimum... ; */
-	xx_V[4] = ((xx_V[1] < xx_P[5]) ? 
+	pan_xx_V[4] = ((pan_xx_V[1] < pan_xx_P[5]) ? 
 		/* SignalLimiter2\minimum */
-		xx_P[5]
+		pan_xx_P[5]
 	:
 		/* if PID1\output > SignalLimiter2\maximum...  */
-		((xx_V[1] > xx_P[6]) ? 
+		((pan_xx_V[1] > pan_xx_P[6]) ? 
 			/* SignalLimiter2\maximum */
-			xx_P[6]
+			pan_xx_P[6]
 		:
 			/* PID1\output */
-			xx_V[1]
+			pan_xx_V[1]
 		)
 	);
 
 
 	/* increment the step counter */
-	xx_steps++;
+	pan_xx_steps++;
 }
 
 /* This function calculates the output equations of the model.
@@ -238,13 +238,13 @@ void XXCalculateDynamic (void)
  * These dynamic equations are called often more than one time for each
  * integration step that is taken. This makes model computation much faster.
  */
-void XXCalculateOutput (void)
+void pan_XXCalculateOutput (void)
 {
 	/* corr = corrGain\corr; */
-	xx_V[6] = xx_V[0];
+	pan_xx_V[6] = pan_xx_V[0];
 
 	/* out = SignalLimiter2\output; */
-	xx_V[9] = xx_V[4];
+	pan_xx_V[9] = pan_xx_V[4];
 
 }
 
@@ -252,13 +252,13 @@ void XXCalculateOutput (void)
  * These equations are calculated after all the calculations
  * are performed
  */
-void XXCalculateFinal (void)
+void pan_XXCalculateFinal (void)
 {
 
 }
 
 /* this method is called after all calculations are performed */
-void XXModelTerminate(void)
+void pan_XXModelTerminate(void)
 {
 }
 

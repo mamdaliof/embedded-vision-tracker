@@ -40,14 +40,14 @@ typedef union
 	const char* m_char;
 } str2dbl;
 
-XXDouble XXString2Double(const char* argument)
+tilt_XXDouble tilt_XXString2Double(const char* argument)
 {
 	str2dbl myConversion;
 	myConversion.m_char = argument;
 	return myConversion.m_double;
 }
 
-const char* XXDouble2String(XXDouble argument)
+const char* tilt_XXDouble2String(tilt_XXDouble argument)
 {
 	str2dbl myConversion;
 	myConversion.m_double = argument;

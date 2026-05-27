@@ -27,8 +27,8 @@
 /* The main function */
 int main()
 {
-	XXDouble u [3 + 1];
-	XXDouble y [1 + 1];
+	tilt_XXDouble u [3 + 1];
+	tilt_XXDouble y [1 + 1];
 
 	/* Initialize the inputs and outputs with correct initial values */
 	u[0] = 0.0;		/* corr */
@@ -39,17 +39,17 @@ int main()
 
 
 	/* Initialize the submodel itself */
-	XXInitializeSubmodel (u, y, xx_time);
+	tilt_XXInitializeSubmodel (u, y, tilt_xx_time);
 
 	/* Simple loop, the time is incremented by the integration method */
-	while ( (xx_time < xx_finish_time) && (xx_stop_simulation == XXFALSE) )
+	while ( (tilt_xx_time < tilt_xx_finish_time) && (tilt_xx_stop_simulation == tilt_XXFALSE) )
 	{
 		/* Call the submodel to calculate the output */
-		XXCalculateSubmodel (u, y, xx_time);
+		tilt_XXCalculateSubmodel (u, y, tilt_xx_time);
 	}
 
 	/* Perform the final calculations */
-	XXTerminateSubmodel (u, y, xx_time);
+	tilt_XXTerminateSubmodel (u, y, tilt_xx_time);
 
 	/* and we are done */
 	return 0;

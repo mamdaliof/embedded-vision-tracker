@@ -25,56 +25,56 @@
 #include "pan_types.h"
 
 /* Simulation variables */
-extern XXDouble xx_start_time;
-extern XXDouble xx_finish_time;
-extern XXDouble xx_step_size;
-extern XXDouble xx_time;
-extern XXInteger xx_steps;
-extern XXBoolean xx_initialize;
-extern XXBoolean xx_major;
-extern XXBoolean xx_stop_simulation;
+extern pan_XXDouble pan_xx_start_time;
+extern pan_XXDouble pan_xx_finish_time;
+extern pan_XXDouble pan_xx_step_size;
+extern pan_XXDouble pan_xx_time;
+extern pan_XXInteger pan_xx_steps;
+extern pan_XXBoolean pan_xx_initialize;
+extern pan_XXBoolean pan_xx_major;
+extern pan_XXBoolean pan_xx_stop_simulation;
 
 /* Model size constants */
-#define xx_constants_size 0
-#define xx_parameters_size 7
-#define xx_initialvalues_size 3
-#define xx_variables_size 10
-#define xx_states_size 3
+#define pan_xx_constants_size 0
+#define pan_xx_parameters_size 7
+#define pan_xx_initialvalues_size 3
+#define pan_xx_variables_size 10
+#define pan_xx_states_size 3
 
 /* Variable arrays */
-extern XXDouble xx_P[];
-extern XXDouble xx_I[];
-extern XXDouble xx_V[];
-extern XXDouble xx_s[];
-extern XXDouble xx_R[];
+extern pan_XXDouble pan_xx_P[];
+extern pan_XXDouble pan_xx_I[];
+extern pan_XXDouble pan_xx_V[];
+extern pan_XXDouble pan_xx_s[];
+extern pan_XXDouble pan_xx_R[];
 
 
 /* The names of the variables as used in the arrays above
    uncomment this if you need the names (see source file too)
-extern XXString xx_parameter_names[];
-extern XXString xx_initial_value_names[];
-extern XXString xx_variable_names[];
-extern XXString xx_state_names[];
-extern XXString xx_rate_names[];
+extern pan_XXString pan_xx_parameter_names[];
+extern pan_XXString pan_xx_initial_value_names[];
+extern pan_XXString pan_xx_variable_names[];
+extern pan_XXString pan_xx_state_names[];
+extern pan_XXString pan_xx_rate_names[];
 */
 
 /* Initialization methods */
 /* Initialize complete model */
-void XXModelInitialize (void);
+void pan_XXModelInitialize (void);
 /* Initialize specific model values */
-void XXModelInitialize_parameters(void);
-void XXModelInitialize_initialvalues(void);
-void XXModelInitialize_states(void);
-void XXModelInitialize_variables(void);
-void XXModelTerminate (void);
+void pan_XXModelInitialize_parameters(void);
+void pan_XXModelInitialize_initialvalues(void);
+void pan_XXModelInitialize_states(void);
+void pan_XXModelInitialize_variables(void);
+void pan_XXModelTerminate (void);
 
 /* Computation methods */
-void XXCalculateInitial (void);
-void XXCalculateStatic (void);
-void XXCalculateInput (void);
-void XXCalculateDynamic (void);
-void XXCalculateOutput (void);
-void XXCalculateFinal (void);
+void pan_XXCalculateInitial (void);
+void pan_XXCalculateStatic (void);
+void pan_XXCalculateInput (void);
+void pan_XXCalculateDynamic (void);
+void pan_XXCalculateOutput (void);
+void pan_XXCalculateFinal (void);
 
 
 #endif

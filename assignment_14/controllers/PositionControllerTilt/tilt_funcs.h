@@ -18,13 +18,13 @@
 #include "tilt_types.h"
 
 /* Global constants */
-extern XXBoolean xx_initialize;
-extern XXBoolean xx_major;
-extern XXBoolean xx_stop_simulation;
+extern tilt_XXBoolean tilt_xx_initialize;
+extern tilt_XXBoolean tilt_xx_major;
+extern tilt_XXBoolean tilt_xx_stop_simulation;
 
 /* Wrapper functions around strings */
-XXDouble XXString2Double(const char* argument);
-const char* XXDouble2String(XXDouble argument);
+tilt_XXDouble tilt_XXString2Double(const char* argument);
+const char* tilt_XXDouble2String(tilt_XXDouble argument);
 
 /* 20-sim function prototypes */
 /* 20-sim stub prototypes */

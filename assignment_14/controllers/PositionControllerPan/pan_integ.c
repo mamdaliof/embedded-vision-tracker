@@ -34,45 +34,45 @@
 #include "pan_model.h"
 
 /* global variables prototypes */
-extern XXDouble xx_time;
-extern XXDouble xx_step_size;
+extern pan_XXDouble pan_xx_time;
+extern pan_XXDouble pan_xx_step_size;
 
-#define xx_STATE_SIZE 3
+#define pan_xx_STATE_SIZE 3
 
 /*********************************************************************
  * Discrete integration method
  *********************************************************************/
 
 /* the initialization of the Discrete integration method */
-void XXDiscreteInitialize (void)
+void pan_XXDiscreteInitialize (void)
 {
 	/* nothing to be done */
-	xx_major = XXTRUE;
+	pan_xx_major = pan_XXTRUE;
 }
 
 /* the termination of the Discrete integration method */
-void XXDiscreteTerminate (void)
+void pan_XXDiscreteTerminate (void)
 {
 	/* nothing to be done */
 }
 
 /* the Discrete integration method itself */
-void XXDiscreteStep (void)
+void pan_XXDiscreteStep (void)
 {
-	XXInteger index;
+	pan_XXInteger index;
 
 	/* for each of the supplied states */
-	for (index = 0; index < xx_STATE_SIZE; index++)
+	for (index = 0; index < pan_xx_STATE_SIZE; index++)
 	{
 		/* just a move of the new state */
-		xx_s [index] = xx_R [index];
+		pan_xx_s [index] = pan_xx_R [index];
 	}
 	/* increment the simulation time */
-	xx_time += xx_step_size;
+	pan_xx_time += pan_xx_step_size;
 
-	xx_major = XXTRUE;
+	pan_xx_major = pan_XXTRUE;
 
 	/* evaluate the dynamic part to calculate the new rates */
-	XXCalculateDynamic ();
+	pan_XXCalculateDynamic ();
 }
 

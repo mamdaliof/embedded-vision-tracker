@@ -32,11 +32,11 @@ that are supplied for computation.
 #define Discrete_METHOD
 
 /* the integration methods */
-void XXDiscreteInitialize (void);
-void XXDiscreteTerminate (void);
-void XXDiscreteStep (void);
+void pan_XXDiscreteInitialize (void);
+void pan_XXDiscreteTerminate (void);
+void pan_XXDiscreteStep (void);
 
-extern XXBoolean xx_major;
+extern pan_XXBoolean pan_xx_major;
 
 #endif
 

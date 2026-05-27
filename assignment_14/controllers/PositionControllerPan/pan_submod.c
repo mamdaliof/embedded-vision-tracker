@@ -24,98 +24,98 @@
 #include "EulerAngles.h"
 
 /* The submodel I/O variables */
-XXInteger xx_number_of_inputs = 2;
-XXInteger xx_number_of_outputs = 2;
+pan_XXInteger pan_xx_number_of_inputs = 2;
+pan_XXInteger pan_xx_number_of_outputs = 2;
 
 /* the names of the submodel io variables
    uncomment this part if you need these names
-XXString xx_input_names[] = {
+pan_XXString pan_xx_input_names[] = {
 	"in",
 	"position"
 ,	NULL
 };
-XXString xx_output_names[] = {
+pan_XXString pan_xx_output_names[] = {
 	"corr",
 	"out"
 ,	NULL
 };
 */
 /* This function sets the input variables from the input vector */
-void XXCopyInputsToVariables (XXDouble *u)
+void pan_XXCopyInputsToVariables (pan_XXDouble *u)
 {
 	/* Copy the input vector to the input variables */
-	xx_V[7] = u[0];		/* in */
-	xx_V[8] = u[1];		/* position */
+	pan_xx_V[7] = u[0];		/* in */
+	pan_xx_V[8] = u[1];		/* position */
 
 }
 
 /* This function uses the output variables to fill the output vector */
-void XXCopyVariablesToOutputs (XXDouble *y)
+void pan_XXCopyVariablesToOutputs (pan_XXDouble *y)
 {
 	/* Copy the output variables to the output vector */
-	y[0] = 	xx_V[6];		/* corr */
-	y[1] = 	xx_V[9];		/* out */
+	y[0] = 	pan_xx_V[6];		/* corr */
+	y[1] = 	pan_xx_V[9];		/* out */
 
 }
 
 /* The initialization function for submodel */
-void XXInitializeSubmodel (XXDouble *u, XXDouble *y, XXDouble t)
+void pan_XXInitializeSubmodel (pan_XXDouble *u, pan_XXDouble *y, pan_XXDouble t)
 {
 	/* Initialization phase (allocating memory) */
-	xx_initialize = XXTRUE;
-	xx_steps = 0;
-	XXModelInitialize ();
-	XXDiscreteInitialize ();
+	pan_xx_initialize = pan_XXTRUE;
+	pan_xx_steps = 0;
+	pan_XXModelInitialize ();
+	pan_XXDiscreteInitialize ();
 
 	/* Copy the inputs */
-	xx_time = t;
-	XXCopyInputsToVariables (u);
+	pan_xx_time = t;
+	pan_XXCopyInputsToVariables (u);
 
 	/* Calculate the model for the first time */
-	XXCalculateInitial ();
-	XXCalculateStatic ();
-	XXCalculateInput ();
-	XXCalculateDynamic ();
-	XXCalculateOutput ();
+	pan_XXCalculateInitial ();
+	pan_XXCalculateStatic ();
+	pan_XXCalculateInput ();
+	pan_XXCalculateDynamic ();
+	pan_XXCalculateOutput ();
 
 	/* Set the outputs */
-	XXCopyVariablesToOutputs (y);
+	pan_XXCopyVariablesToOutputs (y);
 
 	/* End of initialization phase */
-	xx_initialize = XXFALSE;
+	pan_xx_initialize = pan_XXFALSE;
 }
 
 /* The function that calculates the submodel */
-void XXCalculateSubmodel (XXDouble *u, XXDouble *y, XXDouble t)
+void pan_XXCalculateSubmodel (pan_XXDouble *u, pan_XXDouble *y, pan_XXDouble t)
 {
 	/* Copy the inputs */
-	xx_time = t;
-	XXCopyInputsToVariables (u);
+	pan_xx_time = t;
+	pan_XXCopyInputsToVariables (u);
 
 	/* Calculate the model */
-	XXCalculateInput ();
-	XXDiscreteStep ();
-	XXCalculateOutput ();
+	pan_XXCalculateInput ();
+	pan_XXDiscreteStep ();
+	pan_XXCalculateOutput ();
 
 	/* Copy the outputs */
-	XXCopyVariablesToOutputs (y);
+	pan_XXCopyVariablesToOutputs (y);
 }
 
 /* The termination function for submodel */
-void XXTerminateSubmodel (XXDouble *u, XXDouble *y, XXDouble t)
+void pan_XXTerminateSubmodel (pan_XXDouble *u, pan_XXDouble *y, pan_XXDouble t)
 {
 	/* Copy the inputs */
-	xx_time = t;
-	XXCopyInputsToVariables (u);
+	pan_xx_time = t;
+	pan_XXCopyInputsToVariables (u);
 
 	/* Calculate the final model equations */
-	XXCalculateFinal ();
+	pan_XXCalculateFinal ();
 
 	/* Set the outputs */
-	XXCopyVariablesToOutputs (y);
+	pan_XXCopyVariablesToOutputs (y);
 
 	/* and terminate the model itself (releasing memory) */
-	XXModelTerminate ();
-	XXDiscreteTerminate ();
+	pan_XXModelTerminate ();
+	pan_XXDiscreteTerminate ();
 }
 

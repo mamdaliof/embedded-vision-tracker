@@ -32,11 +32,11 @@ that are supplied for computation.
 #define Discrete_METHOD
 
 /* the integration methods */
-void XXDiscreteInitialize (void);
-void XXDiscreteTerminate (void);
-void XXDiscreteStep (void);
+void tilt_XXDiscreteInitialize (void);
+void tilt_XXDiscreteTerminate (void);
+void tilt_XXDiscreteStep (void);
 
-extern XXBoolean xx_major;
+extern tilt_XXBoolean tilt_xx_major;
 
 #endif
 

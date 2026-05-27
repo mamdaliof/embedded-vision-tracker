@@ -18,13 +18,13 @@
 #include "pan_types.h"
 
 /* Global constants */
-extern XXBoolean xx_initialize;
-extern XXBoolean xx_major;
-extern XXBoolean xx_stop_simulation;
+extern pan_XXBoolean pan_xx_initialize;
+extern pan_XXBoolean pan_xx_major;
+extern pan_XXBoolean pan_xx_stop_simulation;
 
 /* Wrapper functions around strings */
-XXDouble XXString2Double(const char* argument);
-const char* XXDouble2String(XXDouble argument);
+pan_XXDouble pan_XXString2Double(const char* argument);
+const char* pan_XXDouble2String(pan_XXDouble argument);
 
 /* 20-sim function prototypes */
 /* 20-sim stub prototypes */

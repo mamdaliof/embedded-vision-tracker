@@ -34,45 +34,45 @@
 #include "tilt_model.h"
 
 /* global variables prototypes */
-extern XXDouble xx_time;
-extern XXDouble xx_step_size;
+extern tilt_XXDouble tilt_xx_time;
+extern tilt_XXDouble tilt_xx_step_size;
 
-#define xx_STATE_SIZE 3
+#define tilt_xx_STATE_SIZE 3
 
 /*********************************************************************
  * Discrete integration method
  *********************************************************************/
 
 /* the initialization of the Discrete integration method */
-void XXDiscreteInitialize (void)
+void tilt_XXDiscreteInitialize (void)
 {
 	/* nothing to be done */
-	xx_major = XXTRUE;
+	tilt_xx_major = tilt_XXTRUE;
 }
 
 /* the termination of the Discrete integration method */
-void XXDiscreteTerminate (void)
+void tilt_XXDiscreteTerminate (void)
 {
 	/* nothing to be done */
 }
 
 /* the Discrete integration method itself */
-void XXDiscreteStep (void)
+void tilt_XXDiscreteStep (void)
 {
-	XXInteger index;
+	tilt_XXInteger index;
 
 	/* for each of the supplied states */
-	for (index = 0; index < xx_STATE_SIZE; index++)
+	for (index = 0; index < tilt_xx_STATE_SIZE; index++)
 	{
 		/* just a move of the new state */
-		xx_s [index] = xx_R [index];
+		tilt_xx_s [index] = tilt_xx_R [index];
 	}
 	/* increment the simulation time */
-	xx_time += xx_step_size;
+	tilt_xx_time += tilt_xx_step_size;
 
-	xx_major = XXTRUE;
+	tilt_xx_major = tilt_XXTRUE;
 
 	/* evaluate the dynamic part to calculate the new rates */
-	XXCalculateDynamic ();
+	tilt_XXCalculateDynamic ();
 }
 

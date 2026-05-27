@@ -25,20 +25,20 @@
 #include "pan_model.h"
 
 /* Submodel I/O variables */
-extern XXInteger xx_number_of_inputs;
-extern XXInteger xx_number_of_outputs;
+extern pan_XXInteger pan_xx_number_of_inputs;
+extern pan_XXInteger pan_xx_number_of_outputs;
 
 /* The names of the variables as used in the arrays above */
-extern XXString xx_input_names[];
-extern XXString xx_output_names[];
+extern pan_XXString pan_xx_input_names[];
+extern pan_XXString pan_xx_output_names[];
 
 
 /* The submodel functions */
-void XXInitializeSubmodel (XXDouble *u, XXDouble *y, XXDouble t);
-void XXCalculateSubmodel (XXDouble *u, XXDouble *y, XXDouble t);
-void XXTerminateSubmodel (XXDouble *u, XXDouble *y, XXDouble t);
-void XXCopyInputsToVariables (XXDouble *u);
-void XXCopyVariablesToOutputs (XXDouble *y);
+void pan_XXInitializeSubmodel (pan_XXDouble *u, pan_XXDouble *y, pan_XXDouble t);
+void pan_XXCalculateSubmodel (pan_XXDouble *u, pan_XXDouble *y, pan_XXDouble t);
+void pan_XXTerminateSubmodel (pan_XXDouble *u, pan_XXDouble *y, pan_XXDouble t);
+void pan_XXCopyInputsToVariables (pan_XXDouble *u);
+void pan_XXCopyVariablesToOutputs (pan_XXDouble *y);
 
 #endif
 

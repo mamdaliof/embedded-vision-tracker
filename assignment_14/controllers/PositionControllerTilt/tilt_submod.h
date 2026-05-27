@@ -25,20 +25,20 @@
 #include "tilt_model.h"
 
 /* Submodel I/O variables */
-extern XXInteger xx_number_of_inputs;
-extern XXInteger xx_number_of_outputs;
+extern tilt_XXInteger tilt_xx_number_of_inputs;
+extern tilt_XXInteger tilt_xx_number_of_outputs;
 
 /* The names of the variables as used in the arrays above */
-extern XXString xx_input_names[];
-extern XXString xx_output_names[];
+extern tilt_XXString tilt_xx_input_names[];
+extern tilt_XXString tilt_xx_output_names[];
 
 
 /* The submodel functions */
-void XXInitializeSubmodel (XXDouble *u, XXDouble *y, XXDouble t);
-void XXCalculateSubmodel (XXDouble *u, XXDouble *y, XXDouble t);
-void XXTerminateSubmodel (XXDouble *u, XXDouble *y, XXDouble t);
-void XXCopyInputsToVariables (XXDouble *u);
-void XXCopyVariablesToOutputs (XXDouble *y);
+void tilt_XXInitializeSubmodel (tilt_XXDouble *u, tilt_XXDouble *y, tilt_XXDouble t);
+void tilt_XXCalculateSubmodel (tilt_XXDouble *u, tilt_XXDouble *y, tilt_XXDouble t);
+void tilt_XXTerminateSubmodel (tilt_XXDouble *u, tilt_XXDouble *y, tilt_XXDouble t);
+void tilt_XXCopyInputsToVariables (tilt_XXDouble *u);
+void tilt_XXCopyVariablesToOutputs (tilt_XXDouble *y);
 
 #endif
 
