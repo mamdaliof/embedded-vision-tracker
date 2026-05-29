@@ -1,12 +1,12 @@
-Fitter Status : Successful - Mon May 11 17:10:45 2026
+Fitter Status : Successful - Wed May 13 13:09:37 2026
 Quartus Prime Version : 23.1std.1 Build 993 05/14/2024 SC Standard Edition
 Revision Name : PWM_SoC
 Top-level Entity Name : DE10_NANO_SoC
 Family : Cyclone V
 Device : 5CSEBA6U23I7
 Timing Models : Final
-Logic utilization (in ALMs) : 348 / 41,910 ( < 1 % )
-Total registers : 727
+Logic utilization (in ALMs) : 349 / 41,910 ( < 1 % )
+Total registers : 734
 Total pins : 144 / 314 ( 46 % )
 Total virtual pins : 0
 Total block memory bits : 0 / 5,662,720 ( 0 % )

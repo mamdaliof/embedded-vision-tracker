@@ -4,15 +4,15 @@
 			"name" : "Top",
 			"pins" : [
 				{
-					"name" : "PWM_INA",
+					"name" : "YAW_DIRA",
 					"strict" : false
 				},
 				{
-					"name" : "PWM_INB",
+					"name" : "YAW_DIRB",
 					"strict" : false
 				},
 				{
-					"name" : "PWM_OUT",
+					"name" : "YAW_PWM_VAL",
 					"strict" : false
 				},
 				{

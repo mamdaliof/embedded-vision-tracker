@@ -1,5 +1,5 @@
 Analysis & Synthesis report for PWM_SoC
-Mon May 11 17:09:06 2026
+Wed May 13 13:08:13 2026
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Standard Edition
 
 
@@ -217,7 +217,7 @@ https://fpgasoftware.intel.com/eula.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +---------------------------------+----------------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon May 11 17:09:06 2026              ;
+; Analysis & Synthesis Status     ; Successful - Wed May 13 13:08:13 2026              ;
 ; Quartus Prime Version           ; 23.1std.1 Build 993 05/14/2024 SC Standard Edition ;
 ; Revision Name                   ; PWM_SoC                                            ;
 ; Top-level Entity Name           ; DE10_NANO_SoC                                      ;
@@ -333,7 +333,7 @@ https://fpgasoftware.intel.com/eula.
 ; Maximum allowed            ; 16          ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 13          ;
+; Maximum used               ; 12          ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
@@ -348,7 +348,6 @@ https://fpgasoftware.intel.com/eula.
 ;     Processor 10           ;   0.0%      ;
 ;     Processor 11           ;   0.0%      ;
 ;     Processor 12           ;   0.0%      ;
-;     Processor 13           ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -416,14 +415,14 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+--------------------+
 ; Resource                                    ; Usage              ;
 +---------------------------------------------+--------------------+
-; Estimate of Logic utilization (ALMs needed) ; 359                ;
+; Estimate of Logic utilization (ALMs needed) ; 361                ;
 ;                                             ;                    ;
-; Combinational ALUT usage for logic          ; 532                ;
+; Combinational ALUT usage for logic          ; 535                ;
 ;     -- 7 input functions                    ; 4                  ;
-;     -- 6 input functions                    ; 63                 ;
-;     -- 5 input functions                    ; 52                 ;
-;     -- 4 input functions                    ; 164                ;
-;     -- <=3 input functions                  ; 249                ;
+;     -- 6 input functions                    ; 65                 ;
+;     -- 5 input functions                    ; 59                 ;
+;     -- 4 input functions                    ; 161                ;
+;     -- <=3 input functions                  ; 246                ;
 ;                                             ;                    ;
 ; Dedicated logic registers                   ; 513                ;
 ;                                             ;                    ;
@@ -435,8 +434,8 @@ https://fpgasoftware.intel.com/eula.
 ; Total DLLs                                  ; 1                  ;
 ; Maximum fan-out node                        ; FPGA_CLK1_50~input ;
 ; Maximum fan-out                             ; 478                ;
-; Total fan-out                               ; 6033               ;
-; Average fan-out                             ; 2.96               ;
+; Total fan-out                               ; 6054               ;
+; Average fan-out                             ; 2.97               ;
 +---------------------------------------------+--------------------+
 
 
@@ -445,16 +444,16 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                                                                    ; Combinational ALUTs ; Dedicated Logic Registers ; Block Memory Bits ; DSP Blocks ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                                                                                                                                                                                                                                                               ; Entity Name                                       ; Library Name ;
 +-----------------------------------------------------------------------------------------------+---------------------+---------------------------+-------------------+------------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------+--------------+
-; |DE10_NANO_SoC                                                                                ; 532 (0)             ; 513 (0)                   ; 0                 ; 1          ; 144  ; 0            ; |DE10_NANO_SoC                                                                                                                                                                                                                                                                                                                                                    ; DE10_NANO_SoC                                     ; work         ;
-;    |soc_system:u0|                                                                            ; 532 (0)             ; 513 (0)                   ; 0                 ; 1          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0                                                                                                                                                                                                                                                                                                                                      ; soc_system                                        ; soc_system   ;
+; |DE10_NANO_SoC                                                                                ; 535 (0)             ; 513 (0)                   ; 0                 ; 1          ; 144  ; 0            ; |DE10_NANO_SoC                                                                                                                                                                                                                                                                                                                                                    ; DE10_NANO_SoC                                     ; work         ;
+;    |soc_system:u0|                                                                            ; 535 (0)             ; 513 (0)                   ; 0                 ; 1          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0                                                                                                                                                                                                                                                                                                                                      ; soc_system                                        ; soc_system   ;
 ;       |altera_reset_controller:rst_controller_001|                                            ; 0 (0)               ; 3 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|altera_reset_controller:rst_controller_001                                                                                                                                                                                                                                                                                           ; altera_reset_controller                           ; soc_system   ;
 ;          |altera_reset_synchronizer:alt_rst_sync_uq1|                                         ; 0 (0)               ; 3 (3)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|altera_reset_controller:rst_controller_001|altera_reset_synchronizer:alt_rst_sync_uq1                                                                                                                                                                                                                                                ; altera_reset_synchronizer                         ; soc_system   ;
 ;       |altera_reset_controller:rst_controller|                                                ; 0 (0)               ; 3 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|altera_reset_controller:rst_controller                                                                                                                                                                                                                                                                                               ; altera_reset_controller                           ; soc_system   ;
 ;          |altera_reset_synchronizer:alt_rst_sync_uq1|                                         ; 0 (0)               ; 3 (3)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|altera_reset_controller:rst_controller|altera_reset_synchronizer:alt_rst_sync_uq1                                                                                                                                                                                                                                                    ; altera_reset_synchronizer                         ; soc_system   ;
-;       |esl_bus_demo:esl_bus_demo_0|                                                           ; 141 (36)            ; 134 (42)                  ; 0                 ; 1          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|esl_bus_demo:esl_bus_demo_0                                                                                                                                                                                                                                                                                                          ; esl_bus_demo                                      ; soc_system   ;
+;       |esl_bus_demo:esl_bus_demo_0|                                                           ; 145 (36)            ; 134 (42)                  ; 0                 ; 1          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|esl_bus_demo:esl_bus_demo_0                                                                                                                                                                                                                                                                                                          ; esl_bus_demo                                      ; soc_system   ;
 ;          |Quad_compact:encoder_pitch|                                                         ; 35 (35)             ; 38 (38)                   ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|esl_bus_demo:esl_bus_demo_0|Quad_compact:encoder_pitch                                                                                                                                                                                                                                                                               ; Quad_compact                                      ; soc_system   ;
 ;          |Quad_compact:encoder_yaw|                                                           ; 35 (35)             ; 38 (38)                   ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|esl_bus_demo:esl_bus_demo_0|Quad_compact:encoder_yaw                                                                                                                                                                                                                                                                                 ; Quad_compact                                      ; soc_system   ;
-;          |pwm_generator:pwm|                                                                  ; 35 (35)             ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|esl_bus_demo:esl_bus_demo_0|pwm_generator:pwm                                                                                                                                                                                                                                                                                        ; pwm_generator                                     ; soc_system   ;
+;          |pwm_generator:pwm|                                                                  ; 39 (39)             ; 16 (16)                   ; 0                 ; 1          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|esl_bus_demo:esl_bus_demo_0|pwm_generator:pwm                                                                                                                                                                                                                                                                                        ; pwm_generator                                     ; soc_system   ;
 ;       |soc_system_hps_0:hps_0|                                                                ; 1 (0)               ; 36 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_hps_0:hps_0                                                                                                                                                                                                                                                                                                               ; soc_system_hps_0                                  ; soc_system   ;
 ;          |soc_system_hps_0_fpga_interfaces:fpga_interfaces|                                   ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_hps_0:hps_0|soc_system_hps_0_fpga_interfaces:fpga_interfaces                                                                                                                                                                                                                                                              ; soc_system_hps_0_fpga_interfaces                  ; soc_system   ;
 ;          |soc_system_hps_0_hps_io:hps_io|                                                     ; 1 (0)               ; 36 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io                                                                                                                                                                                                                                                                                ; soc_system_hps_0_hps_io                           ; soc_system   ;
@@ -509,16 +508,16 @@ https://fpgasoftware.intel.com/eula.
 ;                               |altdq_dqs2_acv_connect_to_hard_phy_cyclonev:altdq_dqs2_inst|   ; 0 (0)               ; 9 (9)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_p0:p0|hps_sdram_p0_acv_hard_memphy:umemphy|hps_sdram_p0_acv_hard_io_pads:uio_pads|hps_sdram_p0_altdqdqs:dq_ddio[3].ubidir_dq_dqs|altdq_dqs2_acv_connect_to_hard_phy_cyclonev:altdq_dqs2_inst          ; altdq_dqs2_acv_connect_to_hard_phy_cyclonev       ; soc_system   ;
 ;                         |hps_sdram_p0_acv_ldc:memphy_ldc|                                     ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_p0:p0|hps_sdram_p0_acv_hard_memphy:umemphy|hps_sdram_p0_acv_ldc:memphy_ldc                                                                                                                            ; hps_sdram_p0_acv_ldc                              ; soc_system   ;
 ;                   |hps_sdram_pll:pll|                                                         ; 0 (0)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_hps_0:hps_0|soc_system_hps_0_hps_io:hps_io|soc_system_hps_0_hps_io_border:border|hps_sdram:hps_sdram_inst|hps_sdram_pll:pll                                                                                                                                                                                               ; hps_sdram_pll                                     ; soc_system   ;
-;       |soc_system_mm_interconnect_0:mm_interconnect_0|                                        ; 390 (0)             ; 337 (0)                   ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0                                                                                                                                                                                                                                                                                       ; soc_system_mm_interconnect_0                      ; soc_system   ;
+;       |soc_system_mm_interconnect_0:mm_interconnect_0|                                        ; 389 (0)             ; 337 (0)                   ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0                                                                                                                                                                                                                                                                                       ; soc_system_mm_interconnect_0                      ; soc_system   ;
 ;          |altera_avalon_sc_fifo:esl_bus_demo_0_s0_agent_rdata_fifo|                           ; 74 (74)             ; 132 (132)                 ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:esl_bus_demo_0_s0_agent_rdata_fifo                                                                                                                                                                                                                              ; altera_avalon_sc_fifo                             ; soc_system   ;
 ;          |altera_avalon_sc_fifo:esl_bus_demo_0_s0_agent_rsp_fifo|                             ; 31 (31)             ; 88 (88)                   ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_avalon_sc_fifo:esl_bus_demo_0_s0_agent_rsp_fifo                                                                                                                                                                                                                                ; altera_avalon_sc_fifo                             ; soc_system   ;
 ;          |altera_merlin_axi_master_ni:hps_0_h2f_lw_axi_master_agent|                          ; 82 (48)             ; 16 (6)                    ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_axi_master_ni:hps_0_h2f_lw_axi_master_agent                                                                                                                                                                                                                             ; altera_merlin_axi_master_ni                       ; soc_system   ;
 ;             |altera_merlin_address_alignment:align_address_to_size|                           ; 34 (34)             ; 10 (10)                   ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_axi_master_ni:hps_0_h2f_lw_axi_master_agent|altera_merlin_address_alignment:align_address_to_size                                                                                                                                                                       ; altera_merlin_address_alignment                   ; soc_system   ;
-;          |altera_merlin_burst_adapter:esl_bus_demo_0_s0_burst_adapter|                        ; 98 (0)              ; 86 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:esl_bus_demo_0_s0_burst_adapter                                                                                                                                                                                                                           ; altera_merlin_burst_adapter                       ; soc_system   ;
-;             |altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter| ; 98 (97)             ; 86 (86)                   ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:esl_bus_demo_0_s0_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter                                                                                                                                           ; altera_merlin_burst_adapter_13_1                  ; soc_system   ;
+;          |altera_merlin_burst_adapter:esl_bus_demo_0_s0_burst_adapter|                        ; 94 (0)              ; 86 (0)                    ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:esl_bus_demo_0_s0_burst_adapter                                                                                                                                                                                                                           ; altera_merlin_burst_adapter                       ; soc_system   ;
+;             |altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter| ; 94 (93)             ; 86 (86)                   ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:esl_bus_demo_0_s0_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter                                                                                                                                           ; altera_merlin_burst_adapter_13_1                  ; soc_system   ;
 ;                |altera_merlin_address_alignment:align_address_to_size|                        ; 1 (1)               ; 0 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:esl_bus_demo_0_s0_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|altera_merlin_address_alignment:align_address_to_size                                                                                     ; altera_merlin_address_alignment                   ; soc_system   ;
-;          |altera_merlin_slave_agent:esl_bus_demo_0_s0_agent|                                  ; 29 (5)              ; 7 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:esl_bus_demo_0_s0_agent                                                                                                                                                                                                                                     ; altera_merlin_slave_agent                         ; soc_system   ;
-;             |altera_merlin_burst_uncompressor:uncompressor|                                   ; 24 (24)             ; 7 (7)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:esl_bus_demo_0_s0_agent|altera_merlin_burst_uncompressor:uncompressor                                                                                                                                                                                       ; altera_merlin_burst_uncompressor                  ; soc_system   ;
+;          |altera_merlin_slave_agent:esl_bus_demo_0_s0_agent|                                  ; 32 (5)              ; 7 (0)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:esl_bus_demo_0_s0_agent                                                                                                                                                                                                                                     ; altera_merlin_slave_agent                         ; soc_system   ;
+;             |altera_merlin_burst_uncompressor:uncompressor|                                   ; 27 (27)             ; 7 (7)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_agent:esl_bus_demo_0_s0_agent|altera_merlin_burst_uncompressor:uncompressor                                                                                                                                                                                       ; altera_merlin_burst_uncompressor                  ; soc_system   ;
 ;          |altera_merlin_slave_translator:esl_bus_demo_0_s0_translator|                        ; 1 (1)               ; 3 (3)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_slave_translator:esl_bus_demo_0_s0_translator                                                                                                                                                                                                                           ; altera_merlin_slave_translator                    ; soc_system   ;
 ;          |soc_system_mm_interconnect_0_cmd_mux:cmd_mux|                                       ; 71 (66)             ; 5 (3)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|soc_system_mm_interconnect_0_cmd_mux:cmd_mux                                                                                                                                                                                                                                          ; soc_system_mm_interconnect_0_cmd_mux              ; soc_system   ;
 ;             |altera_merlin_arbitrator:arb|                                                    ; 5 (5)               ; 2 (2)                     ; 0                 ; 0          ; 0    ; 0            ; |DE10_NANO_SoC|soc_system:u0|soc_system_mm_interconnect_0:mm_interconnect_0|soc_system_mm_interconnect_0_cmd_mux:cmd_mux|altera_merlin_arbitrator:arb                                                                                                                                                                                                             ; altera_merlin_arbitrator                          ; soc_system   ;
@@ -3996,7 +3995,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; arriav_hps_interface_hps2fpga_light_weight           ; 1     ;
 ; arriav_hps_interface_tpiu_trace                      ; 1     ;
 ; arriav_io_obuf                                       ; 25    ;
-; arriav_lcell_comb                                    ; 532   ;
+; arriav_lcell_comb                                    ; 535   ;
 ;     arith                                            ; 117   ;
 ;         1 data inputs                                ; 32    ;
 ;         2 data inputs                                ; 69    ;
@@ -4005,21 +4004,21 @@ Note: In order to hide this table in the UI and the text report file, please set
 ;         5 data inputs                                ; 1     ;
 ;     extend                                           ; 4     ;
 ;         7 data inputs                                ; 4     ;
-;     normal                                           ; 411   ;
+;     normal                                           ; 414   ;
 ;         0 data inputs                                ; 1     ;
 ;         1 data inputs                                ; 3     ;
-;         2 data inputs                                ; 29    ;
-;         3 data inputs                                ; 113   ;
-;         4 data inputs                                ; 151   ;
-;         5 data inputs                                ; 51    ;
-;         6 data inputs                                ; 63    ;
+;         2 data inputs                                ; 32    ;
+;         3 data inputs                                ; 107   ;
+;         4 data inputs                                ; 148   ;
+;         5 data inputs                                ; 58    ;
+;         6 data inputs                                ; 65    ;
 ; arriav_mac                                           ; 1     ;
 ; blackbox                                             ; 1     ;
 ;                 oc_system_hps_0_hps_io_border:border ; 1     ;
 ; boundary_port                                        ; 144   ;
 ;                                                      ;       ;
 ; Max LUT depth                                        ; 6.00  ;
-; Average LUT depth                                    ; 2.35  ;
+; Average LUT depth                                    ; 2.33  ;
 +------------------------------------------------------+-------+
 
 
@@ -4068,8 +4067,8 @@ Note: In order to hide this table in the UI and the text report file, please set
 +---------------------------------------+--------------+
 ; Partition Name                        ; Elapsed Time ;
 +---------------------------------------+--------------+
-; Top                                   ; 00:00:04     ;
-; soc_system_hps_0_hps_io_border:border ; 00:00:02     ;
+; Top                                   ; 00:00:02     ;
+; soc_system_hps_0_hps_io_border:border ; 00:00:01     ;
 +---------------------------------------+--------------+
 
 
@@ -4079,7 +4078,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Standard Edition
-    Info: Processing started: Mon May 11 17:05:07 2026
+    Info: Processing started: Wed May 13 13:04:22 2026
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off PWM_SoC -c PWM_SoC
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 16 of the 24 processors detected
@@ -4205,6 +4204,7 @@ Warning (10236): Verilog HDL Implicit Net warning at hps_sdram_pll.sv(168): crea
 Warning (10222): Verilog HDL Parameter Declaration warning at pwm_generator.v(13): Parameter Declaration in module "pwm_generator" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_09/project/soc_system/synthesis/submodules/pwm_generator.v Line: 13
 Warning (10222): Verilog HDL Parameter Declaration warning at pwm_generator.v(14): Parameter Declaration in module "pwm_generator" behaves as a Local Parameter Declaration because the module has a Module Parameter Port List File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_09/project/soc_system/synthesis/submodules/pwm_generator.v Line: 14
 Info (12127): Elaborating entity "DE10_NANO_SoC" for the top level hierarchy
+Warning (10036): Verilog HDL or VHDL warning at DE10_NANO_SoC.v(93): object "fpga_clk_50" assigned a value but never read File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_09/DE10_NANO_SoC.v Line: 93
 Warning (10034): Output port "HPS_ENET_TX_DATA" at DE10_NANO_SoC.v(33) has no driver File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_09/DE10_NANO_SoC.v Line: 33
 Warning (10034): Output port "LED" at DE10_NANO_SoC.v(62) has no driver File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_09/DE10_NANO_SoC.v Line: 62
 Warning (10034): Output port "HPS_ENET_GTX_CLK" at DE10_NANO_SoC.v(26) has no driver File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_09/DE10_NANO_SoC.v Line: 26
@@ -4420,18 +4420,18 @@ Warning (21074): Design contains 18 input pin(s) that do not drive logic
     Warning (15610): No output dependent on input pin "SW[1]" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_09/DE10_NANO_SoC.v Line: 65
     Warning (15610): No output dependent on input pin "SW[2]" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_09/DE10_NANO_SoC.v Line: 65
     Warning (15610): No output dependent on input pin "SW[3]" File: /home/s3672387/Desktop/Assignments/embedded-vision-tracker/assignment_09/DE10_NANO_SoC.v Line: 65
-Info (21057): Implemented 1628 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 1631 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 25 input pins
     Info (21059): Implemented 54 output pins
     Info (21060): Implemented 65 bidirectional pins
-    Info (21061): Implemented 842 logic cells
+    Info (21061): Implemented 845 logic cells
     Info (21066): Implemented 1 delay-locked loops
     Info (21062): Implemented 1 DSP elements
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 143 warnings
-    Info: Peak virtual memory: 767 megabytes
-    Info: Processing ended: Mon May 11 17:09:06 2026
-    Info: Elapsed time: 00:03:59
-    Info: Total CPU time (on all processors): 00:04:07
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 144 warnings
+    Info: Peak virtual memory: 783 megabytes
+    Info: Processing ended: Wed May 13 13:08:13 2026
+    Info: Elapsed time: 00:03:51
+    Info: Total CPU time (on all processors): 00:03:59
 
 
 +------------------------------------------+

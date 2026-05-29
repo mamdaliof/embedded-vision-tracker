@@ -11,7 +11,7 @@ module pwm_generator #(
         output reg PWM_OUT
     );
     parameter PERIOD = 2500; // 50us period (20kHz target) at 50MHz clock. basically, clock_freq / desired_pwm_freq
-    parameter MIN_OFF_CYCLES = 300; // 6us minimum off time at 50MHz clock. This is to ensure the motor driver can properly switch states and avoid damage. (see Table 9 footnote).
+    parameter MIN_OFF_CYCLES = 00; // 6us minimum off time at 50MHz clock. This is to ensure the motor driver can properly switch states and avoid damage. (see Table 9 footnote).
     reg [12:0] counter; // 13 bits to count up to 2500
 
     // Calculate maximum threshold outside the posedge block.

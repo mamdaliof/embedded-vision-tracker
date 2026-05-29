@@ -28,18 +28,18 @@
  -- VCCINT        : Dedicated power pin, which MUST be connected to VCC  (1.1V).
  -- VCCIO         : Dedicated power pin, which MUST be connected to VCC
  --                 of its bank.
- --                  Bank 3A:       2.5V
- --                  Bank 3B:       2.5V
- --                  Bank 4A:       2.5V
- --                  Bank 5A:       2.5V
- --                  Bank 5B:       2.5V
+ --                  Bank 3A:       3.3V
+ --                  Bank 3B:       3.3V
+ --                  Bank 4A:       3.3V
+ --                  Bank 5A:       3.3V
+ --                  Bank 5B:       3.3V
  --                  Bank 6B:       1.5V
  --                  Bank 6A:  1.5V
  --                  Bank 7A:  2.5V
  --                  Bank 7B:  2.5V
  --                  Bank 7C:  2.5V
  --                  Bank 7D:  2.5V
- --                  Bank 8A:  2.5V
+ --                  Bank 8A:  3.3V
  --                  Bank 9A:  Dedicated configuration pins only, no VCCIO required.
  -- RREF          : External reference resistor for the quad, MUST be connected to
  --                 GND via a 2k Ohm resistor.
@@ -109,24 +109,24 @@ GND                          : AA1       : gnd    :                   :         
 GND                          : AA2       : gnd    :                   :         :           :                
 GND                          : AA3       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA4       :        :                   :         : 3A        :                
-VCCIO3A                      : AA5       : power  :                   : 2.5V    : 3A        :                
+VCCIO3A                      : AA5       : power  :                   : 3.3V    : 3A        :                
 nCSO, DATA4                  : AA6       :        :                   :         : 3A        :                
 DCLK                         : AA8       :        :                   :         : 3A        :                
 GND                          : AA9       : gnd    :                   :         :           :                
-VCCPD3A                      : AA10      : power  :                   : 2.5V    : 3A        :                
+VCCPD3A                      : AA10      : power  :                   : 3.3V    : 3A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA11      :        :                   :         : 3A        :                
-VCCIO3B                      : AA12      : power  :                   : 2.5V    : 3B        :                
-HPS_LTC_GPIO                 : AA13      : bidir  : 2.5 V             :         : 4A        : N              
-VCCPD3B4A                    : AA14      : power  :                   : 2.5V    : 3B, 4A    :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AA15      :        :                   :         : 4A        :                
-VCCIO4A                      : AA16      : power  :                   : 2.5V    : 4A        :                
+VCCIO3B                      : AA12      : power  :                   : 3.3V    : 3B        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AA13      :        :                   :         : 4A        :                
+VCCPD3B4A                    : AA14      : power  :                   : 3.3V    : 3B, 4A    :                
+YAW_DIRA                     : AA15      : output : 3.3-V LVTTL       :         : 4A        : Y              
+VCCIO4A                      : AA16      : power  :                   : 3.3V    : 4A        :                
 GND                          : AA17      : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA18      :        :                   :         : 4A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AA19      :        :                   :         : 4A        :                
+HPS_SPIM_CLK                 : AA19      : output : 3.3-V LVTTL       :         : 4A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA20      :        :                   :         : 5A        :                
 VCCA_FPLL                    : AA21      : power  :                   : 2.5V    :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AA23      :        :                   :         : 5A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AA24      :        :                   :         : 5A        :                
+LED[7]                       : AA23      : output : 3.3-V LVTTL       :         : 5A        : Y              
+LED[1]                       : AA24      : output : 3.3-V LVTTL       :         : 5A        : Y              
 VREFB5BN0                    : AA25      : power  :                   :         : 5B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AA26      :        :                   :         : 5B        :                
 HPS_DDR3_DQ[31]              : AA27      : bidir  : SSTL-15 Class I   :         : 6B        : N              
@@ -137,10 +137,10 @@ GND                          : AB3       : gnd    :                   :         
 RESERVED_INPUT_WITH_WEAK_PULLUP : AB4       :        :                   :         : 3A        :                
 TCK                          : AB5       : input  :                   :         : 3A        :                
 AS_DATA3, DATA3              : AB6       :        :                   :         : 3A        :                
-HPS_USB_STP                  : AB23      : output : 2.5 V             :         : 5A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AB23      :        :                   :         : 5A        :                
 GND                          : AB24      : gnd    :                   :         :           :                
-HPS_SD_CMD                   : AB25      : bidir  : 2.5 V             :         : 5B        : N              
-SW[3]                        : AB26      : input  : 2.5 V             :         : 5B        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AB25      :        :                   :         : 5B        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AB26      :        :                   :         : 5B        :                
 GND                          : AB27      : gnd    :                   :         :           :                
 HPS_DDR3_DM[3]               : AB28      : output : SSTL-15 Class I   :         : 6B        : N              
 GND                          : AC1       : gnd    :                   :         :           :                
@@ -153,9 +153,9 @@ TMS                          : AC7       : input  :                   :         
 VCC_AUX                      : AC8       : power  :                   : 2.5V    :           :                
 VCC_AUX                      : AC21      : power  :                   : 2.5V    :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AC22      :        :                   :         : 4A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AC23      :        :                   :         : 4A        :                
-SW[2]                        : AC24      : input  : 2.5 V             :         : 5A        : N              
-VCCIO5A                      : AC25      : power  :                   : 2.5V    : 5A        :                
+HPS_SD_DATA[0]               : AC23      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AC24      :        :                   :         : 5A        :                
+VCCIO5A                      : AC25      : power  :                   : 3.3V    : 5A        :                
 VREFB5AN0                    : AC26      : power  :                   :         : 5A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AC27      :        :                   :         : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AC28      :        :                   :         : 6B        :                
@@ -163,28 +163,28 @@ DNU                          : AD1       :        :                   :         
 DNU                          : AD2       :        :                   :         :           :                
 GND                          : AD3       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD4       :        :                   :         : 3A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AD5       :        :                   :         : 3A        :                
+HPS_ENET_MDC                 : AD5       : output : 3.3-V LVTTL       :         : 3A        : N              
 GND                          : AD6       : gnd    :                   :         :           :                
 AS_DATA0, ASDO, DATA0        : AD7       :        :                   :         : 3A        :                
 GND                          : AD8       : gnd    :                   :         :           :                
-VCCPD3B4A                    : AD9       : power  :                   : 2.5V    : 3B, 4A    :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AD10      :        :                   :         : 3B        :                
-HPS_KEY                      : AD11      : bidir  : 2.5 V             :         : 3B        : N              
-HPS_ENET_TX_DATA[3]          : AD12      : output : 2.5 V             :         : 3B        : N              
-VCCPD3B4A                    : AD13      : power  :                   : 2.5V    : 3B, 4A    :                
+VCCPD3B4A                    : AD9       : power  :                   : 3.3V    : 3B, 4A    :                
+HPS_SPIM_MISO                : AD10      : input  : 3.3-V LVTTL       :         : 3B        : N              
+HPS_USB_STP                  : AD11      : output : 3.3-V LVTTL       :         : 3B        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AD12      :        :                   :         : 3B        :                
+VCCPD3B4A                    : AD13      : power  :                   : 3.3V    : 3B, 4A    :                
 GND                          : AD14      : gnd    :                   :         :           :                
 VCC_AUX                      : AD15      : power  :                   : 2.5V    :           :                
-VCCPD3B4A                    : AD16      : power  :                   : 2.5V    : 3B, 4A    :                
-FPGA_CLK2_50                 : AD17      : input  : 2.5 V             :         : 4A        : N              
-VCCPD3B4A                    : AD18      : power  :                   : 2.5V    : 3B, 4A    :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AD19      :        :                   :         : 4A        :                
+VCCPD3B4A                    : AD16      : power  :                   : 3.3V    : 3B, 4A    :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AD17      :        :                   :         : 4A        :                
+VCCPD3B4A                    : AD18      : power  :                   : 3.3V    : 3B, 4A    :                
+HPS_USB_DATA[1]              : AD19      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD20      :        :                   :         : 4A        :                
-VCCPD3B4A                    : AD21      : power  :                   : 2.5V    : 3B, 4A    :                
+VCCPD3B4A                    : AD21      : power  :                   : 3.3V    : 3B, 4A    :                
 GND                          : AD22      : gnd    :                   :         :           :                
-HPS_SPIM_CLK                 : AD23      : output : 2.5 V             :         : 4A        : N              
+HPS_UART_RX                  : AD23      : input  : 3.3-V LVTTL       :         : 4A        : N              
 VCCPGM                       : AD24      : power  :                   : 1.8V/2.5V/3.0V/3.3V :           :                
 GND                          : AD25      : gnd    :                   :         :           :                
-HPS_ENET_RX_DATA[0]          : AD26      : input  : 2.5 V             :         : 5A        : N              
+HPS_KEY                      : AD26      : bidir  : 3.3-V LVTTL       :         : 5A        : N              
 VCCIO6B_HPS                  : AD27      : power  :                   : 1.5V    : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD28      :        :                   :         : 6B        :                
 GND                          : AE1       : gnd    :                   :         :           :                
@@ -192,111 +192,111 @@ GND                          : AE2       : gnd    :                   :         
 GND                          : AE3       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE4       :        :                   :         : 3B        :                
 VREFB3AN0                    : AE5       : power  :                   :         : 3A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AE6       :        :                   :         : 3A        :                
-LED[0]                       : AE7       : output : 2.5 V             :         : 3B        : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AE8       :        :                   :         : 3B        :                
-HPS_LED                      : AE9       : bidir  : 2.5 V             :         : 3B        : N              
-VCCIO3B                      : AE10      : power  :                   : 2.5V    : 3B        :                
+HPS_SD_CLK                   : AE6       : output : 3.3-V LVTTL       :         : 3A        : N              
+HPS_ENET_TX_EN               : AE7       : output : 3.3-V LVTTL       :         : 3B        : N              
+HPS_USB_DIR                  : AE8       : input  : 3.3-V LVTTL       :         : 3B        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AE9       :        :                   :         : 3B        :                
+VCCIO3B                      : AE10      : power  :                   : 3.3V    : 3B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE11      :        :                   :         : 3B        :                
-HPS_ENET_TX_DATA[2]          : AE12      : output : 2.5 V             :         : 3B        : N              
-VCCIO3B                      : AE13      : power  :                   : 2.5V    : 3B        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AE12      :        :                   :         : 3B        :                
+VCCIO3B                      : AE13      : power  :                   : 3.3V    : 3B        :                
 DNU                          : AE14      :        :                   :         :           :                
-KEY[0]                       : AE15      : input  : 2.5 V             :         : 4A        : N              
+HPS_ENET_RX_DATA[2]          : AE15      : input  : 3.3-V LVTTL       :         : 4A        : N              
 GND                          : AE16      : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AE17      :        :                   :         : 4A        :                
+HPS_ENET_TX_DATA[1]          : AE17      : output : 3.3-V LVTTL       :         : 4A        : N              
 GND                          : AE18      : gnd    :                   :         :           :                
-SW[1]                        : AE19      : input  : 2.5 V             :         : 4A        : N              
-HPS_USB_DATA[2]              : AE20      : bidir  : 2.5 V             :         : 4A        : N              
-VCCIO4A                      : AE21      : power  :                   : 2.5V    : 4A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AE22      :        :                   :         : 4A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AE23      :        :                   :         : 4A        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AE19      :        :                   :         : 4A        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AE20      :        :                   :         : 4A        :                
+VCCIO4A                      : AE21      : power  :                   : 3.3V    : 4A        :                
+HPS_I2C0_SCLK                : AE22      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
+HPS_USB_DATA[2]              : AE23      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE24      :        :                   :         : 4A        :                
-HPS_USB_DATA[5]              : AE25      : bidir  : 2.5 V             :         : 5A        : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AE26      :        :                   :         : 5A        :                
+YAW_ENC_A                    : AE25      : input  : 3.3-V LVTTL       :         : 5A        : Y              
+LED[5]                       : AE26      : output : 3.3-V LVTTL       :         : 5A        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE27      :        :                   :         : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE28      :        :                   :         : 6B        :                
 GND                          : AF1       : gnd    :                   :         :           :                
 GND                          : AF2       : gnd    :                   :         :           :                
 GND                          : AF3       : gnd    :                   :         :           :                
-HPS_ENET_RX_DATA[3]          : AF4       : input  : 2.5 V             :         : 3B        : N              
-LED[4]                       : AF5       : output : 2.5 V             :         : 3B        : N              
+HPS_USB_DATA[6]              : AF4       : bidir  : 3.3-V LVTTL       :         : 3B        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AF5       :        :                   :         : 3B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF6       :        :                   :         : 3B        :                
-YAW_ENC_B                    : AF7       : input  : 2.5 V             :         : 3B        : N              
-HPS_GSENSOR_INT              : AF8       : bidir  : 2.5 V             :         : 3B        : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AF9       :        :                   :         : 3B        :                
-PITCH_ENC_A                  : AF10      : input  : 2.5 V             :         : 3B        : N              
-PWM_INA                      : AF11      : output : 2.5 V             :         : 3B        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AF7       :        :                   :         : 3B        :                
+HPS_ENET_RX_DATA[1]          : AF8       : input  : 3.3-V LVTTL       :         : 3B        : N              
+HPS_SD_CMD                   : AF9       : bidir  : 3.3-V LVTTL       :         : 3B        : N              
+HPS_USB_DATA[5]              : AF10      : bidir  : 3.3-V LVTTL       :         : 3B        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AF11      :        :                   :         : 3B        :                
 VREFB3BN0                    : AF12      : power  :                   :         : 3B        :                
-HPS_ENET_TX_DATA[0]          : AF13      : output : 2.5 V             :         : 4A        : N              
-VCCIO4A                      : AF14      : power  :                   : 2.5V    : 4A        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AF13      :        :                   :         : 4A        :                
+VCCIO4A                      : AF14      : power  :                   : 3.3V    : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF15      :        :                   :         : 4A        :                
 VREFB4AN0                    : AF16      : power  :                   :         : 4A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AF17      :        :                   :         : 4A        :                
+HPS_SD_DATA[1]               : AF17      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF18      :        :                   :         : 4A        :                
-VCCIO4A                      : AF19      : power  :                   : 2.5V    : 4A        :                
-HPS_USB_DATA[7]              : AF20      : bidir  : 2.5 V             :         : 4A        : N              
-HPS_CONV_USB_N               : AF21      : bidir  : 2.5 V             :         : 4A        : N              
-LED[1]                       : AF22      : output : 2.5 V             :         : 4A        : N              
+VCCIO4A                      : AF19      : power  :                   : 3.3V    : 4A        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AF20      :        :                   :         : 4A        :                
+HPS_I2C1_SCLK                : AF21      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AF22      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF23      :        :                   :         : 4A        :                
 GND                          : AF24      : gnd    :                   :         :           :                
-HPS_USB_DATA[0]              : AF25      : bidir  : 2.5 V             :         : 4A        : N              
-HPS_ENET_GTX_CLK             : AF26      : output : 2.5 V             :         : 5A        : N              
+HPS_LTC_GPIO                 : AF25      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
+LED[4]                       : AF26      : output : 3.3-V LVTTL       :         : 5A        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF27      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF28      :        :                   :         : 4A        :                
 GND                          : AG1       : gnd    :                   :         :           :                
 GND                          : AG2       : gnd    :                   :         :           :                
 GND                          : AG3       : gnd    :                   :         :           :                
-VCCIO3B                      : AG4       : power  :                   : 2.5V    : 3B        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AG5       :        :                   :         : 3B        :                
-HPS_ENET_RX_DATA[1]          : AG6       : input  : 2.5 V             :         : 3B        : N              
+VCCIO3B                      : AG4       : power  :                   : 3.3V    : 3B        :                
+HPS_USB_CLKOUT               : AG5       : input  : 3.3-V LVTTL       :         : 3B        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AG6       :        :                   :         : 3B        :                
 GND                          : AG7       : gnd    :                   :         :           :                
-HPS_I2C0_SDAT                : AG8       : bidir  : 2.5 V             :         : 4A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AG8       :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AG9       :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AG10      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AG11      :        :                   :         : 4A        :                
-VCCIO4A                      : AG12      : power  :                   : 2.5V    : 4A        :                
+VCCIO4A                      : AG12      : power  :                   : 3.3V    : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AG13      :        :                   :         : 4A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AG14      :        :                   :         : 4A        :                
+HPS_USB_DATA[3]              : AG14      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AG15      :        :                   :         : 4A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AG16      :        :                   :         : 4A        :                
+HPS_SD_DATA[3]               : AG16      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
 GND                          : AG17      : gnd    :                   :         :           :                
-HPS_ENET_TX_DATA[1]          : AG18      : output : 2.5 V             :         : 4A        : N              
-HPS_ENET_MDC                 : AG19      : output : 2.5 V             :         : 4A        : N              
-HPS_USB_DATA[6]              : AG20      : bidir  : 2.5 V             :         : 4A        : N              
+HPS_I2C1_SDAT                : AG18      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
+HPS_ENET_GTX_CLK             : AG19      : output : 3.3-V LVTTL       :         : 4A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AG20      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AG21      :        :                   :         : 4A        :                
-VCCIO4A                      : AG22      : power  :                   : 2.5V    : 4A        :                
-HPS_USB_CLKOUT               : AG23      : input  : 2.5 V             :         : 4A        : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AG24      :        :                   :         : 4A        :                
-LED[5]                       : AG25      : output : 2.5 V             :         : 4A        : N              
-HPS_USB_DATA[3]              : AG26      : bidir  : 2.5 V             :         : 4A        : N              
+VCCIO4A                      : AG22      : power  :                   : 3.3V    : 4A        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AG23      :        :                   :         : 4A        :                
+PITCH_ENC_A                  : AG24      : input  : 3.3-V LVTTL       :         : 4A        : Y              
+HPS_ENET_TX_DATA[0]          : AG25      : output : 3.3-V LVTTL       :         : 4A        : N              
+YAW_ENC_B                    : AG26      : input  : 3.3-V LVTTL       :         : 4A        : Y              
 GND                          : AG27      : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AG28      :        :                   :         : 4A        :                
-PWM_OUT                      : AH2       : output : 2.5 V             :         : 3B        : N              
-PITCH_ENC_B                  : AH3       : input  : 2.5 V             :         : 3B        : N              
-FPGA_CLK3_50                 : AH4       : input  : 2.5 V             :         : 3B        : N              
-HPS_ENET_MDIO                : AH5       : bidir  : 2.5 V             :         : 3B        : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AH6       :        :                   :         : 3B        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AH7       :        :                   :         : 4A        :                
-HPS_USB_DIR                  : AH8       : input  : 2.5 V             :         : 4A        : N              
-YAW_ENC_A                    : AH9       : input  : 2.5 V             :         : 4A        : N              
+YAW_PWM_VAL                  : AG28      : output : 3.3-V LVTTL       :         : 4A        : Y              
+HPS_USB_NXT                  : AH2       : input  : 3.3-V LVTTL       :         : 3B        : N              
+HPS_ENET_TX_DATA[2]          : AH3       : output : 3.3-V LVTTL       :         : 3B        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AH4       :        :                   :         : 3B        :                
+HPS_SPIM_MOSI                : AH5       : output : 3.3-V LVTTL       :         : 3B        : N              
+HPS_ENET_TX_DATA[3]          : AH6       : output : 3.3-V LVTTL       :         : 3B        : N              
+HPS_ENET_RX_DATA[3]          : AH7       : input  : 3.3-V LVTTL       :         : 4A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AH8       :        :                   :         : 4A        :                
+HPS_SPIM_SS                  : AH9       : bidir  : 3.3-V LVTTL       :         : 4A        : N              
 GND                          : AH10      : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AH11      :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AH12      :        :                   :         : 4A        :                
-HPS_I2C1_SCLK                : AH13      : bidir  : 2.5 V             :         : 4A        : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AH14      :        :                   :         : 4A        :                
-VCCIO4A                      : AH15      : power  :                   : 2.5V    : 4A        :                
-HPS_ENET_RX_CLK              : AH16      : input  : 2.5 V             :         : 4A        : N              
-HPS_ENET_RX_DV               : AH17      : input  : 2.5 V             :         : 4A        : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AH18      :        :                   :         : 4A        :                
-HPS_SD_DATA[3]               : AH19      : bidir  : 2.5 V             :         : 4A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AH13      :        :                   :         : 4A        :                
+HPS_UART_TX                  : AH14      : output : 3.3-V LVTTL       :         : 4A        : N              
+VCCIO4A                      : AH15      : power  :                   : 3.3V    : 4A        :                
+KEY[1]                       : AH16      : input  : 3.3-V LVTTL       :         : 4A        : Y              
+KEY[0]                       : AH17      : input  : 3.3-V LVTTL       :         : 4A        : Y              
+HPS_ENET_RX_DV               : AH18      : input  : 3.3-V LVTTL       :         : 4A        : N              
+HPS_SD_DATA[2]               : AH19      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
 GND                          : AH20      : gnd    :                   :         :           :                
-HPS_I2C1_SDAT                : AH21      : bidir  : 2.5 V             :         : 4A        : N              
+PITCH_ENC_B                  : AH21      : input  : 3.3-V LVTTL       :         : 4A        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AH22      :        :                   :         : 4A        :                
-HPS_SPIM_MISO                : AH23      : input  : 2.5 V             :         : 4A        : N              
-HPS_USB_NXT                  : AH24      : input  : 2.5 V             :         : 4A        : N              
-VCCIO4A                      : AH25      : power  :                   : 2.5V    : 4A        :                
-HPS_ENET_INT_N               : AH26      : bidir  : 2.5 V             :         : 4A        : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AH27      :        :                   :         : 4A        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AH23      :        :                   :         : 4A        :                
+HPS_CONV_USB_N               : AH24      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
+VCCIO4A                      : AH25      : power  :                   : 3.3V    : 4A        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AH26      :        :                   :         : 4A        :                
+HPS_LED                      : AH27      : bidir  : 3.3-V LVTTL       :         : 4A        : N              
 GND                          : B1        :        :                   :         :           :                
 DNU                          : B2        :        :                   :         :           :                
 GND                          : B3        : gnd    :                   :         :           :                
@@ -363,8 +363,8 @@ VCCBAT                       : D7        : power  :                   : 1.2V    
 RESERVED_INPUT_WITH_WEAK_PULLUP : D8        :        :                   :         : 8A        :                
 VREFB8AN0                    : D9        : power  :                   :         : 8A        :                
 GND                          : D10       : gnd    :                   :         :           :                
-LED[2]                       : D11       : output : 2.5 V             :         : 8A        : N              
-PWM_INB                      : D12       : output : 2.5 V             :         : 8A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : D11       :        :                   :         : 8A        :                
+HPS_ENET_RX_DATA[0]          : D12       : input  : 3.3-V LVTTL       :         : 8A        : N              
 GND                          : D13       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D14       :        :                   :         : 7C        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : D15       :        :                   :         : 7B        :                
@@ -387,11 +387,11 @@ GND                          : E3        : gnd    :                   :         
 RESERVED_INPUT_WITH_WEAK_PULLUP : E4        :        :                   :         : 7D        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : E5        :        :                   :         : 7D        :                
 nCE                          : E6        :        :                   :         : 9A        :                
-VCCIO8A                      : E7        : power  :                   : 2.5V    : 8A        :                
-KEY[1]                       : E8        : input  : 2.5 V             :         : 8A        : N              
+VCCIO8A                      : E7        : power  :                   : 3.3V    : 8A        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : E8        :        :                   :         : 8A        :                
 GND                          : E9        : gnd    :                   :         :           :                
-VCCPD8A                      : E10       : power  :                   : 2.5V    : 8A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : E11       :        :                   :         : 8A        :                
+VCCPD8A                      : E10       : power  :                   : 3.3V    : 8A        :                
+FPGA_CLK3_50                 : E11       : input  : 3.3-V LVTTL       :         : 8A        : Y              
 DNU                          : E12       :        :                   :         :           :                
 VCCPD7D_HPS                  : E13       : power  :                   : 2.5V    : 7D        :                
 VCCPD7C_HPS                  : E14       : power  :                   : 2.5V    : 7C        :                
@@ -636,11 +636,11 @@ DNU                          : T2        :        :                   :         
 GND                          : T3        : gnd    :                   :         :           :                
 VCC                          : T4        : power  :                   : 1.1V    :           :                
 VCC                          : T5        : power  :                   : 1.1V    :           :                
-HPS_SD_DATA[1]               : T8        : bidir  : 2.5 V             :         : 3A        : N              
+HPS_ENET_MDIO                : T8        : bidir  : 3.3-V LVTTL       :         : 3A        : N              
 VCC                          : T9        : power  :                   : 1.1V    :           :                
 GND                          : T10       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : T11       :        :                   :         : 3B        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : T12       :        :                   :         : 3B        :                
+HPS_ENET_RX_CLK              : T12       : input  : 3.3-V LVTTL       :         : 3B        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : T13       :        :                   :         : 3B        :                
 GND                          : T14       : gnd    :                   :         :           :                
 VCC                          : T15       : power  :                   : 1.1V    :           :                
@@ -662,8 +662,8 @@ VCCA_FPLL                    : U4        : power  :                   : 2.5V    
 GND                          : U5        : gnd    :                   :         :           :                
 DNU                          : U8        :        :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U9        :        :                   :         : 3A        :                
-HPS_USB_DATA[1]              : U10       : bidir  : 2.5 V             :         : 3A        : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : U11       :        :                   :         : 3B        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : U10       :        :                   :         : 3A        :                
+HPS_USB_DATA[0]              : U11       : bidir  : 3.3-V LVTTL       :         : 3B        : N              
 GND                          : U12       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U13       :        :                   :         : 4A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U14       :        :                   :         : 4A        :                
@@ -686,13 +686,13 @@ GND                          : V4        : gnd    :                   :         
 GND                          : V5        : gnd    :                   :         :           :                
 GND                          : V8        : gnd    :                   :         :           :                
 GND                          : V9        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : V10       :        :                   :         : 3A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : V11       :        :                   :         : 3B        :                
-HPS_SD_CLK                   : V12       : output : 2.5 V             :         : 3B        : N              
-HPS_SD_DATA[2]               : V13       : bidir  : 2.5 V             :         : 4A        : N              
+HPS_USB_DATA[4]              : V10       : bidir  : 3.3-V LVTTL       :         : 3A        : N              
+FPGA_CLK1_50                 : V11       : input  : 3.3-V LVTTL       :         : 3B        : Y              
+RESERVED_INPUT_WITH_WEAK_PULLUP : V12       :        :                   :         : 3B        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : V13       :        :                   :         : 4A        :                
 GND                          : V14       : gnd    :                   :         :           :                
-HPS_SPIM_MOSI                : V15       : output : 2.5 V             :         : 5A        : N              
-HPS_I2C0_SCLK                : V16       : bidir  : 2.5 V             :         : 5A        : N              
+LED[3]                       : V15       : output : 3.3-V LVTTL       :         : 5A        : Y              
+LED[2]                       : V16       : output : 3.3-V LVTTL       :         : 5A        : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : V17       :        :                   :         : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : V18       :        :                   :         : 6B        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : V19       :        :                   :         : 6B        :                
@@ -709,44 +709,44 @@ GND                          : W3        : gnd    :                   :         
 GND                          : W4        : gnd    :                   :         :           :                
 VCCA_FPLL                    : W5        : power  :                   : 2.5V    :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : W8        :        :                   :         : 3A        :                
-VCCIO3A                      : W9        : power  :                   : 2.5V    : 3A        :                
+VCCIO3A                      : W9        : power  :                   : 3.3V    : 3A        :                
 TDI                          : W10       : input  :                   :         : 3A        :                
-LED[6]                       : W11       : output : 2.5 V             :         : 3B        : N              
-SW[0]                        : W12       : input  : 2.5 V             :         : 3B        : N              
-VCCIO4A                      : W13       : power  :                   : 2.5V    : 4A        :                
-HPS_SPIM_SS                  : W14       : bidir  : 2.5 V             :         : 4A        : N              
-HPS_SD_DATA[0]               : W15       : bidir  : 2.5 V             :         : 5A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : W11       :        :                   :         : 3B        :                
+HPS_I2C0_SDAT                : W12       : bidir  : 3.3-V LVTTL       :         : 3B        : N              
+VCCIO4A                      : W13       : power  :                   : 3.3V    : 4A        :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : W14       :        :                   :         : 4A        :                
+LED[0]                       : W15       : output : 3.3-V LVTTL       :         : 5A        : Y              
 GND                          : W16       : gnd    :                   :         :           :                
-VCCIO5A                      : W17       : power  :                   : 2.5V    : 5A        :                
+VCCIO5A                      : W17       : power  :                   : 3.3V    : 5A        :                
 GND                          : W18       : gnd    :                   :         :           :                
-VCCPD5B                      : W19       : power  :                   : 2.5V    : 5B        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : W20       :        :                   :         : 5B        :                
-FPGA_CLK1_50                 : W21       : input  : 2.5 V             :         : 5B        : N              
-HPS_UART_RX                  : W24       : input  : 2.5 V             :         : 5B        : N              
-VCCIO5B                      : W25       : power  :                   : 2.5V    : 5B        :                
+VCCPD5B                      : W19       : power  :                   : 3.3V    : 5B        :                
+SW[3]                        : W20       : input  : 3.3-V LVTTL       :         : 5B        : Y              
+SW[2]                        : W21       : input  : 3.3-V LVTTL       :         : 5B        : Y              
+SW[1]                        : W24       : input  : 3.3-V LVTTL       :         : 5B        : Y              
+VCCIO5B                      : W25       : power  :                   : 3.3V    : 5B        :                
 HPS_DDR3_DQ[27]              : W26       : bidir  : SSTL-15 Class I   :         : 6B        : N              
 VCCIO6B_HPS                  : W27       : power  :                   : 1.5V    : 6B        :                
 HPS_DDR3_DM[2]               : W28       : output : SSTL-15 Class I   :         : 6B        : N              
 DNU                          : Y1        :        :                   :         :           :                
 DNU                          : Y2        :        :                   :         :           :                
 GND                          : Y3        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : Y4        :        :                   :         : 3A        :                
-HPS_USB_DATA[4]              : Y5        : bidir  : 2.5 V             :         : 3A        : N              
+HPS_GSENSOR_INT              : Y4        : bidir  : 3.3-V LVTTL       :         : 3A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : Y5        :        :                   :         : 3A        :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : Y8        :        :                   :         : 3A        :                
 TDO                          : Y9        : output :                   :         : 3A        :                
 VCCPGM                       : Y10       : power  :                   : 1.8V/2.5V/3.0V/3.3V :           :                
-LED[7]                       : Y11       : output : 2.5 V             :         : 3A        : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : Y11       :        :                   :         : 3A        :                
 GND                          : Y12       : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : Y13       :        :                   :         : 4A        :                
+FPGA_CLK2_50                 : Y13       : input  : 3.3-V LVTTL       :         : 4A        : Y              
 GND                          : Y14       : gnd    :                   :         :           :                
-HPS_ENET_RX_DATA[2]          : Y15       : input  : 2.5 V             :         : 4A        : N              
-HPS_UART_TX                  : Y16       : output : 2.5 V             :         : 5A        : N              
-HPS_ENET_TX_EN               : Y17       : output : 2.5 V             :         : 5A        : N              
+YAW_DIRB                     : Y15       : output : 3.3-V LVTTL       :         : 4A        : Y              
+LED[6]                       : Y16       : output : 3.3-V LVTTL       :         : 5A        : Y              
+HPS_ENET_INT_N               : Y17       : bidir  : 3.3-V LVTTL       :         : 5A        : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : Y18       :        :                   :         : 5A        :                
-LED[3]                       : Y19       : output : 2.5 V             :         : 5A        : N              
+HPS_USB_DATA[7]              : Y19       : bidir  : 3.3-V LVTTL       :         : 5A        : N              
 GND                          : Y20       : gnd    :                   :         :           :                
-VCCPD5A                      : Y21       : power  :                   : 2.5V    : 5A        :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : Y24       :        :                   :         : 5B        :                
+VCCPD5A                      : Y21       : power  :                   : 3.3V    : 5A        :                
+SW[0]                        : Y24       : input  : 3.3-V LVTTL       :         : 5B        : Y              
 GND                          : Y25       : gnd    :                   :         :           :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : Y26       :        :                   :         : 6B        :                
 HPS_DDR3_DQ[30]              : Y27       : bidir  : SSTL-15 Class I   :         : 6B        : N              
