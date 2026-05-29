@@ -146,3 +146,12 @@ Verify
 
 - Probe `YAW_PWM_VAL` pin with oscilloscope — verify 20kHz frequency
 - Probe `YAW_DIRA` and `YAW_DIRB` — verify they match Table 12 from VNH2SP30-E datasheet
+
+
+# Assignment 14 
+
+to build the vision:
+
+```bash
+g++ -O3 -o vision_tracker vision_tracker.cpp $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-app-1.0 opencv4)
+```
