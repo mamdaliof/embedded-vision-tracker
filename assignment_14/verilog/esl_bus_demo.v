@@ -100,7 +100,7 @@ module esl_bus_demo #(
             if (slave_read) begin
                 case (slave_address)
                     8'h00: slave_readdata <= yaw_count;   // read yaw encoder. Base Address + 0
-                    8'h04: slave_readdata <= pitch_count; // read pitch encoder. Base Address + 4 bytes
+                    8'h01: slave_readdata <= pitch_count; // read pitch encoder. Base Address + 4 bytes
                     default: slave_readdata <= 32'b0;
                 endcase
             end
@@ -108,7 +108,7 @@ module esl_bus_demo #(
             // Handle ARM Write Requests
             if (slave_write) begin
                 case (slave_address)
-                    8'h08: begin // Yaw PWM Control
+                    8'h02: begin // Yaw PWM Control
                         // bit[31]   = cnt_enable
                         // bit[8]    = direction (1=CW, 0=CCW)
                         // bit[7:0]  = duty_cycle (0-255)
@@ -116,7 +116,7 @@ module esl_bus_demo #(
                         yaw_direction  <= slave_writedata[8];
                         yaw_duty_cycle <= slave_writedata[7:0];
                     end
-                    8'h0C: begin // Pitch PWM Control
+                    8'h03: begin // Pitch PWM Control
                         pitch_cnt_enable <= slave_writedata[31];
                         pitch_direction  <= slave_writedata[8];
                         pitch_duty_cycle <= slave_writedata[7:0];
