@@ -156,14 +156,16 @@ Verify
 
 ---
 
-# Assignment 13
+# Assignment 12 -- Design Space Exploration
 
-pitch max range = 13100
-yaw max range = 10750
+source: [Vision-in-the-loop Architecture](https://costinchitic.wiki/notes/embedded-systems-5)
 
 ---
 
-# Assignment 14
+# Assignment 13 -- Controllers generated with 20-sim on DE10
+
+pitch max range = 13100
+yaw max range = 10750
 
 to compile `main_control.c`:
 ```bash
@@ -185,13 +187,16 @@ gcc main_control.c \
   -o main_control -lm
   ```
 
-  LOOK AGAIN OVER THE BYTES LOGIC FOR YAW AND PITCH BECAUSE THE HARDWARE WAS SEVERED AND WE CHANGED h04 and h01.
-
   TILT IS PITCH
   PAN IS YAW
 
+---
 
-# Assignment 14 
+# Assignment 14 -- Controller Performance Comparison & Integration
+
+---
+
+# Assignment 15 -- Final Demo
 
 to build the vision:
 
