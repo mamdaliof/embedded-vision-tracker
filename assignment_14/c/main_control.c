@@ -19,6 +19,40 @@
 #define COUNTS_PITCH 13100
 #define COUNTS_YAW 10750
 
+// Helper function to find a limit by moving until the encoder stops changing
+// Helper function to find a limit by moving until the encoder stops changing
+int32_t find_limit(volatile uint32_t* base, int motor_idx, int encoder_idx, int direction, int pwm_duty) {
+    // 1. Apply movement
+    base[motor_idx] = (1U << 31) | (direction << 8) | pwm_duty;
+
+    // 2. Head start: Wait 250ms to let the motor overcome static friction 
+    // and actually start moving BEFORE we begin checking for a stall.
+    usleep(250000); 
+
+    int32_t last_enc = (int32_t)base[encoder_idx];
+    int stall_counter = 0;
+
+    // 3. Monitor for stall
+    while (stall_counter < 15) { 
+        usleep(20000); // 20ms wait per loop
+        int32_t current_enc = (int32_t)base[encoder_idx];
+        
+        // If it moved less than 5 counts in 20ms, consider it stalled
+        if (abs(current_enc - last_enc) < 5) {
+            stall_counter++;
+        } else {
+            stall_counter = 0; // It is moving freely, reset counter!
+        }
+        last_enc = current_enc;
+    }
+    
+    // 4. Stop the motor and wait a moment for it to physically settle
+    base[motor_idx] = (1U << 31) | (0 << 8) | 0;
+    usleep(250000); 
+    
+    return last_enc;
+}
+
 int main(int argc, char** argv) {
     if (argc != 3) {
         fprintf(stderr, "Usage: %s <target_pan_counts> <target_tilt_counts>\n", argv[0]);
@@ -47,9 +81,23 @@ int main(int argc, char** argv) {
         return -1;
     }
 
+    // Calibration: Find limits for Pan and Tilt
+    printf("Calibrating Pan (Yaw)...\n");
+        printf("Calibrating Pan (Yaw)...\n");
+    int32_t pan_limit = find_limit(base, 2, 0, 0, 25); // Duty 90
+    int32_t pan_center = pan_limit + (COUNTS_YAW / 2);
+
+    printf("Calibrating Tilt (Pitch)...\n");
+    int32_t tilt_limit = find_limit(base, 3, 1, 0, 25); // Duty 90
+    int32_t tilt_center = tilt_limit + (COUNTS_PITCH / 2);
+
+    // Now your true zeros are the center of the mechanical ranges!
+    int32_t zero_pan = pan_center; 
+    int32_t zero_tilt = tilt_center;
+
     // Capture initial "Zero Point" (assuming home position)
-    int32_t zero_pan = (int32_t)base[0];
-    int32_t zero_tilt = (int32_t)base[1];
+    // int32_t zero_pan = (int32_t)base[0];
+    // int32_t zero_tilt = (int32_t)base[1];
 
     // Initialize Controllers
     pan_XXDouble pan_u[2], pan_y[2];
@@ -72,6 +120,17 @@ int main(int argc, char** argv) {
         // 1. Read Encoders (Current - Initial = Absolute Difference)
         int32_t current_pan = (int32_t)base[0] - zero_pan;
         int32_t current_tilt = (int32_t)base[1] - zero_tilt;
+
+        // Safety limits (half of total range)
+        const int32_t PAN_MAX_LIMIT = COUNTS_YAW / 2;
+        const int32_t TILT_MAX_LIMIT = COUNTS_PITCH / 2;
+
+        // Clamp Targets to prevent trying to drive past limits
+        if (target_pan > PAN_MAX_LIMIT) target_pan = PAN_MAX_LIMIT;
+        if (target_pan < -PAN_MAX_LIMIT) target_pan = -PAN_MAX_LIMIT;
+        if (target_tilt > TILT_MAX_LIMIT) target_tilt = TILT_MAX_LIMIT;
+        if (target_tilt < -TILT_MAX_LIMIT) target_tilt = -TILT_MAX_LIMIT;
+
         double rad_per_count_pitch = 1.2*M_PI/COUNTS_PITCH;
         double rad_per_count_yaw = M_PI/COUNTS_YAW;
 
