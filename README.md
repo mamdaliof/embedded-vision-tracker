@@ -96,6 +96,13 @@ steps:
 
 ---
 
+# Assignment 7 - Reading Encoder values
+
+1. `gcc main_encoder.c -o main_encoder`
+2. `./main_encoder`
+
+---
+
 # Assignment 9 - PWM Module for DE10
 
 Local Simulation
@@ -147,8 +154,49 @@ Verify
 - Probe `YAW_PWM_VAL` pin with oscilloscope — verify 20kHz frequency
 - Probe `YAW_DIRA` and `YAW_DIRB` — verify they match Table 12 from VNH2SP30-E datasheet
 
+---
 
-# Assignment 14 
+# Assignment 12 -- Design Space Exploration
+
+source: [Vision-in-the-loop Architecture](https://costinchitic.wiki/notes/embedded-systems-5)
+
+---
+
+# Assignment 13 -- Controllers generated with 20-sim on DE10
+
+pitch max range = 13100
+yaw max range = 10750
+
+to compile `main_control.c`:
+```bash
+gcc main_control.c \
+  ./controllers/PositionControllerPan/pan_submod.c \
+  ./controllers/PositionControllerPan/pan_model.c \
+  ./controllers/PositionControllerPan/pan_funcs.c \
+  ./controllers/PositionControllerPan/pan_integ.c \
+  ./controllers/PositionControllerPan/pan_matrix.c \
+  ./controllers/PositionControllerPan/EulerAngles.c \
+  ./controllers/PositionControllerPan/motionprofiles.c \
+  ./controllers/PositionControllerTilt/tilt_submod.c \
+  ./controllers/PositionControllerTilt/tilt_model.c \
+  ./controllers/PositionControllerTilt/tilt_funcs.c \
+  ./controllers/PositionControllerTilt/tilt_integ.c \
+  ./controllers/PositionControllerTilt/tilt_matrix.c \
+  ./controllers/PositionControllerTilt/EulerAngles.c \
+  ./controllers/PositionControllerTilt/motionprofiles.c \
+  -o main_control -lm
+  ```
+
+  TILT IS PITCH
+  PAN IS YAW
+
+---
+
+# Assignment 14 -- Controller Performance Comparison & Integration
+
+---
+
+# Assignment 15 -- Final Demo
 
 to build the vision:
 
