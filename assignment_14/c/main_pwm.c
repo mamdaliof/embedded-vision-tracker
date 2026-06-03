@@ -9,16 +9,14 @@
 #include "soc_system.h"
 
 int main(int argc, char** argv) {
-    // parse arguments: yaw_duty (0-255), yaw_dir (0-1), pitch_duty (0-255), pitch_dir (0-1)
-    if (argc != 5) {
-        fprintf(stderr, "Usage: %s <yaw_duty 0-255> <yaw_dir 0-1> <pitch_duty 0-255> <pitch_dir 0-1>\n", argv[0]);
+    // parse arguments: duty cycle (0-255) and direction (0=CCW, 1=CW)
+    if (argc != 3) {
+        fprintf(stderr, "Usage: %s <duty_cycle 0-255> <direction 0=CCW 1=CW>\n", argv[0]);
         return -1;
     }
 
-    uint8_t yaw_duty      = (uint8_t) atoi(argv[1]);
-    uint8_t yaw_direction = (uint8_t) atoi(argv[2]);
-    uint8_t pitch_duty      = (uint8_t) atoi(argv[3]);
-    uint8_t pitch_direction = (uint8_t) atoi(argv[4]);
+    uint8_t duty      = (uint8_t) atoi(argv[1]);
+    uint8_t direction = (uint8_t) atoi(argv[2]);
 
     // open /dev/mem to access physical memory
     int fd = open("/dev/mem", O_RDWR | O_SYNC);
@@ -44,28 +42,23 @@ int main(int argc, char** argv) {
     }
 
     // read encoder values continuously and update PWM
-    printf("Starting Dual-Axis PWM + Encoder loop. Press Ctrl+C to exit.\n");
-    printf("Yaw: Duty %d, Dir %d | Pitch: Duty %d, Dir %d\n", yaw_duty, yaw_direction, pitch_duty, pitch_direction);
-    int counter = 0;
+    printf("Starting PWM + Encoder loop. Press Ctrl+C to exit.\n");
+    printf("Duty cycle: %d/255, Direction: %s\n", duty, direction ? "CW" : "CCW");
+
     while (1) {
-        // write PWM control words
+        // write PWM control word to address 0x02
         // bit[31]  = cnt_enable
         // bit[8]   = direction
         // bit[7:0] = duty_cycle
-        base[2] = (1 << 31) | (yaw_direction << 8) | yaw_duty;   // Yaw at 0x02
-        base[3] = (1 << 31) | (pitch_direction << 8) | pitch_duty; // Pitch at 0x03
+        base[2] = (1 << 31) | (direction << 8) | duty;
+
         // read encoder counts from address 0x00 and 0x01
         int32_t yaw   = (int32_t) base[0]; // Reads slave_address 0x00
         int32_t pitch = (int32_t) base[1]; // Reads slave_address 0x01
-        if (counter % 1000 == 0) { // Print every 100 iterations (every 100ms)
-            printf("\rYaw: %d \t Pitch: %d", yaw, pitch);
-            fflush(stdout);
-            counter = 0;
-        }
-        counter++;
 
-        
-        usleep(1000); // 1ms
+        printf("Yaw: %d \t Pitch: %d\n", yaw, pitch);
+
+        usleep(100000); // 100ms
     }
 
     munmap((void*) base, HPS_0_ARM_A9_0_ESL_BUS_DEMO_0_SPAN);
