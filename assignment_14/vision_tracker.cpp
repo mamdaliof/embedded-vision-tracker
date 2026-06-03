@@ -102,49 +102,62 @@ int main(int argc, char *argv[]) {
             GstMapInfo map;
 
             if (gst_buffer_map(buffer, &map, GST_MAP_READ)) {
-                // Map the buffer to an OpenCV Mat
-                Mat bgr_img(Size(width, height), CV_8UC3, (char*)map.data, Mat::AUTO_STEP);
-                
-                // --- Green Ball Tracking Logic ---
-                Mat hsv_img, mask;
-                cvtColor(bgr_img, hsv_img, COLOR_BGR2HSV);
+                // Map the buffer to an OpenCV Mat (YUY2 is 2 bytes per pixel)
+                Mat yuy2_img(Size(width, height), CV_8UC2, (char*)map.data, Mat::AUTO_STEP);
+                Mat mask;
+                Mat display_img; // For visualization if needed
 
-                // Set green for HSV thresholding
-                Scalar lower_green(36, 50, 70); 
-                Scalar upper_green(89, 255, 255);
-                inRange(hsv_img, lower_green, upper_green, mask);
-
-                // Denoise the binary mask using morphological opening
-                Mat cross_kernel = getStructuringElement(MORPH_CROSS, Size(3, 3));
-                morphologyEx(mask, mask, MORPH_OPEN, cross_kernel, Point(-1, -1), 5);
-                
-                Moments m = moments(mask, true);
-                double detection_x = 0.0;
-                double detection_y = 0.0;
-
-                if (m.m00 > 10) {
-                    double raw_x = m.m10 / m.m00;
-                    double raw_y = m.m01 / m.m00;
-
-                    // Normalization [-1,1] where 0 is center
-                    detection_x = ((raw_x / static_cast<double>(width)) * 2.0) - 1.0;
-                    detection_y = ((raw_y / static_cast<double>(height)) * 2.0) - 1.0;
-                    
-                    // Print the tracking target position
-                    printf("\r[TRACKING] Green Ball at: X=%.2f, Y=%.2f          ", detection_x, detection_y);
-                    fflush(stdout);
-                    
-                    if (show_video) {
-                        circle(bgr_img, Point(raw_x, raw_y), 10, Scalar(0, 0, 255), -1);
-                    }
+                if (use_ycrcb) {
+                    // --- YCrCb Thresholding Logic ---
+                    // TODO: Implement YCrCb green detection directly from YUV data
+                    g_print("\r[MODE] YCrCb tracking not yet implemented...     ");
                 } else {
-                    printf("\r[SEARCHING] Green Ball not detected...            ");
-                    fflush(stdout);
+                    // --- BGR -> HSV Tracking Logic ---
+                    Mat bgr_img, hsv_img;
+                    cvtColor(yuy2_img, bgr_img, COLOR_YUV2BGR_YUY2);
+                    display_img = bgr_img; // Store BGR for display
+                    
+                    cvtColor(bgr_img, hsv_img, COLOR_BGR2HSV);
+
+                    // Set green for HSV thresholding
+                    Scalar lower_green(36, 50, 70); 
+                    Scalar upper_green(89, 255, 255);
+                    inRange(hsv_img, lower_green, upper_green, mask);
+                }
+
+                if (!mask.empty()) {
+                    // Denoise the binary mask using morphological opening
+                    Mat cross_kernel = getStructuringElement(MORPH_CROSS, Size(3, 3));
+                    morphologyEx(mask, mask, MORPH_OPEN, cross_kernel, Point(-1, -1), 5);
+                    
+                    Moments m = moments(mask, true);
+                    double detection_x = 0.0;
+                    double detection_y = 0.0;
+
+                    if (m.m00 > 10) {
+                        double raw_x = m.m10 / m.m00;
+                        double raw_y = m.m01 / m.m00;
+
+                        // Normalization [-1,1] where 0 is center
+                        detection_x = ((raw_x / static_cast<double>(width)) * 2.0) - 1.0;
+                        detection_y = ((raw_y / static_cast<double>(height)) * 2.0) - 1.0;
+                        
+                        // Print the tracking target position
+                        printf("\r[TRACKING] Green Ball at: X=%.2f, Y=%.2f          ", detection_x, detection_y);
+                        fflush(stdout);
+                        
+                        if (show_video && !display_img.empty()) {
+                            circle(display_img, Point(raw_x, raw_y), 10, Scalar(0, 0, 255), -1);
+                        }
+                    } else {
+                        printf("\r[SEARCHING] Green Ball not detected...            ");
+                        fflush(stdout);
+                    }
                 }
 
                 if (show_video) {
-                    imshow("Webcam RGB", bgr_img);
-                    imshow("Masked Binary", mask);
+                    if (!display_img.empty()) imshow("Webcam View", display_img);
+                    if (!mask.empty()) imshow("Masked Binary", mask);
                     // waitKey(1) is REQUIRED to process GUI events on the main thread
                     char key = (char)waitKey(1);
                     if (key == 27) { // 27 is ESC key
