@@ -11,11 +11,13 @@
 #include "soc_system.h"
 
 // Include 20-sim generated controllers (prefixed)
-#include "../controllers/PositionControllerPan/pan_submod.h"
-#include "../controllers/PositionControllerTilt/tilt_submod.h"
+#include "controllers/PositionControllerPan/pan_submod.h"
+#include "controllers/PositionControllerTilt/tilt_submod.h"
 
 // 100Hz Loop (matched to xx_step_size = 0.01)
 #define LOOP_PERIOD_NS 10000000 
+#define COUNTS_PITCH 13100
+#define COUNTS_YAW 10750
 
 int main(int argc, char** argv) {
     if (argc != 3) {
@@ -70,14 +72,16 @@ int main(int argc, char** argv) {
         // 1. Read Encoders (Current - Initial = Absolute Difference)
         int32_t current_pan = (int32_t)base[0] - zero_pan;
         int32_t current_tilt = (int32_t)base[1] - zero_tilt;
+        double rad_per_count_pitch = 1.2*M_PI/COUNTS_PITCH;
+        double rad_per_count_yaw = M_PI/COUNTS_YAW;
 
         // 2. Update Inputs (Raw Counts)
-        pan_u[0] = (double)target_pan;
-        pan_u[1] = (double)current_pan;
+        pan_u[0] = (double)target_pan*rad_per_count_yaw;
+        pan_u[1] = (double)current_pan*rad_per_count_yaw;
 
         tilt_u[0] = pan_y[0]; // Correction from Pan PID
-        tilt_u[1] = (double)target_tilt;
-        tilt_u[2] = (double)current_tilt;
+        tilt_u[1] = (double)target_tilt*rad_per_count_pitch;
+        tilt_u[2] = (double)current_tilt*rad_per_count_pitch;
 
         // 3. Calculate Step
         pan_XXCalculateSubmodel(pan_u, pan_y, pan_xx_time);
@@ -85,22 +89,22 @@ int main(int argc, char** argv) {
 
         // 4. Output Mapping
         // Controller output y is normalized -1.0 to 1.0
-        double out_p = pan_y[1]; // Motor output for Pan
-        double out_t = tilt_y[0]; // Motor output for Tilt
+        double out_p = 0.8*pan_y[1]; // Motor output for Pan
+        double out_t = 0.8*tilt_y[0]; // Motor output for Tilt
 
         // Convert to Duty (0-255) and Direction
-        uint8_t duty_p = (uint8_t)(fmin(fabs(out_p), 1.0) * 255.0);
+        uint8_t duty_p = (uint8_t)(fmin(fabs(out_p), 1.0) * 255.0)/2.0;
         uint8_t dir_p = (out_p >= 0) ? 1 : 0;
 
-        uint8_t duty_t = (uint8_t)(fmin(fabs(out_t), 1.0) * 255.0);
+        uint8_t duty_t = (uint8_t)(fmin(fabs(out_t), 1.0) * 255.0)/2.0;
         uint8_t dir_t = (out_t >= 0) ? 1 : 0;
 
         // Write to Hardware
-        base[2] = (1 << 31) | (dir_p << 8) | duty_p;
-        base[3] = (1 << 31) | (dir_t << 8) | duty_t;
+        base[2] = (1U << 31) | (dir_p << 8) | duty_p;
+        base[3] = (1U << 31) | (dir_t << 8) | duty_t;
 
         if (pan_xx_steps % 100 == 0) {
-            printf("\rP: %d (Out: %d) | T: %d (Out: %d)", (int)current_pan, (int)duty_p, (int)current_tilt, (int)duty_t);
+            printf("\rP: %d (Out: %d) | T: %d (Out: %d) | outP: %f | outT: %f\n", (int)current_pan, (int)duty_p, (int)current_tilt, (int)duty_t, out_p, out_t);
             fflush(stdout);
         }
 

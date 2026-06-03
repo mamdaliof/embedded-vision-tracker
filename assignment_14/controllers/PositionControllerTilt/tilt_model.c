@@ -112,7 +112,7 @@ void tilt_XXModelInitialize_parameters(void)
 {
 	/* set the parameters */
 	tilt_xx_P[0] = 0.0;		/* corrGain\K */
-	tilt_xx_P[1] = 1.6;		/* PID1\kp */
+	tilt_xx_P[1] = 2.0;		/* PID1\kp */
 	tilt_xx_P[2] = 0.05;		/* PID1\tauD */
 	tilt_xx_P[3] = 0.001;		/* PID1\beta */
 	tilt_xx_P[4] = 10.5;		/* PID1\tauI */
