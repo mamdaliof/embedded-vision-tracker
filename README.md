@@ -203,3 +203,32 @@ to build the vision:
 ```bash
 g++ -O3 -o vision_tracker vision_tracker.cpp $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-app-1.0 opencv4)
 ```
+
+TA said we should narrow the pwm range from 0-255 to 0-50 or less considering we are always only going to pass 10-20% pwm to the motors to keep the ball in the frame. That way you win some resolution and also computation.
+
+---
+
+Final demo:
+
+files:
+
+1. vision_control_finaldemo.cpp
+2. soc_system.h
+3. lut_gen.hpp & yuv_process.hpp
+4. lut_gen.cpp & yuv_process.cpp
+5. controllers/PositionControllerPan/
+6. controllers/PositionControllerTilt/
+
+- compile the final demo:
+
+```bash
+g++ vision_control_finaldemo.cpp controllers/PositionControllerPan/pan_submod.c controllers/PositionControllerTilt/tilt_submod.c -o vision_tracker -O3 $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-app-1.0 opencv4) -pthread -lm
+```
+
+- If your lut_gen or yuv_process headers have separate .cpp files, append them to the list of source files in the command above
+
+- run the app:
+
+```bash
+sudo ./vision_tracker /dev/video0 --show-video
+```
