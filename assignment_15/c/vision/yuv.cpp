@@ -75,37 +75,8 @@ struct AppContext {
     std::atomic<bool> running{true};
     bool show_video = false;
     std::string mode = "lut";
-    int target_u = -1;
-    int target_v = -1;
     uint8_t lut_3d[64][64][64];
 };
-
-// -----------------------------------------------------------------------
-// LUT Generation
-// -----------------------------------------------------------------------
-// -----------------------------------------------------------------------
-// LUT Generation
-// -----------------------------------------------------------------------
-void update_target_lut(AppContext& ctx) {
-    g_print("\n[LOCK-ON] Target: U:%d V:%d. Regenerating 3D LUT...\n", ctx.target_u, ctx.target_v);
-    
-    // Shift target down to 6-bit index space
-    int target_u_idx = ctx.target_u >> 2;
-    int target_v_idx = ctx.target_v >> 2;
-
-    for (int y = 0; y < 64; y++) {
-        for (int u = 0; u < 64; u++) {
-            for (int v = 0; v < 64; v++) {
-                // Tolerance of +/- 4 in quantized space is +/- 16 in standard 8-bit space
-                if (std::abs(u - target_u_idx) <= 4 && std::abs(v - target_v_idx) <= 4) {
-                    ctx.lut_3d[y][u][v] = 255;
-                } else {
-                    ctx.lut_3d[y][u][v] = 0;
-                }
-            }
-        }
-    }
-}
 
 // -----------------------------------------------------------------------
 // GStreamer Callback (Producer)
@@ -127,38 +98,38 @@ int main(int argc, char *argv[]) {
     AppContext ctx;
 
     if (argc < 2) {
-        g_printerr("Usage: %s <video_device> [--show-video] [--mode=lut|yuv]\n", argv[0]);
+        g_printerr("Usage: %s <video_device> [--show-video] [--mode=lut|yuv] [--target-u=N] [--target-v=N]\n", argv[0]);
         return -1;
     }
 
-    std::string device_path = argv[1];
+    std::string device_path;
 
-    for (int i = 2; i < argc; ++i) {
+    for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
         if (arg == "--show-video") ctx.show_video = true;
         else if (arg.find("--mode=") == 0) ctx.mode = arg.substr(7);
-        else if (arg.find("--target-u=") == 0) ctx.target_u = std::stoi(arg.substr(11));
-        else if (arg.find("--target-v=") == 0) ctx.target_v = std::stoi(arg.substr(11));
+        else if (arg.find("--") != 0 && device_path.empty()) device_path = arg;
+    }
+
+    if (device_path.empty()) {
+        g_printerr("[FATAL] No video device specified.\n");
+        return -1;
     }
 
     // Initialize LUT
     if (ctx.mode == "lut" || ctx.mode == "hsv") { 
         ctx.mode = "lut"; 
-        if (ctx.target_u != -1 && ctx.target_v != -1) {
-            update_target_lut(ctx);
-        } else {
-            g_print("Generating 3D Quantized HSV LUT...\n");
-            generate_hsv_lut(ctx.lut_3d); 
-        }
+        g_print("Generating 3D Quantized HSV LUT (Green Ball Target)...\n");
+        generate_hsv_lut(ctx.lut_3d); 
     }
 
     // Build Pipeline: No videoconvert overhead
-std::string pipeline_str = 
+    std::string pipeline_str = 
         "v4l2src device=" + device_path + " ! "
         "video/x-raw,format=YUY2,width=320,height=240,framerate=30/1 ! "
         "appsink name=sink emit-signals=true max-buffers=1 drop=true sync=false";
 
-    g_print("Building Tracking Pipeline...\n");
+    g_print("Building Tracking Pipeline using %s...\n", device_path.c_str());
     GstElement* pipeline = gst_parse_launch(pipeline_str.c_str(), nullptr);
     if (!pipeline) {
         g_printerr("[FATAL] Pipeline failed to parse.\n");
@@ -170,7 +141,11 @@ std::string pipeline_str =
     gst_object_unref(appsink);
 
     g_print("Initializing Tracking Pipeline...\n");
-    gst_element_set_state(pipeline, GST_STATE_PLAYING);
+    if (gst_element_set_state(pipeline, GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE) {
+        g_printerr("[FATAL] Failed to set pipeline to PLAYING state. Check if %s is busy or available.\n", device_path.c_str());
+        gst_object_unref(pipeline);
+        return -1;
+    }
 
     // --- Vision Processing Loop (Consumer) ---
     Mat cross_kernel = getStructuringElement(MORPH_CROSS, Size(3, 3));
@@ -274,10 +249,6 @@ std::string pipeline_str =
                 char key = (char)waitKey(1);
                 if (key == 27) { // ESC
                     ctx.running = false;
-                } else if (key == 't' || key == 'T') {
-                    ctx.target_u = u_val;
-                    ctx.target_v = v_val;
-                    update_target_lut(ctx);
                 }
             }
         } catch (const std::exception& e) {

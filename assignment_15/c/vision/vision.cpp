@@ -57,18 +57,13 @@ void print_usage(const char *prog)
               << "                 If omitted, an interactive menu is shown\n"
               << "  --show         Open OpenCV windows for the camera feed and mask\n"
               << "  --list         List all available cameras and exit\n"
-              << "  --help, -h     Show this help message\n\n"
-              << "Examples:\n"
-              << "  " << prog << "              # interactive menu, no windows\n"
-              << "  " << prog << " 0            # use camera 0, no windows\n"
-              << "  " << prog << " 2 --show     # use camera 2, show windows\n"
-              << "  " << prog << " --show       # interactive menu + show windows\n"
-              << "  " << prog << " --list       # list cameras and exit\n\n";
+              << "  --help, -h     Show this help message\n\n";
 }
 
 Args parse_args(int argc, char *argv[])
 {
     Args args;
+    bool index_set = false;
     for (int i = 1; i < argc; ++i)
     {
         std::string a = argv[i];
@@ -85,10 +80,12 @@ Args parse_args(int argc, char *argv[])
         {
             // handled after enumeration in main()
             args.camera_index = -2; // sentinel for --list
+            index_set = true;
         }
-        else if (std::isdigit(static_cast<unsigned char>(a[0])))
+        else if (!index_set && std::isdigit(static_cast<unsigned char>(a[0])))
         {
             args.camera_index = std::stoi(a);
+            index_set = true;
         }
         else
         {
@@ -381,7 +378,7 @@ else
 
     if (gst_element_set_state(pipeline, GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE)
     {
-        std::cerr << "[ERROR] Failed to start pipeline.\n";
+        std::cerr << "[ERROR] Failed to start pipeline. Check if " << device_path << " is busy or available.\n";
         gst_object_unref(pipeline);
         return -1;
     }
