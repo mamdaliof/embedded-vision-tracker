@@ -367,7 +367,12 @@ int main(int argc, char *argv[])
 
     gst_bin_add_many(GST_BIN(pipeline), source, capsfilter, appsink, NULL);
     gst_element_link_many(source, capsfilter, appsink, NULL);
-    gst_element_set_state(pipeline, GST_STATE_PLAYING);
+    if (gst_element_set_state(pipeline, GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE)
+    {
+        std::cerr << "[ERROR] Failed to start pipeline. Check if " << device_path << " is busy or available.\n";
+        gst_object_unref(pipeline);
+        return -1;
+    }
 
     const std::string win_feed = "Camera Feed  [" + device_path + "]";
     const std::string win_mask = "Ball Mask";

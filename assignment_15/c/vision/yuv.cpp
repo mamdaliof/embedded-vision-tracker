@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
     AppContext ctx;
 
     if (argc < 2) {
-        g_printerr("Usage: %s <video_device> [--show-video] [--mode=lut|yuv] [--target-u=N] [--target-v=N]\n", argv[0]);
+        g_printerr("Usage: %s <video_device> [--show-video] [--mode=lut|yuv]\n", argv[0]);
         return -1;
     }
 

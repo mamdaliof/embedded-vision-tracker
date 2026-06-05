@@ -79,32 +79,8 @@ struct AppContext {
     std::atomic<bool> running{true};
     bool show_video = false;
     std::string mode = "lut";
-    int target_u = -1;
-    int target_v = -1;
     uint8_t lut_3d[64][64][64];
 };
-
-// -----------------------------------------------------------------------
-// LUT Generation
-// -----------------------------------------------------------------------
-void update_target_lut(AppContext& ctx) {
-    g_print("\n[LOCK-ON] Target: U:%d V:%d. Regenerating 3D LUT...\n", ctx.target_u, ctx.target_v);
-    
-    int target_u_idx = ctx.target_u >> 2;
-    int target_v_idx = ctx.target_v >> 2;
-
-    for (int y = 0; y < 64; y++) {
-        for (int u = 0; u < 64; u++) {
-            for (int v = 0; v < 64; v++) {
-                if (std::abs(u - target_u_idx) <= 4 && std::abs(v - target_v_idx) <= 4) {
-                    ctx.lut_3d[y][u][v] = 255;
-                } else {
-                    ctx.lut_3d[y][u][v] = 0;
-                }
-            }
-        }
-    }
-}
 
 // -----------------------------------------------------------------------
 // GStreamer Callback (Producer)
@@ -130,24 +106,24 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    std::string device_path = argv[1];
+    std::string device_path;
 
-    for (int i = 2; i < argc; ++i) {
+    for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
         if (arg == "--show-video") ctx.show_video = true;
         else if (arg.find("--mode=") == 0) ctx.mode = arg.substr(7);
-        else if (arg.find("--target-u=") == 0) ctx.target_u = std::stoi(arg.substr(11));
-        else if (arg.find("--target-v=") == 0) ctx.target_v = std::stoi(arg.substr(11));
+        else if (arg.find("--") != 0 && device_path.empty()) device_path = arg;
+    }
+
+    if (device_path.empty()) {
+        g_printerr("[FATAL] No video device specified.\n");
+        return -1;
     }
 
     if (ctx.mode == "lut" || ctx.mode == "hsv") { 
         ctx.mode = "lut"; 
-        if (ctx.target_u != -1 && ctx.target_v != -1) {
-            update_target_lut(ctx);
-        } else {
-            g_print("Generating 3D Quantized HSV LUT...\n");
-            generate_hsv_lut(ctx.lut_3d); 
-        }
+        g_print("Generating 3D Quantized HSV LUT (Green Ball Target)...\n");
+        generate_hsv_lut(ctx.lut_3d); 
     }
 
     std::string pipeline_str = 
@@ -165,7 +141,12 @@ int main(int argc, char *argv[]) {
     g_signal_connect(appsink, "new-sample", G_CALLBACK(on_new_sample), &ctx);
     gst_object_unref(appsink);
 
-    gst_element_set_state(pipeline, GST_STATE_PLAYING);
+    g_print("Initializing Tracking Pipeline...\n");
+    if (gst_element_set_state(pipeline, GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE) {
+        g_printerr("[FATAL] Failed to set pipeline to PLAYING state. Check if %s is busy or available.\n", device_path.c_str());
+        gst_object_unref(pipeline);
+        return -1;
+    }
     g_print("[INFO] Initiating benchmark. This will auto-terminate after 1000 frames...\n");
 
     Mat cross_kernel = getStructuringElement(MORPH_CROSS, Size(3, 3));
