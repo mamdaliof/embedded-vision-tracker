@@ -23,6 +23,9 @@
 #include <unistd.h>
 #include <math.h>
 #include <time.h>
+#include <fstream>
+#include <iomanip>
+
 
 #include "soc_system.h"
 #include "controllers/PositionControllerPan/pan_submod.h"
@@ -163,78 +166,106 @@ void hardware_control_loop() {
         return;
     }
 
+    // --- CSV Logging Setup ---
+    std::ofstream pwm_csv("pwm_log.csv");
+    std::ofstream enc_csv("encoder_log.csv");
+
+    pwm_csv << "time_s,duty_pan,dir_pan,duty_tilt,dir_tilt\n";
+    enc_csv << "time_s,encoder_pan,encoder_tilt,target_pan,target_tilt\n";
+    // -------------------------
+
     printf("Calibrating Pan (Yaw)...\n");
-    int32_t pan_limit = find_limit(base, 2, 0, 0, 25); 
+    int32_t pan_limit = find_limit(base, 2, 0, 0, 25);
     int32_t pan_center = pan_limit + (COUNTS_YAW / 2);
 
     printf("Calibrating Tilt (Pitch)...\n");
-    int32_t tilt_limit = find_limit(base, 3, 1, 0, 25); 
+    int32_t tilt_limit = find_limit(base, 3, 1, 0, 25);
     int32_t tilt_center = tilt_limit + (COUNTS_PITCH / 2);
 
-    int32_t zero_pan = pan_center; 
+    int32_t zero_pan  = pan_center;
     int32_t zero_tilt = tilt_center;
 
-    int32_t target_pan = 0;
+    int32_t target_pan  = 0;
     int32_t target_tilt = 0;
 
-    pan_XXDouble pan_u[2], pan_y[2];
+    pan_XXDouble  pan_u[2],  pan_y[2];
     tilt_XXDouble tilt_u[3], tilt_y[1];
 
-    pan_u[0] = 0.0; pan_u[1] = 0.0;
+    pan_u[0]  = 0.0; pan_u[1]  = 0.0;
     tilt_u[0] = 0.0; tilt_u[1] = 0.0; tilt_u[2] = 0.0;
 
-    pan_XXInitializeSubmodel(pan_u, pan_y, 0.0);
+    pan_XXInitializeSubmodel(pan_u,  pan_y,  0.0);
     tilt_XXInitializeSubmodel(tilt_u, tilt_y, 0.0);
 
     printf("Controller Initialized. Starting 100Hz Control Loop...\n");
 
-    struct timespec next_step;
+    struct timespec next_step, now;
     clock_gettime(CLOCK_MONOTONIC, &next_step);
 
-    const double TRACKING_GAIN = 15.0; 
+    // Record the start time for relative timestamps
+    struct timespec t_start = next_step;
+
+    const double TRACKING_GAIN = 15.0;
 
     while (program_running.load()) {
-        int32_t current_pan = (int32_t)base[0] - zero_pan;
+        int32_t current_pan  = (int32_t)base[0] - zero_pan;
         int32_t current_tilt = (int32_t)base[1] - zero_tilt;
 
         if (is_tracking.load()) {
-            target_pan -= (int32_t)(track_x.load() * TRACKING_GAIN);
+            target_pan  -= (int32_t)(track_x.load() * TRACKING_GAIN);
             target_tilt += (int32_t)(track_y.load() * TRACKING_GAIN);
         }
 
-        const int32_t PAN_MAX_LIMIT = COUNTS_YAW / 2;
-        const int32_t TILT_MAX_LIMIT = COUNTS_PITCH / 2;
+        const int32_t PAN_MAX_LIMIT  = COUNTS_YAW   / 2;
+        const int32_t TILT_MAX_LIMIT = COUNTS_PITCH  / 2;
 
-        if (target_pan > PAN_MAX_LIMIT) target_pan = PAN_MAX_LIMIT;
-        if (target_pan < -PAN_MAX_LIMIT) target_pan = -PAN_MAX_LIMIT;
-        if (target_tilt > TILT_MAX_LIMIT) target_tilt = TILT_MAX_LIMIT;
+        if (target_pan  >  PAN_MAX_LIMIT)  target_pan  =  PAN_MAX_LIMIT;
+        if (target_pan  < -PAN_MAX_LIMIT)  target_pan  = -PAN_MAX_LIMIT;
+        if (target_tilt >  TILT_MAX_LIMIT) target_tilt =  TILT_MAX_LIMIT;
         if (target_tilt < -TILT_MAX_LIMIT) target_tilt = -TILT_MAX_LIMIT;
 
         double rad_per_count_pitch = 1.2 * M_PI / COUNTS_PITCH;
-        double rad_per_count_yaw = M_PI / COUNTS_YAW;
+        double rad_per_count_yaw   = M_PI / COUNTS_YAW;
 
-        pan_u[0] = (double)target_pan * rad_per_count_yaw;
+        pan_u[0] = (double)target_pan  * rad_per_count_yaw;
         pan_u[1] = (double)current_pan * rad_per_count_yaw;
 
-        tilt_u[0] = pan_y[0]; 
-        tilt_u[1] = (double)target_tilt * rad_per_count_pitch;
+        tilt_u[0] = pan_y[0];
+        tilt_u[1] = (double)target_tilt  * rad_per_count_pitch;
         tilt_u[2] = (double)current_tilt * rad_per_count_pitch;
 
-        pan_XXCalculateSubmodel(pan_u, pan_y, pan_xx_time);
+        pan_XXCalculateSubmodel(pan_u,  pan_y,  pan_xx_time);
         tilt_XXCalculateSubmodel(tilt_u, tilt_y, tilt_xx_time);
 
-        double out_p = 0.8 * pan_y[1]; 
-        double out_t = 0.8 * tilt_y[0]; 
+        double  out_p = 0.8 * pan_y[1];
+        double  out_t = 0.8 * tilt_y[0];
 
-        // PWM Reduction applied here (scaling max 1.0 to 80 instead of 255)
         uint8_t duty_p = (uint8_t)(fmin(fabs(out_p), 1.0) * 80.0);
-        uint8_t dir_p = (out_p >= 0) ? 1 : 0;
+        uint8_t dir_p  = (out_p >= 0) ? 1 : 0;
 
         uint8_t duty_t = (uint8_t)(fmin(fabs(out_t), 1.0) * 80.0);
-        uint8_t dir_t = (out_t >= 0) ? 1 : 0;
+        uint8_t dir_t  = (out_t >= 0) ? 1 : 0;
 
         base[2] = (1U << 31) | (dir_p << 8) | duty_p;
         base[3] = (1U << 31) | (dir_t << 8) | duty_t;
+
+        // --- Log to CSV ---
+        clock_gettime(CLOCK_MONOTONIC, &now);
+        double elapsed = (now.tv_sec  - t_start.tv_sec)
+                       + (now.tv_nsec - t_start.tv_nsec) * 1e-9;
+
+        pwm_csv << std::fixed << std::setprecision(4)
+                << elapsed   << ","
+                << (int)duty_p << "," << (int)dir_p << ","
+                << (int)duty_t << "," << (int)dir_t << "\n";
+
+        enc_csv << std::fixed << std::setprecision(4)
+                << elapsed      << ","
+                << current_pan  << ","
+                << current_tilt << ","
+                << target_pan   << ","
+                << target_tilt  << "\n";
+        // ------------------
 
         next_step.tv_nsec += LOOP_PERIOD_NS;
         if (next_step.tv_nsec >= 1000000000) {
@@ -247,7 +278,9 @@ void hardware_control_loop() {
     base[2] = (1U << 31) | (0 << 8) | 0;
     base[3] = (1U << 31) | (0 << 8) | 0;
 
-    pan_XXTerminateSubmodel(pan_u, pan_y, pan_xx_time);
+    // CSV files are closed automatically by destructor (RAII)
+
+    pan_XXTerminateSubmodel(pan_u,  pan_y,  pan_xx_time);
     tilt_XXTerminateSubmodel(tilt_u, tilt_y, tilt_xx_time);
     munmap((void*) base, HPS_0_ARM_A9_0_ESL_BUS_DEMO_0_SPAN);
     close(fd);
