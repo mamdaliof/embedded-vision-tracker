@@ -23,6 +23,7 @@
 #include <unistd.h>
 #include <math.h>
 #include <time.h>
+#include <fstream>
 
 #include "soc_system.h"
 #include "controllers/PositionControllerPan/pan_submod.h"
@@ -163,6 +164,14 @@ void hardware_control_loop() {
         return;
     }
 
+    // --- NEW: Open CSV file and write the header ---
+    std::ofstream log_file("motor_telemetry.csv");
+    if (log_file.is_open()) {
+        log_file << "pan_encoder,tilt_encoder,pan_pwm,pan_dir,tilt_pwm,tilt_dir\n";
+    } else {
+        printf("Warning: Could not open motor_telemetry.csv for writing.\n");
+    }
+
     printf("Calibrating Pan (Yaw)...\n");
     int32_t pan_limit = find_limit(base, 2, 0, 0, 25); 
     int32_t pan_center = pan_limit + (COUNTS_YAW / 2);
@@ -226,7 +235,6 @@ void hardware_control_loop() {
         double out_p = 0.8 * pan_y[1]; 
         double out_t = 0.8 * tilt_y[0]; 
 
-        // PWM Reduction applied here (scaling max 1.0 to 80 instead of 255)
         uint8_t duty_p = (uint8_t)(fmin(fabs(out_p), 1.0) * 80.0);
         uint8_t dir_p = (out_p >= 0) ? 1 : 0;
 
@@ -235,6 +243,16 @@ void hardware_control_loop() {
 
         base[2] = (1U << 31) | (dir_p << 8) | duty_p;
         base[3] = (1U << 31) | (dir_t << 8) | duty_t;
+
+        // --- NEW: Write the raw values to the CSV file ---
+        if (log_file.is_open()) {
+            log_file << (int32_t)base[0] << "," 
+                     << (int32_t)base[1] << "," 
+                     << (int)duty_p << "," 
+                     << (int)dir_p << "," 
+                     << (int)duty_t << "," 
+                     << (int)dir_t << "\n";
+        }
 
         next_step.tv_nsec += LOOP_PERIOD_NS;
         if (next_step.tv_nsec >= 1000000000) {
@@ -246,6 +264,12 @@ void hardware_control_loop() {
 
     base[2] = (1U << 31) | (0 << 8) | 0;
     base[3] = (1U << 31) | (0 << 8) | 0;
+
+    // --- NEW: Close the file cleanly on exit ---
+    if (log_file.is_open()) {
+        log_file.close();
+        printf("Telemetry saved to motor_telemetry.csv\n");
+    }
 
     pan_XXTerminateSubmodel(pan_u, pan_y, pan_xx_time);
     tilt_XXTerminateSubmodel(tilt_u, tilt_y, tilt_xx_time);
