@@ -232,3 +232,26 @@ g++ vision_control_finaldemo.cpp controllers/PositionControllerPan/pan_submod.c 
 ```bash
 sudo ./vision_tracker /dev/video0 --show-video
 ```
+
+# Assignment 16 -- Final DEMO
+
+to compile:
+
+```bash
+g++ vision_control_finaldemo2.cpp \
+  controllers/PositionControllerPan/pan_submod.c \
+  controllers/PositionControllerPan/pan_model.c \
+  controllers/PositionControllerPan/pan_funcs.c \
+  controllers/PositionControllerPan/pan_integ.c \
+  controllers/PositionControllerPan/pan_matrix.c \
+  controllers/PositionControllerPan/EulerAngles.c \
+  controllers/PositionControllerPan/motionprofiles.c \
+  controllers/PositionControllerTilt/tilt_submod.c \
+  controllers/PositionControllerTilt/tilt_model.c \
+  controllers/PositionControllerTilt/tilt_funcs.c \
+  controllers/PositionControllerTilt/tilt_integ.c \
+  controllers/PositionControllerTilt/tilt_matrix.c \
+  controllers/PositionControllerTilt/EulerAngles.c \
+  controllers/PositionControllerTilt/motionprofiles.c \
+  -o vision_tracker_2 -O3 $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-app-1.0 opencv4) -pthread -lm
+```

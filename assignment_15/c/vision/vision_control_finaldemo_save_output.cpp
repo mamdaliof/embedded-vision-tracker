@@ -208,7 +208,7 @@ void hardware_control_loop() {
 
         if (is_tracking.load()) {
             target_pan -= (int32_t)(track_x.load() * TRACKING_GAIN);
-            target_tilt += (int32_t)(track_y.load() * TRACKING_GAIN);
+            target_tilt -= (int32_t)(track_y.load() * TRACKING_GAIN);
         }
 
         const int32_t PAN_MAX_LIMIT = COUNTS_YAW / 2;
